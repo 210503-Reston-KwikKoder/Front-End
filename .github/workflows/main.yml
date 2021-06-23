@@ -68,5 +68,5 @@ jobs:
     - name: Download code coverage results
       uses: actions/download-artifact@v1
       with:
-        name: code-coverage-report
-        path: bin    
+        name: deploy_coverage
+        path: KwikKoderUI/coverage   
