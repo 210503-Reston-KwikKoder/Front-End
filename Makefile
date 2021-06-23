@@ -16,6 +16,10 @@ run:
 	cd ./$(Angular_project_root) && ng serve
 
 clean: clearlogs
+
+sonar-scanner:
+	cd ./$(Angular_project_root) && npm run test:ci
+	cd ./$(Angular_project_root) && sonar-scanner
 	
 clearlogs:
 	rm -f $(Angular_project_root)/$(log_dir)/*
