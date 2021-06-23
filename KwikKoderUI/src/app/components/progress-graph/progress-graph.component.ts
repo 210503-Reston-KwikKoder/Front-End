@@ -29,7 +29,6 @@ export class ProgressGraphComponent implements OnInit {
         let chart = new CanvasJS.Chart("chartContainer", {
           zoomEnabled: true,
           animationEnabled: true,
-          //exportEnabled: true,
           title: {
             text: "WPM"
           },
