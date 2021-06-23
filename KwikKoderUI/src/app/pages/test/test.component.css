@@ -12,6 +12,7 @@
     width: 600px;
     height: 400px;
 }
+/*Displaying test text*/
 .input-form{
     text-align: center;
     margin-top: 20px;
@@ -20,6 +21,8 @@
 .input-form .info-box{
     padding: 10px;
 }
+
+/*Displays test info*/
 .info-box {
     text-align: center;
     background-color: var(--dark0_soft);
@@ -39,14 +42,16 @@
     flex-direction: column;
     justify-content: space-around;
 }
+/*Info Label*/
 .info-text{
     color: var(--bright_aqua);
 }
-
+/*Info Display*/
 .info-value{
     color: var(--bright_purple);
     font-size: 25pt;
 }
+/*Snippet Author Box*/
 .info-value-author{
     color: var(--bright_purple);
     font-size: 15pt;

@@ -28,8 +28,7 @@ import { DisplayPercentPipe } from './pipes/display-percent.pipe';
 import { DisplayDatePipe } from './pipes/display-date.pipe';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { DisplayCategoryPipe } from './pipes/display-category.pipe'; 
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
@@ -43,6 +42,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
+// material components
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -76,10 +79,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatProgressBarModule,
     HttpClientModule,
     MatTabsModule,
+    MatSidenavModule,
+    MatSnackBarModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    MatSnackBarModule,
     FontAwesomeModule,
     AuthModule.forRoot({
       domain: env.auth.domain,

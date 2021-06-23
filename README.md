@@ -1,3 +1,6 @@
-# Legacy UI for everyones reference
-To be deleted
-Angular front end repo for GACD-P2
+# Angular Frontend for Kwik Koder
+
+### Are
+### You
+### Kwik
+### Enough

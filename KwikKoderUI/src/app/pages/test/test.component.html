@@ -1,34 +1,51 @@
-<div class="container">
-    <div class="col-md-2 col-md-offset-1">
-        <div class="info-box span-align">
-            <span class="info-text">Current Category</span>
-            <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
-        </div>            
-    </div>
-    <div *ngIf="testmat.author" class="col-md-2">
-        <div class="info-box span-align">
-            <span class="info-text">Author</span>
-            <span class="info-value-author">{{testmat.author}}</span>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-2">
+            <div class="info-box">
+                <span class="info-text">Current Category</span>
+                <br>
+                <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+            </div>            
         </div>
-    </div>
-    <div class="col-md-2">
-        <div class="info-box span-align">
-            <span class="info-text">Errors</span>
-            <span class="info-value">{{ state.errors }}</span>
+        <div *ngIf="testmat.author" class="col-2">
+            <div class="info-box">
+                <span class="info-text">Author</span>
+                <br>
+                <span class="info-value-author">{{testmat.author}}</span>
+            </div>
         </div>
-    </div>
-    <div class="col-md-2">
-        <div class="info-box span-align">
-            <span class="info-text">Wpm</span>
-            <span class="info-value">{{wpm}}</span>
+        <div class="col-2">
+            <div class="info-box">
+                <span class="info-text">Errors</span>
+                <br>
+                <span class="info-value">{{ state.errors }}</span>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="info-box">
+                <span class="info-text">Wpm</span>
+                <br>
+                <span class="info-value">{{wpm}}</span>
+            </div>
+        </div>
+        <div *ngIf="category!=-1;else altclass" class="col-2">
+            <div class="info-box">
+                <span class="info-text">Timer</span>
+                <br>
+                <span class="info-value">{{minutes}} : {{seconds}}</span>
+            </div>
         </div>
         
-    </div>
-    <div *ngIf="category!=-1" class="col-md-2">
-        <div class="info-box span-align">
-            <span class="info-text">Timer</span>
-            <span class="info-value">{{minutes}} : {{seconds}}</span>
-        </div>
+        <ng-template #altclass>
+            <div class="col-2">
+                <div class="info-box">
+                <span class="info-text">Timer</span>
+                <br>
+                <span class="info-value">00 : 00</span>
+                </div>
+            </div>
+        </ng-template>
     </div>
 </div>
 
