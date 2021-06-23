@@ -63,7 +63,7 @@ jobs:
         args: >
           -Dsonar.organization=210503-reston-kwikkoder
           -Dsonar.projectKey=210503-Reston-KwikKoder_Front-End
-          -Dsonar.javascript.lcov.reportPaths=TestCoverage/Front-End/coverage.txt
+          -Dsonar.javascript.lcov.reportPaths=TestCoverage/Front-End/lcov.info
           -Dsonar.tests=src
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.ts.tslintconfigpath=tslint.json         
