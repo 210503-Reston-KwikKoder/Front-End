@@ -5,33 +5,14 @@
     border-color: rgba(0,0,0,.1);
 }
 
-.nav-item a {
-    padding: .5em;
-    border: 0.2rem solid #fff;
-    border-radius: 2rem;
-    background-color: black;
-    border-radius: 20px;
-}
-
-.nav-item{
-    text-align: right;
-    list-style-type: none; 
-    padding-left: 0px;
-}
-
-.color-btn{
-    padding: .5em;
-    border: 0.2rem solid #fff;
-    border-radius: 2rem;
-    background-color: black;
-    border-radius: 20px;
-}
-
-
-/*pop out menu header*/
-.menu-body { 
-    display: grid;
-    width: 100%;
+/*
+//Icons
+*/
+.logo_icon {
+    position: absolute;
+    top: 25px;
+    right: 47%;
+    height: 2rem;
 }
 
 .menu_icon {
@@ -45,39 +26,46 @@
     cursor: pointer;
 }
 
-.nav-item{
-    padding: 1em;
-    margin-right: 1rem;
-    border-bottom-width: thin;
-    border-bottom-style: solid;
-    border-bottom-color: black;
-    cursor: pointer;
-}
-
-.nav-btn{   
-    margin: .2em;
-    border: transparent;
-    background-color: transparent;
-    color: #fff;
-    font-size: 20px;
-    font-weight: 40px;
-    font-family: 'Press Start 2P', cursive;
-    transition-duration: 0.4s;
+/*
+//Pop-Out Menu Container
+*/
+.pop-menu_container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 25;
+    
     
 }
 
-.nav-btn:hover{ 
-    color: #bc5efb ;
+.pop-menu {
+    box-sizing: border-box;
+    transform: translateX(-103%);
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100%;
+    width: 90%;
+    max-width: 26rem;
+    background: linear-gradient(to bottom, #f360a2, #2E1D65);
+    box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 2fr 4fr 1fr;
+    grid-gap: 1rem;
+    transition: transform 300ms linear;
+    will-change: transform;
 }
 
-.log-btn{
-    font-family: 'Press Start 2P', cursive;
-    font-size: 8px;
-    margin: 6px;
-    margin-bottom: 70px;
+.pop-menu-active {
+    transform: none;
 }
 
-/*Pop-Out Menu Container*/
 .pop-menu_container-active {
     pointer-events: auto;
 }
@@ -98,8 +86,12 @@
 .pop-menu_container-active::before {
     opacity: 0.3;
 }
-/* Pop Out Menu Header*/
 
+/* 
+//
+// Pop Out Menu Header
+//
+*/
 .menu-header {
     background: linear-gradient(to right, #00f7ff, #a318ff);
     display: grid;
@@ -121,6 +113,18 @@
     align-self: center;
 }
 
+.greeting_text {
+    grid-area: greeting;
+    font-size: 1.25rem;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    justify-self: center;
+    align-self: center;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    
+}
 .name_text {
     font-size: 1.15rem;
     margin-bottom: 0.5rem;
@@ -149,4 +153,54 @@
 .profile_image {
     max-width: 4rem;
 }
-/* Pop Out Menu Header*/
+
+
+/*
+//
+//Pop Out Menu Body
+//
+*/
+
+.menu-body { 
+    display: grid;
+    width: 100%;
+}
+
+.nav-item a {
+    padding: .5em;
+    border: 0.2rem solid #fff;
+    border-radius: 2rem;
+    background-color: black;
+    border-radius: 20px;
+}
+
+.nav-item{
+    text-align: right;
+    list-style-type: none; 
+    padding-left: 0px;
+}
+
+.nav-item{
+    padding: 1em;
+    margin-right: 1rem;
+    border-bottom-width: thin;
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    cursor: pointer;
+}
+
+.nav-btn{   
+    margin: .2em;
+    border: transparent;
+    background-color: transparent;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 40px;
+    font-family: 'Press Start 2P', cursive;
+    transition-duration: 0.4s;
+    
+}
+
+.nav-btn:hover{ 
+    color: #bc5efb ;
+}

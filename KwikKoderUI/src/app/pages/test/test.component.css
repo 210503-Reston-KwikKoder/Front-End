@@ -1,23 +1,9 @@
-.test_info{
-    font-family: 'Courier New', Courier, monospace;
-    color: white;
-}
-.test_site{
-    font-family: 'Courier New', Courier, monospace;
-    color: white;
-    position: relative;
-    left: 0%;  
-}
-
-.test_site textarea{
-    width: 600px;
-    height: 400px;
-}
-
+/*Displaying test text*/
 .input-form{
     width: 70%;
 }
 
+/*Displays test info*/
 .info-box {
     text-align: center;
     /* display: block; */
@@ -29,15 +15,17 @@
     height: 100%;
 }
 
+/*Info Label*/
 .info-text{
     margin: 3em;
     color: var(--bright_aqua);
 }
-
+/*Info Display*/
 .info-value{
     color: var(--bright_purple);
     font-size: 25pt;
 }
+/*Snippet Author Box*/
 .info-value-author{
     color: var(--bright_purple);
     font-size: 15pt;

@@ -2,12 +2,12 @@
     <div class="row">
     <div class="col-sm-8"> <h3>Search For User: <input [(ngModel)]="text" (input)="SearchLetters()" placeholder="Enter Username Here"></h3> </div>
     <div class="col-sm-4"><app-lang-select class="" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
-        <button class="btn btn-light kwik-btn"(click)="GetBestUsers(0)">Overall</button> </div>   
+        <button class="kwik-btn"(click)="GetBestUsers(0)">Overall</button> </div>   
         
     </div>
     
 
-    <table class = "table table-bordered table-hover table-dark">
+    <table>
         <thead>
             <th scope="col">Ranking</th>
             <th scope="col">Username</th>

@@ -4,33 +4,33 @@
   background-color: black;
   border-radius: 20px;
   box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #bc13fe, 0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe; -->
-  <nav class="navbar navbar-expand-lg navbar-light">
+  <nav>
     <svg (click)="displayMenu()" class="menu_icon">
       <rect width="45" height="6" y="20"></rect>
       <rect width="45" height="6" y="30"></rect> 
       <rect width="45" height="6" y="40"></rect>  
     </svg>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto" style="margin:1em;" >
+    <div>
+      <ul style="margin:1em;" >
         <li *ngIf="(auth.isAuthenticated$ | async) === false">
-          <button class="btn btn-primary btn-light btn-block log-btn" (click)="loginWithRedirect()">
+          <button class="kwik-btn" (click)="loginWithRedirect()">
             Log in
           </button>
         </li>
         <li *ngIf="(auth.isAuthenticated$ | async) === false">
-          <button class="btn btn-primary btn-light btn-block log-btn" (click)="loginWithRedirect()">
+          <button class="kwik-btn" (click)="loginWithRedirect()">
             Sign Up
           </button>
         </li>
         <li *ngIf="auth.isAuthenticated$ | async">
-          <button class="btn btn-danger btn-light btn-block log-btn" (click)="logout()">
+          <button class="kwik-btn" (click)="logout()">
             Log out
           </button>
         </li>
       </ul>
     </div>
   </nav>
-  <a class="logo_icon" href="#">
+  <a class="logo_icon" [routerLink]="['']">
     <img src="https://api.freelogodesign.org/files/610f46969ca84d6aa71e0ef605b9caeb/thumb/logo_200x200.png?v=637589090550000000" alt="logo"/>
   </a> 
 
@@ -51,7 +51,7 @@
       </section>
     </div>
       <section class="menu-body">
-        <ul class="menu_list">
+        <ul class="menu-list">
           <li class="nav-item">
             <button class="nav-btn"  [routerLink]="['test']">Take a Test</button>
           </li>

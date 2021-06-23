@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-2">
-            <div class="info-box justify-content-center">
+            <div class="info-box">
                 <span class="info-text">Current Category</span>
                 <br>
-                <app-lang-select class="info-box justify-content-center" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+                <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
             </div>            
         </div>
         <div *ngIf="testmat.author" class="col-2">
@@ -54,8 +54,8 @@
     <div class="container-fluid input-form">
       <div class="row">
           <div class="col-12">
-            <pre tabindex="0" (click)= "focusinput" (keydown)="keyIntercept($event)" class="text-light bg-dark p-4" ><span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span></pre>
-            <button class="btn btn-light kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
+            <pre tabindex="0" (click)= "focusinput" (keydown)="keyIntercept($event)" class="p-4" ><span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span></pre>
+            <button class="kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
                 <div *ngIf="state.finished">
                     <div class = "container">
                         <h1>{{result.text}}</h1>
@@ -66,17 +66,3 @@
       </div>
     </div>
 </div>
-<!-- <div class="test_site">
-    <textarea id="snippet_area" value="{{state.words}}" name="display" placeholder="Snipets go here" rows="10" readonly="true"></textarea>
-    <textarea id=" " name="input" [(ngModel)]="state.enteredText"   (keydown)="keyIntercept($event)" (ngModelChange)="onWordChange($event)" placeholder="User entry goes here" rows="10"></textarea>
-</div> -->
-
-
-<!-- <div>
-    <h1>Author: {{ testmat.author }}</h1>
-    <h1 *ngIf="testmat">{{ testmat.content }}</h1>
-    <h1 *ngIf="state.wordsPerMinute">{{ state.wordsPerMinute }}</h1>
-    <input *ngIf="testmat" [(ngModel)]="inputfield" value={{state.enteredText}} (ngModelChange)="onWordChange()"/>
-    <button *ngIf="testmat" (click)="newTest()" >New Test</button>
-    (keydown)="keyIntercept($event)"
-</div> -->
