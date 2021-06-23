@@ -12,8 +12,6 @@ import { UserNameModel } from 'src/Models/UserNameModel';
 import { StatModel } from 'src/Models/StatModel';
 import { CompStatModel } from 'src/Models/CompStatModel';
 import { ProgressGraphData } from 'src/Models/ProgressGraphData';
-import { BetInputModel } from 'src/Models/BetInputModel';
-//import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Injectable({
   providedIn: 'root'
