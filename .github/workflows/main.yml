@@ -64,9 +64,3 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        
-    - name: Download code coverage results
-      uses: actions/download-artifact@v1
-      with:
-        name: deploy_coverage
-        path: KwikKoderUI/coverage   
