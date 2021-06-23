@@ -77,6 +77,8 @@ jobs:
       uses: 5monkeys/cobertura-action@v9
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
+        pull_request_number: ${{ env.PR_NUMBER }}
+
 
         
     
