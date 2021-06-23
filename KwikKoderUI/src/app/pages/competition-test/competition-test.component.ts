@@ -142,7 +142,7 @@ export class CompetitionTestComponent implements OnInit {
         this.state.errors+=1;
       }
     }
-   
+  
     if(this.checkIfFinished()){
       return
     }
@@ -152,7 +152,7 @@ export class CompetitionTestComponent implements OnInit {
     }    
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
- 
+
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
       this.onWordChange(event)
@@ -174,12 +174,12 @@ export class CompetitionTestComponent implements OnInit {
     if(this.state.letterPosition >= this.state.wordarray.length){ 
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
-     
+    
       console.log("#errors", this.state.errors)
       this.state.finished = true;
       this.submitResults()
       return true
-     
+    
     }
     return false;
   }
