@@ -45,6 +45,7 @@ jobs:
           path: KwikKoderUI/coverage
           
   sonarcloud:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -57,6 +58,7 @@ jobs:
         args: >
           -Dsonar.organization=210503-reston-kwikkoder
           -Dsonar.projectKey=210503-Reston-KwikKoder_Front-End
+          -Dsonar.tests=src
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.ts.tslintconfigpath=tslint.json
           -Dsonar.javascript.lcov.reportPaths=coverage/Ang-GACD-UI/lcov.info
@@ -64,3 +66,19 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
+    - name: Download code coverage results
+      uses: actions/download-artifact@v1
+      with: 
+        name: deploy_coverage
+        path: Ang-GACD-UI/lcov-report
+        
+    - name: Publish Code Coverage Results
+      uses: 5monkeys/cobertura-action@v9
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        pull_request_number: ${{ env.PR_NUMBER }}
+
+
+        
+    
