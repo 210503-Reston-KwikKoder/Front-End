@@ -73,4 +73,10 @@ jobs:
         name: deploy_coverage
         path: Ang-GACD-UI/lcov-report
         
+    - name: Publish Code Coverage Results
+      uses: 5monkeys/cobertura-action@v9
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+        
     
