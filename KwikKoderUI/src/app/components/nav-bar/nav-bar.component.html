@@ -1,85 +1,73 @@
-  <!-- margin: 2px;
-  border: 0.2rem solid #fff;
-  border-radius: 2rem;
-  background-color: black;
-  border-radius: 20px;
-  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #bc13fe, 0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe; -->
-<nav class="navbar navbar-expand-lg navbar-light">
+<div class="container-fluid">
+  <div class="col-md-4 hamburger-container">
     <svg (click)="displayMenu()" class="menu_icon">
       <rect width="45" height="6" y="20"></rect>
-      <rect width="45" height="6" y="30"></rect> 
-      <rect width="45" height="6" y="40"></rect>  
+      <rect width="45" height="6" y="30"></rect>
+      <rect width="45" height="6" y="40"></rect>
     </svg>
-    <div>
-      <ul style="margin:1em;" >
-        <li *ngIf="(auth.isAuthenticated$ | async) === false">
-          <button class="kwik-btn" (click)="loginWithRedirect()">
-            Log in
-          </button>
-        </li>
-        <li *ngIf="(auth.isAuthenticated$ | async) === false">
-          <button class="kwik-btn" (click)="loginWithRedirect()">
-            Sign Up
-          </button>
-        </li>
-        <li *ngIf="auth.isAuthenticated$ | async">
-          <button class="kwik-btn" (click)="logout()">
-            Log out
-          </button>
-        </li>
-      </ul>
+  </div>
+  <div class="col-md-4">
+    <div class="logo-container">
+      <a class="logo_icon" [routerLink]="['']">
+        <img
+          src="https://api.freelogodesign.org/files/610f46969ca84d6aa71e0ef605b9caeb/thumb/logo_200x200.png?v=637589090550000000"
+          alt="logo" />
+      </a>
     </div>
-  </nav>
-  <a class="logo_icon" [routerLink]="['']">
-    <img src="https://api.freelogodesign.org/files/610f46969ca84d6aa71e0ef605b9caeb/thumb/logo_200x200.png?v=637589090550000000" alt="logo"/>
-  </a> 
-
-  <aside class="pop-menu_container" [ngClass]="{'pop-menu_container-active': isCollapsed}" (click)="displayMenu()">
-    <nav class="pop-menu" [ngClass]="{'pop-menu-active': isCollapsed}" (click)="$event.stopImmediatePropagation();">
-      <div *ngIf="auth.user$ | async as user">
-        <section class="menu-header">
-          <span class="greeting_text">Welcome Back</span>
-          <div class="profile-image_container">
-            <img [src]="user.picture" alt="profile-image"
-                class="profile_image">
-          </div>
+  </div>
+  <div class="col-md-4 authentication-wrapper">
+        <ul>
+          <li *ngIf="(auth.isAuthenticated$ | async) === false">
+            <button class="kwik-btn" (click)="loginWithRedirect()">
+              Log in
+            </button>
+          </li>
+          <li *ngIf="(auth.isAuthenticated$ | async) === false">
+            <button class="kwik-btn" (click)="loginWithRedirect()">
+              Sign Up
+            </button>
+          </li>
+          <li *ngIf="auth.isAuthenticated$ | async">
+            <button class="kwik-btn" (click)="logout()">
+              Log out
+            </button>
+          </li>
+        </ul>
+      </div>
+</div>
+<aside class="pop-menu_container" [ngClass]="{'pop-menu_container-active': isCollapsed}" (click)="displayMenu()">
+  <nav class="pop-menu" [ngClass]="{'pop-menu-active': isCollapsed}" (click)="$event.stopImmediatePropagation();">
+    <div *ngIf="auth.user$ | async as user">
+      <section class="menu-header">
+        <span class="greeting_text">Welcome Back</span>
+        <div class="profile-image_container">
+          <img [src]="user.picture" alt="profile-image" class="profile_image">
+        </div>
         <div class="account-details">
-            <span class = "profile_link"> Account</span>
-            <span class="name_text">{{user.nickname}}</span>
-            <span class="email_text">{{user.email}}</span>
+          <span class="profile_link"> Account</span>
+          <span class="name_text">{{user.nickname}}</span>
+          <span class="email_text">{{user.email}}</span>
         </div>
       </section>
     </div>
-      <section class="menu-body">
-        <ul class="menu-list">
-          <li class="nav-item">
-            <button class="nav-btn"  [routerLink]="['test']">Take a Test</button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-btn"  [routerLink]="['profile']">Profile</button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-btn"  [routerLink]="['competitions']">Competitions</button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-btn"  [routerLink]="['NewCompetition']"> New Competition</button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-btn"  [routerLink]="['leaderboard']">Leaderboards</button>
-          </li>
-        </ul>
-      </section>
-    
-    </nav>
-  </aside>
-  
-
-  <!-- <mat-drawer #drawer [mode]="push">I'm a drawer</mat-drawer>
-  <mat-drawer-content>
-    <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button>
-     <router-outlet></router-outlet>
-
-  </mat-drawer-content> -->
-
-  <!-- <mat-sidenav>Start</mat-sidenav> -->
-
+    <section class="menu-body">
+      <ul class="menu-list">
+        <li class="nav-item">
+          <button class="nav-btn" [routerLink]="['test']">Take a Test</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" [routerLink]="['profile']">Profile</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" [routerLink]="['competitions']">Competitions</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" [routerLink]="['NewCompetition']"> New Competition</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-btn" [routerLink]="['leaderboard']">Leaderboards</button>
+        </li>
+      </ul>
+    </section>
+  </nav>
+</aside>
