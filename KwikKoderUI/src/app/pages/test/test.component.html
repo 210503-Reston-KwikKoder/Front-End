@@ -29,23 +29,13 @@
                 <span class="info-value">{{wpm}}</span>
             </div>
         </div>
-        <div *ngIf="category!=-1;else altclass" class="col-2">
+        <div class="col-2">
             <div class="info-box">
                 <span class="info-text">Timer</span>
                 <br>
-                <span class="info-value">{{minutes}} : {{seconds}}</span>
+                <span class="info-value">{{pad(minutes)}} : {{pad(seconds)}}</span>
             </div>
         </div>
-        
-        <ng-template #altclass>
-            <div class="col-2">
-                <div class="info-box">
-                <span class="info-text">Timer</span>
-                <br>
-                <span class="info-value">00 : 00</span>
-                </div>
-            </div>
-        </ng-template>
     </div>
 </div>
 

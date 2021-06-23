@@ -31,14 +31,11 @@ export class TestComponent implements OnInit {
   constructor(public auth: AuthService, private api: RestService, private router:Router) { }
 
   ngOnInit(): void{
-    //this.counter.min = 1;
-    //this.counter.sec = 1;
-    //place for category
     this.result = {
       text : "Keep working at typing!",
       image :"slow"
     };
-    this.category=-1;
+    this.category = -1;
     this.newTest();
     document.documentElement.addEventListener('keydown', function (e) {
       if ( ( e.key) == " ") {
@@ -63,10 +60,11 @@ export class TestComponent implements OnInit {
   result : ResultModel;
   
   newTest(): void{
-    let id:number = this.category
+    let id : number = this.category
     this.categoryName = Language[id]
     this.timerFinished = false;
-
+    this.seconds = 0;
+    this.minutes = 1;
     this.wpm = 0;
     this.state = {
       words: '',
@@ -94,7 +92,7 @@ export class TestComponent implements OnInit {
         this.state.wordarray = this.state.words.split('');
         this.state.wordarray= this.state.wordarray.filter(this.isBadChar);
 
-        let lines =0;
+        let lines = 0;
         //limit to 500 new line chars
         for (let index = 0; index < this.state.wordarray.length; index++) {
           const element = this.state.wordarray[index];
@@ -129,9 +127,7 @@ export class TestComponent implements OnInit {
     if (!this.state.started) {
       this.state.started= true
       this.state.startTime = new Date()
-      if(this.category != -1){
-        this.startTimer()
-      }
+      this.startTimer()
     }
     let expectedLetter = this.state.wordarray[this.state.letterPosition]
 
@@ -149,7 +145,7 @@ export class TestComponent implements OnInit {
         this.state.errors+=1;
       }
     }
-   
+  
     if(this.checkIfFinished()){
       return
     }
@@ -159,7 +155,7 @@ export class TestComponent implements OnInit {
     }    
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
- 
+
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
       this.onWordChange(event)
@@ -185,7 +181,7 @@ export class TestComponent implements OnInit {
       this.state.finished = true;
       this.submitResults()
       return true
-     
+    
     }
     if(this.timerFinished){
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
@@ -211,22 +207,25 @@ export class TestComponent implements OnInit {
     }
     console.log(model)
     this.api.postTestResults(model);
-    if(this.wpm<30){
+    if(this.wpm < 30){
       this.result.text = "Keep working at typing!";
       this.result.image = "slow";
     }
-    else if (this.wpm<50&&this.wpm>30){
+    else if (this.wpm < 50 && this.wpm > 30){
       this.result.text = "You're improving!";
       this.result.image = "good";
     }
-    else if (this.wpm>50){
+    else if (this.wpm > 50){
       this.result.text= "You're a programming genius!";
       this.result.image = "pro";
     }
     //this.router.navigate(['./resultimage',this.wpm]).then();
   }
 
- 
+  pad(num: number) {
+    if(num < 10) return `0${num}`;
+    else return num;
+  }
 
   startTimer() {
     this.minutes = 1
@@ -234,20 +233,14 @@ export class TestComponent implements OnInit {
     let intervalId = setInterval(() => {
       if (this.seconds - 1 == -1) {
         this.minutes -= 1;
-        this.seconds = 59
-      } 
-      else this.seconds -= 1
-      if (this.minutes === 0 && this.seconds == 0){
-        this.timerFinished = true;
-        clearInterval(intervalId)
-        this.checkIfFinished()
+        this.seconds = 59;
       }
-      }, 1000)
+      else this.seconds -= 1;
+      if (this.minutes === 0 && this.seconds == 0) {
+        this.timerFinished = true;
+        clearInterval(intervalId);
+        this.checkIfFinished();
+      }
+      }, 1000);
   }
-
-
-
 }
-
-
-
