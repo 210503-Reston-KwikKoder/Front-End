@@ -65,10 +65,7 @@ export class TestComponent implements OnInit {
   newTest(): void{
     let id:number = this.category
     this.categoryName = Language[id]
-    //console.log(this.categoryName)
     this.timerFinished = false;
-
-    // this.testmat.author= '';
 
     this.wpm = 0;
     this.state = {

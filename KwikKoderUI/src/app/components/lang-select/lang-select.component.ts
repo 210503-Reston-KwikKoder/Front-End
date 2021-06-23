@@ -21,6 +21,7 @@ export class LangSelectComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.selection = -1;
   }
 
   itemSelected() {

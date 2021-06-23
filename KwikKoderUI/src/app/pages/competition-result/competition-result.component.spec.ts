@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BetInputModel } from 'src/Models/BetInputModel';
+// import { BetInputModel } from 'src/Models/BetInputModel';
 import { RestService } from 'src/Services/rest.service';
 import { CompStatModel  } from 'src/Models/CompStatModel';
 
@@ -50,12 +50,6 @@ describe('CompetitionResultComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should place bet', () =>{
-    let spy = spyOn(component, 'TakeTest');
-    component.TakeTest();
-    expect(spy).toHaveBeenCalled();
   });
 
   // it('should get results', () =>{

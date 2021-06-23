@@ -1,14 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-
-// export class CompetitionTestComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit(): void {
-//   }
-
-// }
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
@@ -37,7 +26,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./competition-test.component.css']
 })
 export class CompetitionTestComponent implements OnInit {
- 
   langSelected(event: number){
     this.category = event;
     this.newTest()
@@ -81,11 +69,6 @@ export class CompetitionTestComponent implements OnInit {
 
 
   newTest(): void{
-    //let id:number = this.category
-    //this.categoryName = Language[id]
-    //console.log(this.categoryName)
-
-
     this.wpm = 0;
     this.state = {
       words: '',
@@ -159,7 +142,7 @@ export class CompetitionTestComponent implements OnInit {
         this.state.errors+=1;
       }
     }
-   
+  
     if(this.checkIfFinished()){
       return
     }
@@ -169,7 +152,7 @@ export class CompetitionTestComponent implements OnInit {
     }    
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
- 
+
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
       this.onWordChange(event)
@@ -191,12 +174,12 @@ export class CompetitionTestComponent implements OnInit {
     if(this.state.letterPosition >= this.state.wordarray.length){ 
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
-     
+    
       console.log("#errors", this.state.errors)
       this.state.finished = true;
       this.submitResults()
       return true
-     
+    
     }
     return false;
   }

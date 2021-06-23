@@ -13,8 +13,8 @@
                 <tr [routerLink]="['/CompetitionTest',model.compId]" class="hover-highlight">
                     <td class="opac">{{model.category | displayCategory}}</td>
                     <td class="opac">{{model.name}}</td>
-                    <td class="opac">{{model.start | displayDate}}</td>
-                    <td class="opac">{{model.end | displayDate}}</td>
+                    <td class="opac">{{model.start.valueOf() | displayDate}}</td>
+                    <td class="opac">{{model.end.valueOf() | displayDate}}</td>
                     <td class="opac">
                         <button class="kwik-btn"
                         [routerLink]="['/CompetitionResult',model.compId]">
