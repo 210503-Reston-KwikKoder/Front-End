@@ -9,12 +9,16 @@
 //Icons
 */
 .logo_icon {
+    margin: 0 auto;
     position: absolute;
     top: 25px;
     right: 47%;
-    height: 2rem;
+    height: 2vw;
 }
-
+ img{
+     height:auto;
+     width: auto;
+ }
 .menu_icon {
     position: relative;
     width: 5%;
@@ -47,10 +51,10 @@
     transform: translateX(-103%);
     position: relative;
     top: 0;
-    left: 0;
+    left: -70px;
     z-index: 10;
     height: 100%;
-    width: 90%;
+    width: 100%;
     max-width: 26rem;
     background: linear-gradient(to bottom, #f360a2, #2E1D65);
     box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
@@ -63,6 +67,8 @@
 }
 
 .pop-menu-active {
+    left: 0px;
+    max-width: 32rem;
     transform: none;
 }
 
