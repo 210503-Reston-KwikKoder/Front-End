@@ -60,13 +60,9 @@ jobs:
       run: |
           pwd
           ls
-    - name: script2
-      run: |
-        pwd
-        cd TestCoverage
-        ls
     - name: script3
       run: |
+        cd TestCoverage
         cd Front-End
         pwd
         ls
