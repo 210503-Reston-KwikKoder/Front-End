@@ -32,7 +32,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/Ang-GACD-UI'),
+      dir: require('path').join(__dirname, './coverage/Front-End'),
       subdir: '.',
       reporters: [
         { type: 'html' },
