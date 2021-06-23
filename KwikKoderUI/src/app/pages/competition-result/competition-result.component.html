@@ -7,7 +7,6 @@
             <th>Username</th>
             <th>Accuracy</th>
             <th>WPM</th>
-            <th></th>
         </thead>
         <tbody>
             <tr *ngFor="let CompStatModel of compStatModels">
@@ -17,7 +16,6 @@
                 <ng-template #elseBlock><td>{{CompStatModel.name}}</td></ng-template>
                 <td>{{CompStatModel.accuracy| displayPercent}}%</td>
                 <td>{{CompStatModel.wpm}}</td>
-                <td><button class="kwik-btn" (click)="PlaceBet(CompStatModel.userId)">Bet 100</button></td>
             </tr>
         </tbody>
     </table>

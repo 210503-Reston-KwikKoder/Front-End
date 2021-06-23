@@ -89,16 +89,4 @@ export class RestService {
   getProgressResults(): Promise<ProgressGraphData[]>{
     return this.http.get<ProgressGraphData[]>(`${env.dev.serverUrl}api/UserStat/tests`).toPromise();
   }
-  putBet(bet : BetInputModel):void{
-    let status =  this.http.put(`${env.dev.serverUrl}api/Competition/bet`, bet)
-    status.subscribe(
-      (code) => {console.log("status code:", code);} 
-    ) 
-  }
-  ClaimBets(id: number):void{
-    let status =  this.http.put(`${env.dev.serverUrl}api/Competition/bet/${id}`,id)
-    status.subscribe(
-      (code) => {console.log("status code:", code);} 
-    ) 
-  }
 }
