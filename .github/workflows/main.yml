@@ -56,12 +56,15 @@ jobs:
       with: 
         name: deploy_coverage
         path: TestCoverage
-    - name: scripts
+    - name: script1
       run: |
           pwd
           ls
-          cd TestCoverage
-          ls
+    - name: script2
+      run: |
+        pwd
+        cd TestCoverage
+        ls
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       with:
