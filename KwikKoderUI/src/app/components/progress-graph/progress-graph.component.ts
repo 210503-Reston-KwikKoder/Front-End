@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgressGraphData } from 'src/Models/ProgressGraphData';
 import { RestService } from 'src/Services/rest.service';
-import * as CanvasJS from './canvasjs.min';
+import * as CanvasJS from '../../../assets/js/canvasjs.min';
 
 @Component({
   selector: 'app-progress-graph',
