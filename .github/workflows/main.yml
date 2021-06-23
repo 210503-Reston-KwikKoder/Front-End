@@ -59,7 +59,7 @@ jobs:
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       with:
-        projectBaseDir: Front-End/KwikKoderUI  
+        projectBaseDir: KwikKoderUI  
         args: >
           -Dsonar.organization=210503-reston-kwikkoder
           -Dsonar.projectKey=210503-Reston-KwikKoder_Front-End
