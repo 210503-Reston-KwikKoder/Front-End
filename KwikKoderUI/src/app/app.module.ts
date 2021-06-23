@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -16,13 +16,11 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { TestComponent } from './pages/test/test.component';
 import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
 import { ViewCompetitionsComponent } from './pages/view-competitions/view-competitions.component';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LangSelectComponent } from './components/lang-select/lang-select.component';
 import { CompetitionTestComponent } from './pages/competition-test/competition-test.component';
 import { CreateCompetitionComponent } from './create-competition/create-competition.component';
@@ -69,7 +67,6 @@ import { DatePipe } from '@angular/common';
     ProgressGraphComponent,
   ],
   imports: [
-    NgbModule,
     HttpClientModule,
     MatTabsModule,
     FormsModule,

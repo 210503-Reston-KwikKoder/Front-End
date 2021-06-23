@@ -186,12 +186,11 @@
     font-family: 'Press Start 2P', cursive;
     font-size: 8px;
     margin: 6px;
+    color: #333;
 }
 .opac{
     color: black;   
 }
-.main_content {
-    margin-top: 10em;
-}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Press Start 2P', cursive; }

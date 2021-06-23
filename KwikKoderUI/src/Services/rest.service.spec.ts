@@ -6,7 +6,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { RestService } from './rest.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { ɵɵsetComponentScope } from '@angular/core';
-import { regExpEscape } from '@ng-bootstrap/ng-bootstrap/util/util';
+// import { regExpEscape } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { environment} from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
