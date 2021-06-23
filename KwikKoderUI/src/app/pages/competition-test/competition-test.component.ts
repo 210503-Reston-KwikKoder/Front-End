@@ -1,14 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-
-// export class CompetitionTestComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit(): void {
-//   }
-
-// }
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
@@ -37,7 +26,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./competition-test.component.css']
 })
 export class CompetitionTestComponent implements OnInit {
- 
   langSelected(event: number){
     this.category = event;
     this.newTest()
@@ -81,11 +69,6 @@ export class CompetitionTestComponent implements OnInit {
 
 
   newTest(): void{
-    //let id:number = this.category
-    //this.categoryName = Language[id]
-    //console.log(this.categoryName)
-
-
     this.wpm = 0;
     this.state = {
       words: '',

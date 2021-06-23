@@ -46,7 +46,7 @@
     <div class="container-fluid input-form">
       <div class="row">
           <div class="col-12">
-            <pre tabindex="0" (click)= "focusinput" (keydown)="keyIntercept($event)" class="text-light bg-dark p-4" ><span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span></pre>
+            <pre tabindex="0" (click)= "focusInputArea" (keydown)="keyIntercept($event)" class="text-light bg-dark p-4" ><span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span></pre>
           </div>
       </div>
     </div>
