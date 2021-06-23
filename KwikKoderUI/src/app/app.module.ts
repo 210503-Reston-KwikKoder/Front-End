@@ -38,6 +38,10 @@ import { ProgressGraphComponent } from './components/progress-graph/progress-gra
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 
+//Loader Material UI
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 
 
 
@@ -67,6 +71,9 @@ import { DatePipe } from '@angular/common';
     ProgressGraphComponent,
   ],
   imports: [
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule,
+    MatProgressBarModule,
     HttpClientModule,
     MatTabsModule,
     FormsModule,
@@ -161,8 +168,7 @@ import { DatePipe } from '@angular/common';
             }
         ]
       }
-    }),
-    BrowserAnimationsModule
+    })
   ],
   providers: [
     DatePipe,

@@ -18,11 +18,16 @@ export class AppComponent {
   User: any = [];
   Test: any;
   profileJson: string = null;
+  loader: boolean;
 
   constructor(public auth: AuthService){
   }
 
   ngOnInit(){
+    this.loader = true;
+    setTimeout(()=>{
+      this.loader = false;
+    }, 3000)
     this.auth.user$.subscribe(
       (profile) => (this.profileJson = JSON.stringify(profile, null, 2))
     );
