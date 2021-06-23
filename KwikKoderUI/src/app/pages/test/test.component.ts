@@ -11,7 +11,6 @@ import { TestModel } from 'src/Models/TestModel';
 import { LangSelectComponent } from 'src/app/components/lang-select/lang-select.component';
 import { Language } from 'src/Models/LanguageEnum';
 import {Router} from "@angular/router";
-//import { Interface } from 'readline';
 import { templateJitUrl } from '@angular/compiler';
 import { ResultModel } from 'src/Models/ResultModel';
 
@@ -58,6 +57,7 @@ export class TestComponent implements OnInit {
   seconds: number = 0;
   minutes: number = 0;
   result : ResultModel;
+  intervalId: any;
   
   newTest(): void{
     let id : number = this.category
@@ -158,8 +158,7 @@ export class TestComponent implements OnInit {
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
-      this.onWordChange(event)
-
+    this.onWordChange(event)
   } 
     
   focusInputArea(): void{
@@ -177,16 +176,20 @@ export class TestComponent implements OnInit {
     if(this.state.letterPosition >= this.state.wordarray.length){ 
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;     
-      console.log("#errors", this.state.errors)
+      console.log("#errors", this.state.errors);
+
+      //stop timer and flip the flag
+      clearInterval(this.intervalId);
       this.state.finished = true;
-      this.submitResults()
+      //submit result to the server
+      this.submitResults();
       return true
     
     }
     if(this.timerFinished){
-      const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
+      const timeMillis: number = new Date().getTime() - this.state.startTime.getTime();
       this.timeTaken = timeMillis;     
-      console.log("#errors", this.state.errors)
+      console.log("#errors", this.state.errors);
       this.state.finished = true;
       this.submitResults()
       return true
@@ -230,7 +233,7 @@ export class TestComponent implements OnInit {
   startTimer() {
     this.minutes = 1
     this.seconds = 0 // choose whatever you want
-    let intervalId = setInterval(() => {
+    this.intervalId = setInterval(() => {
       if (this.seconds - 1 == -1) {
         this.minutes -= 1;
         this.seconds = 59;
@@ -238,7 +241,7 @@ export class TestComponent implements OnInit {
       else this.seconds -= 1;
       if (this.minutes === 0 && this.seconds == 0) {
         this.timerFinished = true;
-        clearInterval(intervalId);
+        clearInterval(this.intervalId);
         this.checkIfFinished();
       }
       }, 1000);
