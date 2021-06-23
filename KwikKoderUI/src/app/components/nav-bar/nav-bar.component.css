@@ -8,24 +8,33 @@
 /*
 //Icons
 */
-.logo_icon {
-    margin: 0 auto;
-    position: absolute;
-    top: 25px;
-    right: 47%;
-    height: 2vw;
+
+.logo-container{
+    text-align: center;
 }
- img{
-     height:auto;
-     width: auto;
- }
-.menu_icon {
-    position: relative;
-    width: 5%;
-    padding-left: 1em;
-    margin-right: 1rem;
-    color:#fff;
+.hamburger-container{
+    text-align: right;
 }
+.hamburger-container svg{
+    margin-top: 40px;
+}
+.authentication-wrapper{
+    text-align: -webkit-center;
+}
+.authentication-wrapper ul{
+    margin-top: 50px;
+    text-align: center;
+    width: 50%;
+}
+.authentication-wrapper li{
+    list-style-type: none;
+    float: left;
+}
+img{
+    height:auto;
+    width: auto;
+}
+
 .menu_icon:hover{
     cursor: pointer;
 }

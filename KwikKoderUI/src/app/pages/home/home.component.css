@@ -1,8 +1,5 @@
 .home_page{
-    position: absolute;
-    top: 50%;
-    left: 38%;
-    right: 38%;
+    text-align: center;
 }
 .home_page h1{
     align-content: center;
