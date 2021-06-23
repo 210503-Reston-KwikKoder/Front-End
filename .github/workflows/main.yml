@@ -57,6 +57,7 @@ jobs:
         args: >
           -Dsonar.organization=210503-reston-kwikkoder
           -Dsonar.projectKey=210503-Reston-KwikKoder_Front-End
+          -Dsonar.tests=src
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.ts.tslintconfigpath=tslint.json
           -Dsonar.javascript.lcov.reportPaths=coverage/Ang-GACD-UI/lcov.info
