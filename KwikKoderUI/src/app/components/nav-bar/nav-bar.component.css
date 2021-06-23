@@ -13,7 +13,10 @@
     text-align: center;
 }
 .hamburger-container{
-    text-align: right;
+    text-align: center;
+}
+.hamburger-container svg{
+    width: 13%;
 }
 .hamburger-container svg{
     margin-top: 40px;
@@ -24,7 +27,7 @@
 .authentication-wrapper ul{
     margin-top: 50px;
     text-align: center;
-    width: 50%;
+    width: 60%;
 }
 .authentication-wrapper li{
     list-style-type: none;
