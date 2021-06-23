@@ -162,8 +162,8 @@ export class TestComponent implements OnInit {
   } 
     
   focusInputArea(): void{
-    console.log("giving focus")
-    document.getElementById("input-area").focus()
+    console.log("giving focus");
+    document.getElementById("input-area").focus();
   }
   checkIfFinished(): boolean {
     
