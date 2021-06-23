@@ -57,7 +57,7 @@ jobs:
         name: deploy_coverage
         path: TestCoverage
     - name: scripts
-        run:|
+      run: |
           pwd
           ls
           cd TestCoverage
