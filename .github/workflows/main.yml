@@ -55,7 +55,7 @@ jobs:
       uses: actions/download-artifact@v1
       with: 
         name: deploy_coverage
-        path: TestCoverage
+        path: KwikKoderUI/coverage
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       with:
@@ -70,7 +70,7 @@ jobs:
           -Dsonar.sources=src
           -Dsonar.test.inclusions=**/*.spec.ts
           -Dsonar.ts.tslintconfigpath=tslint.json
-          -Dsonar.javascript.lcov.reportPaths=TestCoverage/Front-End/lcov.info     
+          -Dsonar.javascript.lcov.reportPaths=KwikKoderUI/coverage/Front-End/lcov.info     
           -Dsonar.typescript.exclusions=**/node_modules/**,**/main.ts,**/environments/environment*.ts,**/*routing.module.ts
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
