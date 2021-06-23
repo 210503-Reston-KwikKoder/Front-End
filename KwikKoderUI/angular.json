@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Ang-GACD-UI:build:production"
+              "browserTarget": "KwikKoderUI:build:production"
             },
             "development": {
-              "browserTarget": "Ang-GACD-UI:build:development"
+              "browserTarget": "KwikKoderUI:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -86,7 +86,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Ang-GACD-UI:build"
+            "browserTarget": "KwikKoderUI:build"
           }
         },
         "test": {
@@ -111,5 +111,5 @@
       }
     }
   },
-  "defaultProject": "Ang-GACD-UI"
+  "defaultProject": "KwikKoderUI"
 }
