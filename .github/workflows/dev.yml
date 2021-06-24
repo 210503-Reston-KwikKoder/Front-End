@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@dev
+        uses: actions/checkout@2
       - name: Use Node 14.x
         uses: actions/setup-node@v1
         with:
@@ -57,7 +57,7 @@ jobs:
         name: deploy_coverage
         path: KwikKoderUI/coverage
     - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@dev
+      uses: sonarsource/sonarcloud-github-action@1.6
       with:
         projectBaseDir: KwikKoderUI
       env:
