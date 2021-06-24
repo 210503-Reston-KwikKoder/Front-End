@@ -10,7 +10,11 @@ export class ChatService {
 
   constructor(private socket: Socket) { }
 
-  public sendMessage(message: any) {
+  public joinSocketRoom(id: any){
+    this.socket.emit('join-comp-room')
+  }
+
+  public sendMessage(message: any, id: any) {
     console.log("service is emiting new message: "+message)
     this.socket.emit('new-message', message);
   }

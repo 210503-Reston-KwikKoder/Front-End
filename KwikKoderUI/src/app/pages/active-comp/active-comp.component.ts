@@ -8,15 +8,21 @@ import { RestService } from 'src/Services/rest.service';
   styleUrls: ['./active-comp.component.css']
 })
 export class ActiveCompComponent implements OnInit {
-
+  roomId: any
   newMessage?: any;
   messageList:  string[] = [];
 
   constructor(private chatService: ChatService) {
   }
 
+  // need ot decide how to set the room id 
+  // this will put people in the same room
+  joinSocketRoom(){
+    this.chatService.joinSocketRoom(this.roomId)
+  }
+
   sendMessage(){
-    this.chatService.sendMessage(this.newMessage);
+    this.chatService.sendMessage(this.newMessage, this.roomId);
     this.newMessage = '';
   }
 
@@ -37,7 +43,9 @@ export class ActiveCompComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.joinSocketRoom()
     this.SetMessageWatch()
+
   }
 
 }
