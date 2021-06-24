@@ -4,24 +4,24 @@
             <div class="info-box span-align">
                 <span class="info-text">Current Category</span>
                 <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
-            </div>            
+            </div>
         </div>
         <div *ngIf="testmat.author" class="col-md-2">
             <div class="info-box span-align">
                 <span class="info-text">Author</span>
-                <span class="info-value-author">{{testmat.author}}</span>
+                <span class="info-value-author" id="author">{{testmat.author}}</span>
             </div>
         </div>
         <div class="col-md-2">
             <div class="info-box span-align">
                 <span class="info-text">Errors</span>
-                <span class="info-value">{{ state.errors }}</span>
+                <span class="info-value" id="errors">{{ state.errors }}</span>
             </div>
         </div>
         <div class="col-md-2">
             <div class="info-box span-align">
                 <span class="info-text">Wpm</span>
-                <span class="info-value">{{wpm}}</span>
+                <span class="info-value" id="wpm">{{wpm}}</span>
             </div>
         </div>
         <div class="col-md-2">
@@ -41,7 +41,7 @@
     </div>
     <button class="btn kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
     <div *ngIf="state.finished">
-        <h1>{{result.text}}</h1>
+        <h1 id="result">{{result.text}}</h1>
         <img src = 'assets/images/{{result.image}}.jpg'>
     </div>
 </div>

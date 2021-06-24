@@ -195,7 +195,6 @@ export class CompetitionTestComponent implements OnInit {
       timetakenms : this.timeTaken,
       wpm: this.wpm,
       date: new Date()
-
     }
     console.log(model)
     if (model){
