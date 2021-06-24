@@ -35,12 +35,6 @@
     grid-template-rows: 0.5fr auto;
     position: relative;
 }
-
-.kwik-btn{
-    font-family: 'Press Start 2P', cursive;
-    font-size: 8px;
-    margin: 6px;
-}
 .opac{
     color: black;   
 }
@@ -79,9 +73,20 @@ body { margin: 0; font-family: 'Press Start 2P', cursive; }
 }
 .kwik-btn{
     font-family: 'Press Start 2P', cursive;
-    font-size: 8px;
-    margin: 6px;
-    color: #333;
+    font-size: 11px;
+    margin: 5px;
+    color: #9024b4;
+    padding: 6px;
+    border: 1px solid #9024b4;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: transform;
+}
+.kwik-btn:hover{
+    background-image: linear-gradient(#9024b4,#f360a2);
+    background-color: #9024b4;
+    color: #fff;
+    border-color: #fff;
 }
 .opac{
     color: black;   

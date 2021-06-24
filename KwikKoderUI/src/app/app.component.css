@@ -1,5 +1,5 @@
 .mat-progress-spinner::ng-deep circle, .mat-spinner::ng-deep circle {
-    stroke: #9024b4 !important;
+    stroke: #9024b4;
 }
 .custom-spinner{
     display: flex;
