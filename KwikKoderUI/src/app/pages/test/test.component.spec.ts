@@ -158,6 +158,7 @@ describe('TestComponent', () => {
   it('checkIfFinished should return true based on state', () =>{
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
+    component.ngOnInit();
     component.state = {
       words: '',
       wordarray: new Array(),
