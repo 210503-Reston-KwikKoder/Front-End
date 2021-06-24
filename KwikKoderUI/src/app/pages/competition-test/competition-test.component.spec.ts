@@ -7,6 +7,7 @@ import { ActivatedRoute, Router, ɵangular_packages_router_router_o } from '@ang
 import { RouterTestingModule } from '@angular/router/testing';
 import { DisplayCategoryPipe } from '../../pipes/display-category.pipe';
 import { Pipe, PipeTransform } from '@angular/core';
+import { Observable } from 'rxjs';
 
 
 
@@ -17,14 +18,23 @@ describe('CompetitionTestComponent', () => {
   let rest: RestService;
   let router: Router;
   let dcp: DisplayCategoryPipe;
+  let route : ActivatedRoute;
+
   class MockAuthService {}
+
+  class MockActivatedRoute{
+    params = new Observable<any>();
+  }
+
   class MockRestService
   {
     //put api calls here if you want to test them
+    getCompetitionContent(id: number):Promise<any> {
+      return new Promise<any>((resolve, reject) => {})
+    };
   }
-  
 
-    @Pipe({name: 'displayCategory'})
+  @Pipe({name: 'displayCategory'})
     class MockPipe implements PipeTransform {
         transform(value: number): number {
             //Do stuff here, if you want
@@ -34,25 +44,30 @@ describe('CompetitionTestComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ CompetitionTestComponent, MockPipe],
-      
+
       providers: [
         {provide: AuthService, useClass: MockAuthService},
         {provide: RestService, useClass: MockRestService},
-        {provide: ActivatedRoute,useValue: {id: 0}},
-        {provide: DisplayCategoryPipe, useClass: MockPipe},      
+        //{provide: ActivatedRoute,useValue: {id: 0}},
+        {provide: ActivatedRoute, useClass: MockActivatedRoute},
+        {provide: DisplayCategoryPipe, useClass: MockPipe},
       ],
       imports: [
         RouterTestingModule
       ]
     }).compileComponents();
- 
+
+    rest = TestBed.inject(RestService);
+    route = TestBed.inject(ActivatedRoute);
+
   });
-  
+
   it('should create', ()=>{
     fixture = TestBed.createComponent(CompetitionTestComponent);
     component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
+
   it('testWPM', () => {
     fixture = TestBed.createComponent(CompetitionTestComponent);
     component = fixture.componentInstance;
@@ -62,6 +77,24 @@ describe('CompetitionTestComponent', () => {
     expect(wpm).toBe(50);
   });
 
-  
+  it('langSelected should create', () => {
+    fixture = TestBed.createComponent(CompetitionTestComponent);
+    component = fixture.componentInstance;
+    let event = 32;
+    component.langSelected(event);
+    expect(component.category).toBe(event);
+    expect(component.newTest()).toBeDefined;
+  });
+
+  it('ngOnInit should instantiate properties ', () => {
+    fixture = TestBed.createComponent(CompetitionTestComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+    expect(component.sub).toBeDefined;
+    expect(component.newTest()).toBeDefined;
+    expect(component.compId).toBeDefined;
+  });
+
+
 });
 
