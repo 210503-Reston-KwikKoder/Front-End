@@ -57,7 +57,7 @@ jobs:
         name: deploy_coverage
         path: KwikKoderUI/coverage
     - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@2.276.1
+      uses: sonarsource/sonarcloud-github-action@master
       with:
         projectBaseDir: KwikKoderUI
       env:
