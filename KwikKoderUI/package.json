@@ -10,7 +10,6 @@
     "server": "json-server --watch src/assets/MockData/userDB.json",
     "build:ci": "ng build --prod --sourceMap=false --base-href /Front-End/",
     "test:ci": "ng test --browsers ChromeHeadlessNoSandbox --watch=false --code-coverage --source-map true --karmaConfig karma.conf.js"
-
   },
   "private": true,
   "dependencies": {
