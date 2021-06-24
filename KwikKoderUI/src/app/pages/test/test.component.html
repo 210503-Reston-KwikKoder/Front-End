@@ -1,35 +1,35 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-1"></div>
-        <div class="col-2">
+        <div class="col-md-1"></div>
+        <div class="col-md-2">
             <div class="info-box">
                 <span class="info-text">Current Category</span>
                 <br>
                 <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
             </div>            
         </div>
-        <div *ngIf="testmat.author" class="col-2">
+        <div *ngIf="testmat.author" class="col-md-2">
             <div class="info-box">
                 <span class="info-text">Author</span>
                 <br>
                 <span class="info-value-author">{{testmat.author}}</span>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2">
             <div class="info-box">
                 <span class="info-text">Errors</span>
                 <br>
                 <span class="info-value">{{ state.errors }}</span>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2">
             <div class="info-box">
                 <span class="info-text">Wpm</span>
                 <br>
                 <span class="info-value">{{wpm}}</span>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-md-2">
             <div class="info-box">
                 <span class="info-text">Timer</span>
                 <br>

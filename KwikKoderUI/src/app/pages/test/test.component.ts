@@ -158,15 +158,16 @@ export class TestComponent implements OnInit {
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
+    console.log('intercepting key strokes', event);
     this.onWordChange(event)
-  } 
-    
+  }
+
   focusInputArea(): void{
     console.log("giving focus");
     document.getElementById("input-area").focus();
   }
+
   checkIfFinished(): boolean {
-    
     let numletters = this.state.wordarray.length-1   
 
     const wpm = this.wordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
@@ -183,16 +184,17 @@ export class TestComponent implements OnInit {
       this.state.finished = true;
       //submit result to the server
       this.submitResults();
-      return true
+      return true;
     
     }
+    //did we run out of time instead?
     if(this.timerFinished){
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime();
       this.timeTaken = timeMillis;     
       console.log("#errors", this.state.errors);
       this.state.finished = true;
-      this.submitResults()
-      return true
+      this.submitResults();
+      return true;
     }
 
     return false;
@@ -222,7 +224,6 @@ export class TestComponent implements OnInit {
       this.result.text= "You're a programming genius!";
       this.result.image = "pro";
     }
-    //this.router.navigate(['./resultimage',this.wpm]).then();
   }
 
   pad(num: number) {
