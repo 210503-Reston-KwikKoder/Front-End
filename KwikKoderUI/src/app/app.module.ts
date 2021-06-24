@@ -37,6 +37,9 @@ import { ProgressGraphComponent } from './components/progress-graph/progress-gra
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 
+// Node Modules
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
 //Loader Material UI
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -46,7 +49,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
 
+
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -72,6 +79,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CompetitionResultComponent,
     DisplayTimePipe,
     ProgressGraphComponent,
+    ActiveCompComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -172,7 +180,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
             }
         ]
       }
-    })
+    }),
+    SocketIoModule.forRoot(config),
   ],
   providers: [
     DatePipe,
