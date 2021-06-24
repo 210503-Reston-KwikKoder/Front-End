@@ -32,10 +32,6 @@ jobs:
     - run: |
         docker build . -t ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:${{ github.sha }}
         docker push ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:${{ github.sha }}
-# make docker build commands
-#        docker build . -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
-     
-    
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - uses: azure/aks-set-context@v1
       with:
@@ -65,8 +61,4 @@ jobs:
           manifests/service.yml
         images: |
           ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:${{ github.sha }}
-# Docker image here
-#          ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
-        # imagepullsecrets: |
-        #   ${{ env.SECRET }}
         namespace: ${{ env.NAMESPACE }}
