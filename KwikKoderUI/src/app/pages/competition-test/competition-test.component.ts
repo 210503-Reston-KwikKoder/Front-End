@@ -1,62 +1,21 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { State } from 'src/Models/state';
-import { TestMaterial } from 'src/Models/TestMaterial';
 import { RestService } from 'src/Services/rest.service';
-
-import { Usermodel } from 'src/Models/UserModel';
-
-import { AppComponent } from 'src/app/app.component';
-import { TestModel } from 'src/Models/TestModel';
-
-import { LangSelectComponent } from 'src/app/components/lang-select/lang-select.component';
-import { Language } from 'src/Models/LanguageEnum';
-import { stringify } from '@angular/compiler/src/util';
 import { Subscription } from 'rxjs';
 import { CompetitionContent } from 'src/Models/CompetitionContentModel';
 import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
-import { DisplayCategoryPipe } from 'src/app/pipes/display-category.pipe';
 
-
-import {Router} from "@angular/router";
 @Component({
   selector: 'app-competition-test',
   templateUrl: './competition-test.component.html',
   styleUrls: ['./competition-test.component.css']
 })
 export class CompetitionTestComponent implements OnInit {
-  langSelected(event: number){
-    this.category = event;
-    this.newTest()
-  }
 
-  constructor(public auth: AuthService, private api: RestService, private route: ActivatedRoute,private router: Router) { }
-
-  ngOnInit(): void{
-    //place for category
-    this.sub = this.route.params.subscribe(params => {
-      this.compId = +params['id'];
-      this.newTest();
-    });
-    //this.newTest();
-
-    
-    
-    document.documentElement.addEventListener('keydown', function (e) {
-      if ( ( e.key) == " ") {
-          e.preventDefault();
-      }
-  }, false);
-    
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
-
+  /*# variables declare at the top */
   testmat: CompetitionContent = null;
-
   state: State;
   timeTaken: number;
   wpm: number;
@@ -67,6 +26,41 @@ export class CompetitionTestComponent implements OnInit {
   compId: number;
   author: string;
 
+  constructor(public auth: AuthService, private api: RestService, private route: ActivatedRoute,private router: Router) { }
+
+  ngOnInit(): void{
+    //place for category
+    this.sub = this.route.params.subscribe(params => {
+      if (params) {
+        this.compId = +params['id'];
+        this.newTest();
+      } else {
+        console.log("check params: " + params)
+      }
+    });
+
+    document.documentElement.addEventListener('keydown', function (e) {
+      if ((e.key) == " ") {
+          e.preventDefault();
+      } else {
+        console.log("check event: " + e);
+      }
+  }, false);
+
+  }
+
+  langSelected(event: number){
+    if (event) {
+      this.category = event;
+      this.newTest()
+    } else {
+      console.log("check event: " + event);
+    }
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 
   newTest(): void{
     this.wpm = 0;
@@ -110,13 +104,18 @@ export class CompetitionTestComponent implements OnInit {
     }else{
       return true
     }
-  } 
+  }
 
-  
   wordsPerMinute (charsTyped: number, ms: number): number {
-    return ((charsTyped / 5) / (ms / 60000))
-  }  
-  
+    let result: number;
+    if (charsTyped || ms) {
+      result = (charsTyped / 5) / (ms / 60000);
+    } else {
+      console.log("check input ");
+    }
+    return result;
+  }
+
   onWordChange(event: KeyboardEvent): void {
     if(this.state.finished){
       return
@@ -124,7 +123,7 @@ export class CompetitionTestComponent implements OnInit {
     let e = event.key
     if (!this.state.started) {
       this.state.started= true
-      this.state.startTime = new Date() 
+      this.state.startTime = new Date()
     }
     let expectedLetter = this.state.wordarray[this.state.letterPosition]
 
@@ -135,51 +134,53 @@ export class CompetitionTestComponent implements OnInit {
     if(e == expectedLetter){
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
       this.state.correctchars +=1;
-      this.state.letterPosition+=1;    
+      this.state.letterPosition+=1;
     }else{
       var inp = String.fromCharCode(event.keyCode);
       if (/[a-zA-Z0-9-_ ]/.test(inp)){
         this.state.errors+=1;
       }
     }
-  
+
     if(this.checkIfFinished()){
       return
     }
     if(this.state.wordarray[this.state.letterPosition]=="\n"){
       //display enter prompt
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
-    }    
+    }
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
+    if (event){
       this.onWordChange(event)
+    } else {
+      console.log("check event: " + event);
+    }
+  }
 
-  } 
-    
   focusInputArea(): void{
     console.log("giving focus")
     document.getElementById("input-area").focus()
   }
 
   checkIfFinished(): boolean {
-    let numletters = this.state.wordarray.length-1   
+    let numletters = this.state.wordarray.length-1
 
     const wpm = this.wordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
 
     //check if words are done
-    if(this.state.letterPosition >= this.state.wordarray.length){ 
+    if(this.state.letterPosition >= this.state.wordarray.length){
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
-    
+
       console.log("#errors", this.state.errors)
       this.state.finished = true;
       this.submitResults()
       return true
-    
     }
     return false;
   }
@@ -197,10 +198,12 @@ export class CompetitionTestComponent implements OnInit {
 
     }
     console.log(model)
-    this.api.postCompetitionResults(model);
+    if (model){
+      this.api.postCompetitionResults(model);
+    } else {
+      console.log("check model: " + model);
+    }
     this.router.navigate(['./CompetitionResult/',this.compId]).then();
   }
-
-
 
 }
