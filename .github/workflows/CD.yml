@@ -13,7 +13,7 @@ env:
   CLUSTER_RESOURCE_GROUP: 210503-KwikKoder
   NAMESPACE: kwikkoder
   SECRET: secret-name
-  APP_NAME: Front-End
+  APP_NAME: front-end
   
 jobs:
   build:
