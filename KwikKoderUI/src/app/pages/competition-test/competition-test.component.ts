@@ -13,37 +13,9 @@ import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
   styleUrls: ['./competition-test.component.css']
 })
 export class CompetitionTestComponent implements OnInit {
-  langSelected(event: number){
-    this.category = event;
-    this.newTest()
-  }
 
-  constructor(public auth: AuthService, private api: RestService, private route: ActivatedRoute,private router: Router) { }
-
-  ngOnInit(): void{
-    //place for category
-    this.sub = this.route.params.subscribe(params => {
-      this.compId = +params['id'];
-      this.newTest();
-    });
-    //this.newTest();
-
-
-
-    document.documentElement.addEventListener('keydown', function (e) {
-      if ( ( e.key) == " ") {
-          e.preventDefault();
-      }
-  }, false);
-
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
-
+  /*# variables declare at the top */
   testmat: CompetitionContent = null;
-
   state: State;
   timeTaken: number;
   wpm: number;
@@ -54,6 +26,41 @@ export class CompetitionTestComponent implements OnInit {
   compId: number;
   author: string;
 
+  constructor(public auth: AuthService, private api: RestService, private route: ActivatedRoute,private router: Router) { }
+
+  ngOnInit(): void{
+    //place for category
+    this.sub = this.route.params.subscribe(params => {
+      if (params) {
+        this.compId = +params['id'];
+        this.newTest();
+      } else {
+        console.log("check params: " + params)
+      }
+    });
+
+    document.documentElement.addEventListener('keydown', function (e) {
+      if ((e.key) == " ") {
+          e.preventDefault();
+      } else {
+        console.log("check event: " + e);
+      }
+  }, false);
+
+  }
+
+  langSelected(event: number){
+    if (event) {
+      this.category = event;
+      this.newTest()
+    } else {
+      console.log("check event: " + event);
+    }
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 
   newTest(): void{
     this.wpm = 0;
@@ -99,9 +106,14 @@ export class CompetitionTestComponent implements OnInit {
     }
   }
 
-
   wordsPerMinute (charsTyped: number, ms: number): number {
-    return ((charsTyped / 5) / (ms / 60000))
+    let result: number;
+    if (charsTyped || ms) {
+      result = (charsTyped / 5) / (ms / 60000);
+    } else {
+      console.log("check input ");
+    }
+    return result;
   }
 
   onWordChange(event: KeyboardEvent): void {
@@ -142,8 +154,11 @@ export class CompetitionTestComponent implements OnInit {
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
+    if (event){
       this.onWordChange(event)
-
+    } else {
+      console.log("check event: " + event);
+    }
   }
 
   focusInputArea(): void{
@@ -166,7 +181,6 @@ export class CompetitionTestComponent implements OnInit {
       this.state.finished = true;
       this.submitResults()
       return true
-
     }
     return false;
   }
@@ -184,10 +198,12 @@ export class CompetitionTestComponent implements OnInit {
 
     }
     console.log(model)
-    this.api.postCompetitionResults(model);
+    if (model){
+      this.api.postCompetitionResults(model);
+    } else {
+      console.log("check model: " + model);
+    }
     this.router.navigate(['./CompetitionResult/',this.compId]).then();
   }
-
-
 
 }
