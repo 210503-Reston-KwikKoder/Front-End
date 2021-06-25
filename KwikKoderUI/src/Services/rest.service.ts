@@ -88,6 +88,7 @@ export class RestService {
     return this.http.get<CompStatModel[]>(`${env.dev.serverUrl}api/Competition/${id}`).toPromise();    
   }
   getProgressResults(): Promise<ProgressGraphData[]>{
+    //To Do: modify API call when backend has added functionality for multipl;
     return this.http.get<ProgressGraphData[]>(`${env.dev.serverUrl}api/UserStat/tests`).toPromise();
   }
   putBet(bet : BetInputModel):void{
