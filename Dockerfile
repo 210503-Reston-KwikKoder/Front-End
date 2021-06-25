@@ -1,5 +1,5 @@
 ### STAGE 1: Build ###
-FROM node:12.14-alpine AS build
+FROM node:lts AS build
 WORKDIR /usr/src/app
 COPY ./KwikKoderUI .
 RUN npm install
@@ -8,3 +8,4 @@ RUN npm run build
 FROM nginx:1.17.1-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /usr/src/app/dist/KwikKoderUI /usr/share/nginx/html
+EXPOSE 80

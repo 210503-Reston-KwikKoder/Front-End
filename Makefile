@@ -23,3 +23,9 @@ sonar-scanner:
 	
 clearlogs:
 	rm -f $(Angular_project_root)/$(log_dir)/*
+
+createimage:
+	docker build . -t kwikkoder/front-end:test
+
+runimage:
+	docker run -p 80:80 kwikkoder/front-end:test
