@@ -10,6 +10,7 @@ import { TestMaterial } from 'src/Models/TestMaterial';
 import { ResultModel } from 'src/Models/ResultModel';
 
 import { Language } from 'src/Models/LanguageEnum';
+import { unwatchFile } from 'fs';
 
 @Component({
   selector: 'app-active-comp',
@@ -18,7 +19,7 @@ import { Language } from 'src/Models/LanguageEnum';
 })
 export class ActiveCompComponent implements OnInit {
   roomId: any
-  newMessage?: any;
+  newMessage: string;
   messageList:  string[] = [];
 
   constructor(
@@ -35,6 +36,19 @@ export class ActiveCompComponent implements OnInit {
   joinSocketRoom(){
     console.log(this.roomId)
     this.chatService.joinSocketRoom(this.roomId)
+  }
+
+  log(e){
+    console.log(e)
+    console.log(this.newMessage)
+  }
+
+  messageInputHandler(e){
+    if(e.keyCode == 13){
+      this.sendMessage()
+    }else if(e.key === " "){
+      this.newMessage += e.key
+    }
   }
 
   sendMessage(){

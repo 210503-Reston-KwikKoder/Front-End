@@ -5,13 +5,20 @@
             <button mat-raised-button color="primary">Join</button>
         </div>
         <div class="col-md-6" id="comp-arena">
+            <div id="prompt-box">
 
+            </div>
+            <div class="player-test-view">
+                
+            </div>
         </div>
         <div class="col-md-3" id="chat">
-            <div *ngFor="let message of messageList">
-                <p>{{message}}</p>
+            <div id="chat-box">
+                <div *ngFor="let message of messageList" class="chat-message-div">
+                    <p >{{message}}</p>
+                </div>
             </div>
-            <input [(ngModel)]="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()" />
+            <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" (keydown)="log($event)" />
             <!-- <mat-form-field appearance="outline">
                 <mat-label>Outline form field</mat-label>
                 <input matInput placeholder="message" (ngModel)="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()">
