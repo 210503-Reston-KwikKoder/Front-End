@@ -13,6 +13,7 @@ env:
   CLUSTER_RESOURCE_GROUP: 210503-KwikKoder
   NAMESPACE: kwikkoder
   APP_NAME: front-end
+  IMAGE_TAG: ${{ github.sha }}
   
 jobs:
   build:
