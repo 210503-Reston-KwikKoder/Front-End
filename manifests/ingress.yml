@@ -10,8 +10,14 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
     # also something about the path, rewriting the target, modifying the url
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # register cert issuer
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
+  tls:
+  - hosts:
+    - kwikkoder-ingress.kwikkoder.com
+    secretName: tls-secret
   rules:
     - http:
         paths:
