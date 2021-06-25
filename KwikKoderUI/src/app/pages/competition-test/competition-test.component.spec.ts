@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, ɵangular_packages_router_router_o } from '@ang
 import { RouterTestingModule } from '@angular/router/testing';
 import { DisplayCategoryPipe } from '../../pipes/display-category.pipe';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
@@ -208,6 +208,29 @@ describe('CompetitionTestComponent', () => {
   //   if(property.innerHTML)
   //     expect(property.innerHTML).not.toBeNull();
   // });
-
+  it('unsubscribes when destoryed', () => {
+    fixture = TestBed.createComponent(CompetitionTestComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+        component.state = {
+      words: '',
+      wordarray: new Array(),
+      typedarray: new Array(),
+      enteredText: '',
+      errors: 0,
+      started: false,
+      startTime: null,
+      timeTaken: 0,
+      letterPosition: 0,
+      //wordPosition: 0,
+      finished: false,
+      correctchars: 0
+    }
+    expect(component.sub.closed).toEqual(false);
+    spyOn(component, 'ngOnDestroy').and.callFake(() =>{
+      expect(component.sub.unsubscribe()).toHaveBeenCalled();
+      expect(component.sub.closed).toEqual(true);
+    });
+  });
 });
 
