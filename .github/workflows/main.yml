@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install dependencies
-        run: cd KwikKoderUI && npm ci
+        run: cd KwikKoderUI && npm i
       - name: Build
         run: cd KwikKoderUI && npm run build:ci
       - name: Test

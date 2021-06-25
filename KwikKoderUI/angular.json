@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Ang-GACD-UI": {
+    "KwikKoderUI": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
