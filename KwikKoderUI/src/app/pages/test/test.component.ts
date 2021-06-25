@@ -75,6 +75,7 @@ export class TestComponent implements OnInit {
     }
     this.expectSpace = false
     this.skip = false
+    clearInterval(this.intervalId);
     //get content to type
     this.api.getTestContentByCatagoryId(id).then(
       (obj)=> {
@@ -86,13 +87,13 @@ export class TestComponent implements OnInit {
         this.state.wordarray= this.state.wordarray.filter(this.isBadChar);
 
         let lines = 0;
-        //limit to 500 new line chars
+        //limit to 50 new line chars
         for (let index = 0; index < this.state.wordarray.length; index++) {
           const element = this.state.wordarray[index];
           if(element == "\n"){
             lines++;
           }
-          if(lines > 500){
+          if(lines > 50){
             this.state.wordarray = this.state.wordarray.slice(0, index);
           }
         }

@@ -34,10 +34,8 @@
 </div>
 
 <div class="container input-form">
-    <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="keyIntercept($event)" class="text-light info-box p-4" style="background-color: #f9f2f4;">
-            <code data-language="html">
-                <span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span>
-            </code>
+    <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="keyIntercept($event)" class="text-light p-4">
+        <pre><code data-language="python">{{testmat.content}}</code></pre>    
     </div>
     <button class="btn kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
     <div *ngIf="state.finished">
@@ -45,3 +43,5 @@
         <img src = 'assets/images/{{result.image}}.jpg'>
     </div>
 </div>
+
+<!-- <span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span> -->

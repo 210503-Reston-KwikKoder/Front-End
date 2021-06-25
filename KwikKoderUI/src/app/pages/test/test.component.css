@@ -14,7 +14,7 @@
 }
 /*Displaying test text*/
 .input-form{
-    text-align: center;
+    /* text-align: center; */
     margin-top: 20px;
     color: #ccc;
 }
