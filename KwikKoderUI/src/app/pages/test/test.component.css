@@ -59,6 +59,7 @@
 
 #input-area {
     font-size: medium;
+    background-color: #f9f2f4;
 }
 
 #input-area:focus {
