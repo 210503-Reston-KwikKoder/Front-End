@@ -33,10 +33,6 @@ export class AppComponent {
     );
   }
 
-  
-
-
-  
   AnalyzeTest(testString = '', Userinput= ''){
     
   }

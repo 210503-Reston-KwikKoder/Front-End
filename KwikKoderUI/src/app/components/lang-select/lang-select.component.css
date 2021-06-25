@@ -1,9 +1,10 @@
 .lang-select{
     background-color: var(--dark2);
     border-color: var(--dark0_hard);
-    margin-top:  .2em;
+    margin: 2%;
     color: var(--bright_purple);
     font-size: 15pt;
-    
+    border-radius: 5px;
+    padding: 3px;
 }
 
