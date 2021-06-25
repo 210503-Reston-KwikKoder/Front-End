@@ -1,0 +1,9 @@
+#comp-room{
+    background-color:rgb(97, 95, 114, .9);
+    border-radius: 1rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(202, 245, 12);
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}

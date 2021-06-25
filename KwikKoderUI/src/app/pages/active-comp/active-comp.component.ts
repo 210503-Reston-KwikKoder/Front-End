@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import { ChatService } from 'src/Services/chat.service';
 import { RestService } from 'src/Services/rest.service';
 import { Usermodel } from 'src/Models/UserModel';
@@ -19,12 +21,19 @@ export class ActiveCompComponent implements OnInit {
   newMessage?: any;
   messageList:  string[] = [];
 
-  constructor(private chatService: ChatService, private restService: RestService) {
-  }
+  constructor(
+    private chatService: ChatService, 
+    private restService: RestService,
+    private route: ActivatedRoute,
+    ) {
+      console.log(this.route.snapshot.paramMap.get('compId'))
+      this.roomId = this.route.snapshot.paramMap.get('compId')
+     }
 
   // need ot decide how to set the room id 
   // this will put people in the same room
   joinSocketRoom(){
+    console.log(this.roomId)
     this.chatService.joinSocketRoom(this.roomId)
   }
 

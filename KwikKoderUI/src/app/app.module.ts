@@ -40,20 +40,20 @@ import { DatePipe } from '@angular/common';
 // Node Modules
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
-//Loader Material UI
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-
-// material components
+// material UI components
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
 
 @NgModule({
   declarations: [
@@ -86,9 +86,11 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     BrowserAnimationsModule,
     MatProgressBarModule,
     HttpClientModule,
+    MatFormFieldModule,
     MatTabsModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatButtonModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
