@@ -5,7 +5,7 @@ import { TestMaterial } from 'src/Models/TestMaterial';
 import { RestService } from 'src/Services/rest.service';
 import { TestModel } from 'src/Models/TestModel';
 import { Language } from 'src/Models/LanguageEnum';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 import { templateJitUrl } from '@angular/compiler';
 import { ResultModel } from 'src/Models/ResultModel';
 
@@ -79,6 +79,7 @@ export class TestComponent implements OnInit {
     //get content to type
     this.api.getTestContentByCatagoryId(id).then(
       (obj)=> {
+        // Rainbow.color();
         this.testmat = obj;
         //this.testmat.content= obj.content;
         //this.testmat.author = obj.author;

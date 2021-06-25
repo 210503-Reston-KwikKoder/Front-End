@@ -35,7 +35,7 @@
 
 <div class="container input-form">
     <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="keyIntercept($event)" class="text-light p-4">
-        <pre><code data-language="python">{{testmat.content}}</code></pre>    
+        <pre><code [highlight]="testmat.content"></code></pre>    
     </div>
     <button class="btn kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
     <div *ngIf="state.finished">
