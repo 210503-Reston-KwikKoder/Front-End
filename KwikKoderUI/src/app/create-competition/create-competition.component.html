@@ -32,10 +32,10 @@
     </div>
 </div>
 <div class="container input-form">
-        <h3>Snippet</h3>
-        <div contenteditable="true" id="input-area" [textContent]="snippet" (input)="snippet=$event.target.textContent" class="info-box p-4">
-            <code data-language="html">
-                {{snippet}}
-            </code>
-        </div>
+    <h3>Snippet</h3>
+    <div contenteditable="true" id="input-area" [(ngModel)]="snippet" class="info-box p-4">
+        <code data-language="html">
+            {{snippet}}
+        </code>
+    </div>
 </div>
