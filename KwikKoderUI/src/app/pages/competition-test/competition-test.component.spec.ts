@@ -185,29 +185,29 @@ describe('CompetitionTestComponent', () => {
   //   )
   // });
 
-  it("interpolation for category should display", () => {
-    let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#category');
-    if(property.innerHTML)
-      expect(property.innerHTML).not.toBeNull();
-  });
+  // it("interpolation for category should display", () => {
+  //   let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#category');
+  //   if(property.innerHTML)
+  //     expect(property.innerHTML).not.toBeNull();
+  // });
 
-  it("interpolation for author should display", () => {
-    let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#author');
-    if(property.innerHTML)
-      expect(property.innerHTML).not.toBeNull();
-  });
+  // it("interpolation for author should display", () => {
+  //   let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#author');
+  //   if(property.innerHTML)
+  //     expect(property.innerHTML).not.toBeNull();
+  // });
 
-  it("interpolation for errors should display", () => {
-    let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#errors');
-    if(property.innerHTML)
-      expect(property.innerHTML).not.toBeNull();
-  });
+  // it("interpolation for errors should display", () => {
+  //   let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#errors');
+  //   if(property.innerHTML)
+  //     expect(property.innerHTML).not.toBeNull();
+  // });
 
-  it("interpolation for wpm should display", () => {
-    let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#wpm');
-    if(property.innerHTML)
-      expect(property.innerHTML).not.toBeNull();
-  });
+  // it("interpolation for wpm should display", () => {
+  //   let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#wpm');
+  //   if(property.innerHTML)
+  //     expect(property.innerHTML).not.toBeNull();
+  // });
 
 });
 

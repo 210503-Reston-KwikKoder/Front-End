@@ -9,6 +9,7 @@ import { DisplayCategoryPipe } from '../../pipes/display-category.pipe';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Language } from 'src/Models/LanguageEnum';
 import { state } from '@angular/animations';
+import { By } from '@angular/platform-browser';
 
 describe('TestComponent', () => {
   let component: TestComponent;
@@ -346,24 +347,26 @@ describe('TestComponent', () => {
     expect(component.result.text).toBe("You're a programming genius!");
   });
 
-  // it("interpolation for author should display", () => {
-  //   let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#author');
-  //   if(property.innerHTML)
-  //     expect(property.innerHTML).not.toBeNull();
-  // });
-
   it("interpolation for errors should display", () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
-    let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#errors');
-    if(property.innerHTML)
-      expect(property.innerHTML).not.toBeNull();
-  });
-
-  it("interpolation for wpm should display", () => {
-    let property: HTMLElement = fixture.debugElement.nativeElement.querySelector('#wpm');
-    if(property.innerHTML)
-      expect(property.innerHTML).not.toBeNull();
+    let expected = 0;
+    component.state = {
+      words: '',
+      wordarray: new Array(),
+      typedarray: new Array(),
+      enteredText: '',
+      errors: expected,
+      started: false,
+      startTime: null,
+      timeTaken: 0,
+      letterPosition: 0,
+      finished: false,
+      correctchars: 0
+    }
+    const test = fixture.debugElement.query(By.css('#errors'));
+    test.nativeElement.value = component.state.errors;
+    expect(test.nativeElement.value).toEqual(expected);
   });
 
 });
