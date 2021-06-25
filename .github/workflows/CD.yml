@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  CLUSTER_NAME: KwickKoder
+  CLUSTER_NAME: kwikkoder
   CLUSTER_RESOURCE_GROUP: 210503-KwikKoder
   NAMESPACE: kwikkoder
   SECRET: secret-name
