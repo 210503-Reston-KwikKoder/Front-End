@@ -31,8 +31,8 @@ jobs:
     # Container build and push to Docker Hub
     - name: build and push image to Docker Hub
       run: |
-        docker build . -t ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:${{ github.sha }}
-        docker push ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:${{ github.sha }}
+        docker build . -t ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:Prod
+        docker push ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:Prod
     # Set the target Azure Kubernetes Service (AKS) cluster. 
     - name: Setup azure credentials
       uses: azure/aks-set-context@v1
@@ -65,5 +65,5 @@ jobs:
           manifests/deploy-webapp.yml
           manifests/ingress.yml
         images: |
-          ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:${{ github.sha }}
+          ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:Prod
         namespace: ${{ env.NAMESPACE }}
