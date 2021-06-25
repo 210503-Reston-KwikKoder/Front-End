@@ -2,11 +2,10 @@
     <button class="kwik-btn"><fa-icon (click)="GetCompetitions()" [icon]="faSync"></fa-icon></button>
     <table class = "table table-hover">
         <thead>
-            <th>Category</th>
-            <th>Name</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th></th>
+            <th id="Category">Category</th>
+            <th id="Name">Name</th>
+            <th id="Date">End Date</th>
+            <th id="None"></th>
         </thead>
         <tbody>
             <ng-container *ngFor="let model of CurrentCompModels;" >

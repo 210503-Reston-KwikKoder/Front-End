@@ -12,6 +12,7 @@ import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
   templateUrl: './competition-test.component.html',
   styleUrls: ['./competition-test.component.css']
 })
+
 export class CompetitionTestComponent implements OnInit {
 
   /*# variables declare at the top */
@@ -38,7 +39,6 @@ export class CompetitionTestComponent implements OnInit {
         console.log("check params: " + params)
       }
     });
-
     document.documentElement.addEventListener('keydown', function (e) {
       if ((e.key) == " ") {
           e.preventDefault();
@@ -59,7 +59,7 @@ export class CompetitionTestComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    if (this.sub.closed == false) this.sub.unsubscribe();
   }
 
   newTest(): void{
@@ -195,7 +195,6 @@ export class CompetitionTestComponent implements OnInit {
       timetakenms : this.timeTaken,
       wpm: this.wpm,
       date: new Date()
-
     }
     console.log(model)
     if (model){
