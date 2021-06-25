@@ -1,116 +1,80 @@
 <div *ngIf="auth.user$ | async as user">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-2"></div>
-        <div class="col-md-4">
-          <div class="profile-img">
-              <img
-              [src]="user.picture"
-              alt="User's profile picture"
-              class="rounded-circle img-fluid profile-picture"
-              />
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="profile-head">
-              <h2 class="prof-info">Name:  {{ UserInfo.name }}</h2>
-              <h3 class="prof-info">Email:  {{ user.email }}</h3>
-              <h4 class="prof-info">Rank:  Mega Coder</h4>
-          </div>
-        </div>
-      <div class="col-md-4"></div>   
+<div class="container">
+  <div class="col-md-3 col-md-offset-1">
+    <div class="profile-picture">
+      <img
+        [src]="user.picture"
+        alt="User's profile picture"
+        class="rounded-circle"
+      />
     </div>
-    <div class="row">
-      <div class="spacer"></div>
-    </div>
-    <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <mat-tab-group dynamicHeight class="tab-bar text-light"  animationDuration="1500ms">
-          <mat-tab class="info text-light" backgroundColor="primary" label="Info">
-            <div class="row">
-              <div class="col-sm-4 text-light">
-                <label>User ID</label>
-              </div>
-              <div class="col-sm-6 text-light">
-                  <p>{{UserInfo.userId}}</p>
-              </div>
-              <div class="col-sm-4 text-light">
-                <label>RevaPoints</label>
-              </div>
-              <div class="col-sm-4 text-light">
-                  <p>{{UserInfo.revapoints}}</p> 
-              </div>
-              <div class="col-sm-4 text-light">
-                  <label>User Name</label>
-              </div>
-              <div class="col-sm-6 text-light">
-                  <p>{{user.nickname}}</p>
-              </div>
-              <div class="col-sm-4 text-light">
-                <label>Email Address</label>
-              </div>
-              <div class="col-sm-6 text-light">
-                <p>{{user.name}}</p>
-              </div>
-              <div class="col-sm-4 text-light">
-                <label>Nick Name</label>
-              </div>
-              <div class="col-sm-6 text-light">
-                <p>{{user.nickname}}</p>
-              </div>
-              <div class="col-sm-4 text-light">
-                <label>About Me</label>
-              </div>
-              <div class="col-sm-6 text-light">
-                <p>I love coding and video games.
-                  I will destory everyone with my ultra typing skills</p>
-              </div>
-            </div> 
-          </mat-tab>
-          <mat-tab class="text-light" label="Stats">
-            <tr *ngFor="let statMod of statOb;">
-              <div class="row">
-                <div class="col-sm-4 text-light">
-                  <label>Category</label>
-                </div>
-                <div class="col-sm-6 text-light">
-                    <p>{{statMod.category | displayCategory}}</p>
-                </div>
-                <div class="col-sm-4 text-light">
-                    <label>Words Per Minute</label>
-                </div>
-                <div class="col-sm-6 text-light">
-                    <p>{{statMod.averagewpm}}</p>
-                </div>
-                <div class="col-sm-4 text-light">
-                  <label>Average Accuracy</label>
-                </div>
-                <div class="col-sm-6 text-light">
-                  <p>{{statMod.averageaccuracy | displayPercent}}%</p>
-                </div>
-                <div class="col-sm-4 text-light">
-                  <label>Tests Taken</label>
-                </div>
-                <div class="col-sm-6 text-light">
-                  <p>{{statMod.numberoftests}}</p>
-                </div>
-                <div class="col-sm-4 text-light">
-                  <label>Test Time</label>
-                </div>
-                <div class="col-sm-6 text-light">
-                  <p>{{statMod.totaltesttime | displayTime}}</p>
-                </div>
-              </div>
-            </tr>
-          </mat-tab>
-          <mat-tab class="text-light" label="Progress">
-            <ng-template matTabContent>
-            <app-progress-graph></app-progress-graph>
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
-      </div>
+    <div class="card_content">
+      <h2 class="prof-info">Name:  {{ UserInfo.name }}</h2>
+        <h3 class="prof-info">Email:  {{ user.email }}</h3>
+        <h4 class="prof-info">Rank:  Mega Coder</h4>
     </div>
   </div>
+  <div class="col-md-8">
+      <mat-tab-group dynamicHeight class="tab-bar" animationDuration="1500ms">
+        <mat-tab class="info" label="Info">
+          <table class="table-borderless">
+            <tbody>
+              <tr>
+                <th>User ID</th>
+                <td>{{UserInfo.userId}}</td>
+              </tr>
+              <tr>
+                <th>Reva Points</th>
+                <td>{{UserInfo.revapoints}}</td>
+              </tr>
+              <tr>
+                <th>User Name</th>
+                <td>{{user.nickname}}</td>
+              </tr>
+              <tr>
+                <th>Email Address</th>
+                <td>{{user.name}}</td>
+              </tr>
+              <tr>
+                <th>Nick Name</th>
+                <td>{{user.nickname}}</td>
+              </tr>
+              <tr>
+                <th>About Me</th>
+                <td>I love coding and video games.
+                  I will destory everyone with my ultra typing skills</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+        <mat-tab label="Stats">
+          <table class="table-borderless">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Words Per Minute</th>
+                <th>Average Accuracy</th>
+                <th>Tests Taken</th>
+                <th>Test Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let statMod of statOb;">
+                <td>{{statMod.category | displayCategory}}</td>
+                <td>{{statMod.averagewpm}}</td>
+                <td>{{statMod.averageaccuracy | displayPercent}}%</td>
+                <td>{{statMod.numberoftests}}</td>
+                <td>{{statMod.totaltesttime | displayTime}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
+        <mat-tab label="Progress">
+          <ng-template matTabContent>
+          <app-progress-graph></app-progress-graph>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+</div>
 </div>

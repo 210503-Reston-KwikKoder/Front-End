@@ -1,20 +1,76 @@
-mat-tab-group{
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.card_title{
+    text-align: center;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards_item {
+  display: flex;
+  padding: 1rem;
+}
+
+@media (min-width: 40rem) {
+  .cards_item {
+    width: 70%;
+  }
+}
+
+
+.card {
+  background-color: white;
+  border-radius: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  overflow: hidden;
+}
+
+.card_content {
+  padding: 1rem;
+}
+
+.card_text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;    
+  font-weight: 400;
+}
+/* ========== CARD ==========*/
+.tab-bar{
     overflow-x: hidden; /* Hide scrollbars */
     font-size: 8px;
     font-family: 'Press Start 2P', cursive;
 }
-mat-tab{
-    color:azure;
+.container{
+    color: #fff !important;
 }
-.info{
-    color: white;
+.mat-tab-label {
+    color: #fff;
+    opacity: 1 !important;
+    font-weight: 700;
 }
-.spacer{
-    width: 100%;
-    height: 150px;
+.profile-picture{
+    text-align: center;
+    background-image: linear-gradient(#9024b4,#f360a2);
+}
+.card_content{
+    text-align: left;
+}
+.profile-picture img{
+    border-radius: 50%;
 }
 .profile-head{
-    color: white;
     font-family: 'Press Start 2P', cursive;
 }
 .profile-head h2 h3 h4{
