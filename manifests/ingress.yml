@@ -21,4 +21,4 @@ spec:
               service:
                 name: website
                 port:
-                  number: 4200
+                  number: 80
