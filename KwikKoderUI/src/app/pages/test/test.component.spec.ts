@@ -206,6 +206,10 @@ describe('TestComponent', () => {
   it('checkIfFinished should return true based on timerFinished', () =>{
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
+    component.result =  {
+      text : "Keep working at typing!",
+      image :"slow"
+    };
     component.state = {
       words: '',
       wordarray: new Array(),
@@ -219,6 +223,7 @@ describe('TestComponent', () => {
       finished: false,
       correctchars: 0
     }
+
     component.state.startTime = new Date();
     component.timerFinished = true;
     let test = component.checkIfFinished();
