@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: website
-          image: kwikkoder/Front-End:Prod
+          image: kwikkoder/front-end:Prod
           resources:
             requests:
               cpu: 100m
