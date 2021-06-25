@@ -139,7 +139,16 @@ export class TestComponent implements OnInit {
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
       this.state.correctchars +=1;
       this.state.letterPosition+=1;    
-    }else{
+    }
+    else if(e == "Backspace"){
+      //e="";
+      this.state.letterPosition-=1;
+    }
+    else if(e == "Shift"){
+    }
+    else{
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "red";
+      this.state.letterPosition+=1;
       var inp = String.fromCharCode(event.keyCode);
       if (/[a-zA-Z0-9-_ ]/.test(inp)){
         this.state.errors+=1;

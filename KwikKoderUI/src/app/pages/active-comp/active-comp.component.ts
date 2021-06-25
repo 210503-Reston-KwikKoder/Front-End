@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from 'src/Services/chat.service';
 import { RestService } from 'src/Services/rest.service';
+import { TestService } from 'src/Services/test.service';
 import { Usermodel } from 'src/Models/UserModel';
 import { TestModel } from 'src/Models/TestModel';
 import { State } from 'src/Models/state';
@@ -83,6 +84,8 @@ export class ActiveCompComponent implements OnInit {
     }    
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
+
+  //TO DO: Set timer length we want
 
   startTimer() {
     this.minutes = 1
