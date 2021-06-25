@@ -67,6 +67,8 @@ describe('ViewCompetitionsComponent', () => {
       author: 'string',
       compId: 1
     }];
+    component.CompModels[0].start.setDate(component.CompModels[0].start.getDate() + 1);
+
     component.CurrentCompModels = component.CompModels.filter(
       (CompModel)=>
       {

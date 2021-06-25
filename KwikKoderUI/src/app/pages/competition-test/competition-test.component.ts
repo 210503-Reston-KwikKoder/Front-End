@@ -59,7 +59,7 @@ export class CompetitionTestComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.sub.closed == false) this.sub.unsubscribe();
+    if (this.sub) this.sub.unsubscribe();
   }
 
   newTest(): void{
