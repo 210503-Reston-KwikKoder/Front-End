@@ -5,30 +5,29 @@
             <div class="info-box">
                 <span class="info-text">Current Category</span>
                 <br>
-                <span class="info-value">{{category | displayCategory}}</span>
+                <span class="info-value" id="category">{{category | displayCategory}}</span>
             </div>
         </div>
         <div class="col-2">
             <div class="info-box">
                 <span class="info-text">Author</span>
                 <br>
-                <span class="info-value-author">{{author}}</span>
+                <span class="info-value-author" id="author">{{author}}</span>
             </div>
         </div>
         <div class="col-2">
             <div class="info-box">
                 <span class="info-text">Errors</span>
                 <br>
-                <span class="info-value">{{ state.errors }}</span>
+                <span class="info-value" id="errors">{{ state.errors }}</span>
             </div>
         </div>
         <div class="col-2">
             <div class="info-box">
                 <span class="info-text">Wpm</span>
                 <br>
-                <span class="info-value">{{wpm}}</span>
+                <span class="info-value" id="wpm">{{wpm}}</span>
             </div>
-            
         </div>
     </div>
 </div>

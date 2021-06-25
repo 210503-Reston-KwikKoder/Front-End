@@ -1,0 +1,23 @@
+.table{
+    color: #eee;
+}
+.table-hover>tbody>tr:hover{
+    background-image: linear-gradient(#9024b4,#f360a2);
+}
+.container h3{
+    color: #eee;
+}
+.container input{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    padding: 5px;
+    margin-left: 5px;
+    color: #9024b4;
+}
+.container input::placeholder {
+    color: #9024b4;
+}
+.container .col-sm-4{
+    text-align: right;
+}

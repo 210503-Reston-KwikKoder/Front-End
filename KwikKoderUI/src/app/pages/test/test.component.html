@@ -4,24 +4,24 @@
             <div class="info-box span-align">
                 <span class="info-text">Current Category</span>
                 <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
-            </div>            
+            </div>
         </div>
         <div *ngIf="testmat.author" class="col-md-2">
             <div class="info-box span-align">
                 <span class="info-text">Author</span>
-                <span class="info-value-author">{{testmat.author}}</span>
+                <span class="info-value-author" id="author">{{testmat.author}}</span>
             </div>
         </div>
         <div class="col-md-2">
             <div class="info-box span-align">
                 <span class="info-text">Errors</span>
-                <span class="info-value">{{ state.errors }}</span>
+                <span class="info-value" id="errors">{{state.errors }}</span>
             </div>
         </div>
         <div class="col-md-2">
             <div class="info-box span-align">
                 <span class="info-text">Wpm</span>
-                <span class="info-value">{{wpm}}</span>
+                <span class="info-value" id="wpm">{{wpm}}</span>
             </div>
         </div>
         <div class="col-md-2">
@@ -34,10 +34,14 @@
 </div>
 
 <div class="container input-form">
-    <div tabindex="0" (click)= "focusInputArea" (keydown)="keyIntercept($event)" class="text-light info-box p-4" ><span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span></div>
+    <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="keyIntercept($event)" class="text-light info-box p-4" style="background-color: #f9f2f4;">
+            <code data-language="html">
+                <span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span>
+            </code>
+    </div>
     <button class="btn kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
     <div *ngIf="state.finished">
-        <h1>{{result.text}}</h1>
+        <h1 id="result">{{result.text}}</h1>
         <img src = 'assets/images/{{result.image}}.jpg'>
     </div>
 </div>

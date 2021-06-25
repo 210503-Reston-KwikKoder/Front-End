@@ -3,15 +3,9 @@ import { AuthService } from '@auth0/auth0-angular';
 import { State } from 'src/Models/state';
 import { TestMaterial } from 'src/Models/TestMaterial';
 import { RestService } from 'src/Services/rest.service';
-
-import { Usermodel } from 'src/Models/UserModel';
-import { AppComponent } from 'src/app/app.component';
 import { TestModel } from 'src/Models/TestModel';
-
-import { LangSelectComponent } from 'src/app/components/lang-select/lang-select.component';
 import { Language } from 'src/Models/LanguageEnum';
 import {Router} from "@angular/router";
-//import { Interface } from 'readline';
 import { templateJitUrl } from '@angular/compiler';
 import { ResultModel } from 'src/Models/ResultModel';
 
@@ -21,32 +15,9 @@ import { ResultModel } from 'src/Models/ResultModel';
   styleUrls: ['./test.component.css']
 })
 export class TestComponent implements OnInit {
-  
-  
-  langSelected(event: number){
-    this.category = event;
-    this.newTest()
-  }
 
-  constructor(public auth: AuthService, private api: RestService, private router:Router) { }
-
-  ngOnInit(): void{
-    this.result = {
-      text : "Keep working at typing!",
-      image :"slow"
-    };
-    this.category = -1;
-    this.newTest();
-    document.documentElement.addEventListener('keydown', function (e) {
-      if ( ( e.key) == " ") {
-          e.preventDefault();
-      }
-    }, false);
-    
-  }
-
+  /*# variables declare at the top */
   testmat: TestMaterial = {author: '', content: '', length: 0,catagoryId: 0};
-
   state: State;
   timeTaken: number;
   wpm: number;
@@ -58,7 +29,29 @@ export class TestComponent implements OnInit {
   seconds: number = 0;
   minutes: number = 0;
   result : ResultModel;
-  
+  intervalId: any;
+
+  constructor(public auth: AuthService, private api: RestService, private router:Router) { }
+
+  ngOnInit(): void{
+    this.result = {
+      text : "Keep working at typing!",
+      image :"slow"
+    };
+    this.category = -1;
+    this.newTest();
+    document.documentElement.addEventListener('keydown', function (e) {
+      if (( e.key) == " ") {
+          e.preventDefault();
+      }
+    }, false);
+  }
+
+  langSelected(event: number){
+    this.category = event;
+    this.newTest()
+  }
+
   newTest(): void{
     let id : number = this.category
     this.categoryName = Language[id]
@@ -102,7 +95,7 @@ export class TestComponent implements OnInit {
           if(lines > 500){
             this.state.wordarray = this.state.wordarray.slice(0, index);
           }
-        }  
+        }
       })
   }
 
@@ -112,13 +105,12 @@ export class TestComponent implements OnInit {
     }else{
       return true;
     }
-  } 
+  }
 
-  
   wordsPerMinute (charsTyped: number, ms: number): number {
     return ((charsTyped / 5) / (ms / 60000))
-  }  
-  
+  }
+
   onWordChange(event: KeyboardEvent): void {
     if(this.state.finished){
       return
@@ -136,7 +128,8 @@ export class TestComponent implements OnInit {
     }
 
     if(e == expectedLetter){
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
+      //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.9";
       this.state.correctchars +=1;
       this.state.letterPosition+=1;    
     }
@@ -154,51 +147,56 @@ export class TestComponent implements OnInit {
         this.state.errors+=1;
       }
     }
-  
+
     if(this.checkIfFinished()){
       return
     }
     if(this.state.wordarray[this.state.letterPosition]=="\n"){
       //display enter prompt
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
-    }    
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
+    }
+    //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
-      this.onWordChange(event)
-
-  } 
-    
-  focusInputArea(): void{
-    console.log("giving focus")
-    document.getElementById("input-area").focus()
+    console.log('intercepting key strokes', event);
+    this.onWordChange(event)
   }
+
+  focusInputArea(): void{
+    console.log("giving focus");
+    document.getElementById("input-area").focus();
+  }
+
   checkIfFinished(): boolean {
-    
-    let numletters = this.state.wordarray.length-1   
+    let numletters = this.state.wordarray.length-1
 
     const wpm = this.wordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
 
     //check if words are done
-    if(this.state.letterPosition >= this.state.wordarray.length){ 
+    if(this.state.letterPosition >= this.state.wordarray.length){
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
-      this.timeTaken = timeMillis;     
-      console.log("#errors", this.state.errors)
+      this.timeTaken = timeMillis;
+      console.log("#errors", this.state.errors);
+
+      //stop timer and flip the flag
+      clearInterval(this.intervalId);
       this.state.finished = true;
-      this.submitResults()
-      return true
-    
+      //submit result to the server
+      this.submitResults();
+      return true;
+
     }
+    //did we run out of time instead?
     if(this.timerFinished){
-      const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
-      this.timeTaken = timeMillis;     
-      console.log("#errors", this.state.errors)
+      const timeMillis: number = new Date().getTime() - this.state.startTime.getTime();
+      this.timeTaken = timeMillis;
+      console.log("#errors", this.state.errors);
       this.state.finished = true;
-      this.submitResults()
-      return true
+      this.submitResults();
+      return true;
     }
 
     return false;
@@ -228,7 +226,6 @@ export class TestComponent implements OnInit {
       this.result.text= "You're a programming genius!";
       this.result.image = "pro";
     }
-    //this.router.navigate(['./resultimage',this.wpm]).then();
   }
 
   pad(num: number) {
@@ -239,7 +236,7 @@ export class TestComponent implements OnInit {
   startTimer() {
     this.minutes = 1
     this.seconds = 0 // choose whatever you want
-    let intervalId = setInterval(() => {
+    this.intervalId = setInterval(() => {
       if (this.seconds - 1 == -1) {
         this.minutes -= 1;
         this.seconds = 59;
@@ -247,7 +244,7 @@ export class TestComponent implements OnInit {
       else this.seconds -= 1;
       if (this.minutes === 0 && this.seconds == 0) {
         this.timerFinished = true;
-        clearInterval(intervalId);
+        clearInterval(this.intervalId);
         this.checkIfFinished();
       }
       }, 1000);
