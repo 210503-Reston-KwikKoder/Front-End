@@ -10,7 +10,6 @@
     "server": "json-server --watch src/assets/MockData/userDB.json",
     "build:ci": "ng build --prod --sourceMap=false --base-href /Front-End/",
     "test:ci": "ng test --browsers ChromeHeadlessNoSandbox --watch=false --code-coverage --source-map true --karmaConfig karma.conf.js"
-
   },
   "private": true,
   "dependencies": {
@@ -34,7 +33,7 @@
     "bootstrap": "^5.0.1",
     "jquery": "^3.6.0",
     "json-server": "^0.16.3",
-    "ngx-bootstrap": "^6.2.0",
+    "rainbow-code": "^2.1.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

@@ -12,6 +12,10 @@ import { CompetitionTestComponent } from './pages/competition-test/competition-t
 import { CreateCompetitionComponent } from './create-competition/create-competition.component';
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component'; 
 
+/*
+//Routes to out page components
+//Please utilize this page for page navigation
+*/
 const routes: Routes = [
   {
     path: '',

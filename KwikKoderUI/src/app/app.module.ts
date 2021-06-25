@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -16,13 +16,11 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { TestComponent } from './pages/test/test.component';
 import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
 import { ViewCompetitionsComponent } from './pages/view-competitions/view-competitions.component';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LangSelectComponent } from './components/lang-select/lang-select.component';
 import { CompetitionTestComponent } from './pages/competition-test/competition-test.component';
 import { CreateCompetitionComponent } from './create-competition/create-competition.component';
@@ -30,8 +28,7 @@ import { DisplayPercentPipe } from './pipes/display-percent.pipe';
 import { DisplayDatePipe } from './pipes/display-date.pipe';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { DisplayCategoryPipe } from './pipes/display-category.pipe'; 
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
@@ -40,7 +37,15 @@ import { ProgressGraphComponent } from './components/progress-graph/progress-gra
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 
+//Loader Material UI
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
+
+// material components
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -69,13 +74,16 @@ import { DatePipe } from '@angular/common';
     ProgressGraphComponent,
   ],
   imports: [
-    NgbModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule,
+    MatProgressBarModule,
     HttpClientModule,
     MatTabsModule,
+    MatSidenavModule,
+    MatSnackBarModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    MatSnackBarModule,
     FontAwesomeModule,
     AuthModule.forRoot({
       domain: env.auth.domain,
@@ -164,8 +172,7 @@ import { DatePipe } from '@angular/common';
             }
         ]
       }
-    }),
-    BrowserAnimationsModule
+    })
   ],
   providers: [
     DatePipe,

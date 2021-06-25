@@ -6,7 +6,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { RestService } from './rest.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { ɵɵsetComponentScope } from '@angular/core';
-import { regExpEscape } from '@ng-bootstrap/ng-bootstrap/util/util';
+// import { regExpEscape } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { environment} from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
@@ -31,7 +31,7 @@ describe('RestService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });  
-   
+  
     it('getUserStats should return', () =>{
       const userStats = [{username : "A",
         userID: "1",
@@ -48,12 +48,11 @@ describe('RestService', () => {
         expect(req.request.method).toEqual("GET");
         req.flush(userStats);
         httpTestingController.verify();
-     });
+    });
   
-  // });
   });
   
- /* describe('#getUserStats', () =>{
+  /* describe('#getUserStats', () =>{
     let expectedURL = `${environment.dev.serverUrl}api/UserStat/all`;
     let expectedStats: StatModel[] = [];
     /*const http = {
