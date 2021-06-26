@@ -5,14 +5,11 @@ metadata:
   namespace: kwikkoder
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    # to use regex on my paths
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    # also something about the path, rewriting the target, modifying the url
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # register cert issuer
+    nginx.ingress.kubernetes.io/use-regex: "true"
     cert-manager.io/cluster-issuer: letsencrypt
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"   
+    # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   tls:
   - hosts:
