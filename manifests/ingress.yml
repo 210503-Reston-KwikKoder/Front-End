@@ -19,7 +19,7 @@ spec:
     - www.kwikkoder.com
     secretName: tls-secret
   rules:
-  - host: www.kwickkoder.com
+  - host: www.kwikkoder.com
     http:
       paths:
         - path: /?(.*)
