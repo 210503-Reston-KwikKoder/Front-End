@@ -16,10 +16,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - www.kwikkoder.com
+    - kwikkoder-ingress.www.kwikkoder.com
     secretName: tls-secret
   rules:
-  - host: www.kwikkoder.com
+  - host: kwikkoder-ingress.www.kwikkoder.com
     http:
       paths:
         - path: /?(.*)
