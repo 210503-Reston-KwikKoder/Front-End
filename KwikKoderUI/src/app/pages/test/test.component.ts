@@ -52,6 +52,12 @@ export class TestComponent implements OnInit {
     this.newTest()
   }
 
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   newTest(): void{
     let id : number = this.category
     this.categoryName = Language[id]
@@ -87,19 +93,20 @@ export class TestComponent implements OnInit {
         this.state.wordarray = this.state.words.split('');
         this.state.wordarray= this.state.wordarray.filter(this.isBadChar);
 
-        let lines = 0;
-        //limit to 50 new line chars
-        for (let index = 0; index < this.state.wordarray.length; index++) {
-          const element = this.state.wordarray[index];
-          if(element == "\n"){
-            lines++;
-          }
-          if(lines > 50){
-            this.state.wordarray = this.state.wordarray.slice(0, index);
-          }
+        let lineIndicies = [];
+        for(let i = 0; i < this.state.wordarray.length; i++) {
+          if(this.state.wordarray[i] === "\n") lineIndicies.push(i);
+        }
+        //limit to 30 new line chars
+        if(lineIndicies.length > 30) {
+          let maxNum = lineIndicies.length - 30;
+          let randomStart = this.getRandomInt(0, maxNum);
+          this.state.wordarray = this.state.wordarray.slice(lineIndicies[randomStart] + 1, lineIndicies[randomStart + 30]);
         }
       })
   }
+
+  
 
   isBadChar(element: string, index: number, array: any) {
     if((element == "\r") || (element == "\t")){

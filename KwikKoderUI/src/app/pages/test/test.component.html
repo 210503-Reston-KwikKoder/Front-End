@@ -35,7 +35,7 @@
 
 <div class="container input-form">
     <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="keyIntercept($event)" class="text-light p-4">
-        <pre><code [highlight]="testmat.content"></code></pre>    
+        <pre><code><span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span></code></pre>    
     </div>
     <button class="btn kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
     <div *ngIf="state.finished">
@@ -44,4 +44,3 @@
     </div>
 </div>
 
-<!-- <span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span> -->
