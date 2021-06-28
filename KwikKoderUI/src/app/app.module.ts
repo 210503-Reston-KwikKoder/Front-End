@@ -44,7 +44,6 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-
 // material components
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -54,6 +53,8 @@ import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
 
 
 const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+//syntax highligher
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+    HighlightModule,
     AuthModule.forRoot({
       domain: env.auth.domain,
       clientId: env.auth.clientId,
@@ -184,11 +186,17 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     SocketIoModule.forRoot(config),
   ],
   providers: [
-    DatePipe,
+      DatePipe,
       {
         provide: HTTP_INTERCEPTORS,
         useClass: AuthHttpInterceptor,
         multi: true,
+      },
+      {
+        provide: HIGHLIGHT_OPTIONS,
+        useValue: {
+          fullLibraryLoader: () => import('highlight.js'),
+        }
       }
     ],
   bootstrap: [AppComponent]

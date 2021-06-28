@@ -59,6 +59,16 @@
 
 #input-area {
     font-size: medium;
+    text-align: left;
+    border-radius: 5px;
+    margin-bottom: 1em;
+}
+
+pre {
+    border: none;
+    background-color: inherit;
+    padding: 0;
+    margin: 0;
 }
 
 #input-area:focus {

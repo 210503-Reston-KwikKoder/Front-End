@@ -5,7 +5,7 @@ import { TestMaterial } from 'src/Models/TestMaterial';
 import { RestService } from 'src/Services/rest.service';
 import { TestModel } from 'src/Models/TestModel';
 import { Language } from 'src/Models/LanguageEnum';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 import { templateJitUrl } from '@angular/compiler';
 import { ResultModel } from 'src/Models/ResultModel';
 
@@ -75,9 +75,11 @@ export class TestComponent implements OnInit {
     }
     this.expectSpace = false
     this.skip = false
+    clearInterval(this.intervalId);
     //get content to type
     this.api.getTestContentByCatagoryId(id).then(
       (obj)=> {
+        // Rainbow.color();
         this.testmat = obj;
         //this.testmat.content= obj.content;
         //this.testmat.author = obj.author;
@@ -86,13 +88,13 @@ export class TestComponent implements OnInit {
         this.state.wordarray= this.state.wordarray.filter(this.isBadChar);
 
         let lines = 0;
-        //limit to 500 new line chars
+        //limit to 50 new line chars
         for (let index = 0; index < this.state.wordarray.length; index++) {
           const element = this.state.wordarray[index];
           if(element == "\n"){
             lines++;
           }
-          if(lines > 500){
+          if(lines > 50){
             this.state.wordarray = this.state.wordarray.slice(0, index);
           }
         }
@@ -165,7 +167,7 @@ export class TestComponent implements OnInit {
   }
 
   focusInputArea(): void{
-    console.log("giving focus");
+    console.log("giving focus", document.getElementById("input-area"));
     document.getElementById("input-area").focus();
   }
 
