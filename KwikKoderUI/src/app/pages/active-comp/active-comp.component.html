@@ -2,14 +2,14 @@
 <div class="container" id="comp-room">
     <div class="row">
         <div class="col-md-3" id="que">
-            <button mat-raised-button color="primary">Join</button>
+            <app-que [roomId]="roomId"></app-que>
         </div>
         <div class="col-md-6" id="comp-arena">
             <div id="prompt-box">
 
             </div>
             <div class="player-test-view">
-                
+                <app-player-test-area></app-player-test-area>
             </div>
         </div>
         <div class="col-md-3" id="chat">

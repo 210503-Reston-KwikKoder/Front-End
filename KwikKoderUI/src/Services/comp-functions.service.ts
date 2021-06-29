@@ -1,21 +1,22 @@
+import { Injectable } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { State } from 'src/Models/state';
-import { RestService } from 'src/Services/rest.service';
-import { Subscription } from 'rxjs';
-import { CompetitionContent } from 'src/Models/CompetitionContentModel';
-import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
+import { State } from '../Models/state';
+import { RestService } from '../Services/rest.service';
+import { of, Subscription } from 'rxjs';
+import { CompetitionContent } from '../Models/CompetitionContentModel';
+import { CompetitionTestResults } from '../Models/CompetitionTestResults';
 
-@Component({
-  selector: 'app-competition-test',
-  templateUrl: './competition-test.component.html',
-  styleUrls: ['./competition-test.component.css']
+@Injectable({
+  providedIn: 'root'
 })
+export class CompFunctionsService {
 
-export class CompetitionTestComponent implements OnInit {
+  constructor(
+    private api: RestService
+  ) { }
 
-  /*# variables declare at the top */
   testmat: CompetitionContent = null;
   state: State;
   timeTaken: number;
@@ -26,43 +27,6 @@ export class CompetitionTestComponent implements OnInit {
   sub: Subscription;
   compId: number;
   author: string;
-
-  constructor(public auth: AuthService, private api: RestService, private route: ActivatedRoute,private router: Router) { }
-
-  ngOnInit(): void{
-    //place for category
-    this.sub = this.route.params.subscribe(params => {
-      if (params) {
-        this.compId = +params['id'];
-        this.newTest();
-      } else {
-        console.log("check params: " + params)
-      }
-    });
-    document.documentElement.addEventListener('keydown', function (e) {
-      if ((e.key) == " ") {
-          e.preventDefault();
-      } else {
-        console.log("check event: " + e);
-      }
-  }, false);
-
-  }
-
-  // does this do anything?
-  langSelected(event: number){
-    if (event) {
-      this.category = event;
-      this.newTest()
-    } else {
-      console.log("check event: " + event);
-    }
-  }
-  // 
-
-  ngOnDestroy() {
-    if (this.sub.closed == false) this.sub.unsubscribe();
-  }
 
   newTest(): void{
     this.wpm = 0;
@@ -95,12 +59,12 @@ export class CompetitionTestComponent implements OnInit {
               this.state.words = obj.testString
               //this.state.words = this.testmat.testString;
               this.state.wordarray = this.state.words.split('');
-              this.state.wordarray= this.state.wordarray.filter(this.isBadChar)
+              this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar)
             }
     )
   }
 
-  isBadChar(element: string, index: number, array: any) {
+  checkIsBadChar(element: string, index: number, array: any) {
     if((element == "\r") || (element == "\t")){
       return false
     }else{
@@ -108,7 +72,7 @@ export class CompetitionTestComponent implements OnInit {
     }
   }
 
-  wordsPerMinute (charsTyped: number, ms: number): number {
+  calcWordsPerMinute (charsTyped: number, ms: number): number {
     let result: number;
     if (charsTyped || ms) {
       result = (charsTyped / 5) / (ms / 60000);
@@ -155,24 +119,10 @@ export class CompetitionTestComponent implements OnInit {
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
-  keyIntercept(event: KeyboardEvent): void{
-    //check for special keycodes if needed
-    if (event){
-      this.onWordChange(event)
-    } else {
-      console.log("check event: " + event);
-    }
-  }
-
-  focusInputArea(): void{
-    console.log("giving focus")
-    document.getElementById("input-area").focus()
-  }
-
   checkIfFinished(): boolean {
     let numletters = this.state.wordarray.length-1
 
-    const wpm = this.wordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
+    const wpm = this.calcWordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
 
     //check if words are done
@@ -182,30 +132,16 @@ export class CompetitionTestComponent implements OnInit {
 
       console.log("#errors", this.state.errors)
       this.state.finished = true;
-      this.submitResults()
+
+      
       return true
     }
     return false;
   }
 
-  submitResults(){
-    console.log("posting test results")
-    let model: CompetitionTestResults = {
-      categoryId:this.category,
-      compId: this.compId,
-      numberofcharacters : this.state.wordarray.length,
-      numberoferrors: this.state.errors,
-      timetakenms : this.timeTaken,
-      wpm: this.wpm,
-      date: new Date()
-    }
-    console.log(model)
-    if (model){
-      this.api.postCompetitionResults(model);
-    } else {
-      console.log("check model: " + model);
-    }
-    this.router.navigate(['./CompetitionResult/',this.compId]).then();
+  observeIfCompFinished(){
+    const isFinished = of(this.state.finished)
+    return isFinished
   }
-
+  
 }

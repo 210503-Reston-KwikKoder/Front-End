@@ -50,6 +50,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
+import { QueComponent } from './components/que/que.component';
 
 
 
@@ -80,6 +82,8 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
     DisplayTimePipe,
     ProgressGraphComponent,
     ActiveCompComponent,
+    PlayerTestAreaComponent,
+    QueComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
