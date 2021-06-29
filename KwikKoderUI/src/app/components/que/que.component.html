@@ -1,0 +1,6 @@
+<div class="queDiv">
+    <div id="queue-name-display">
+        <p class="que-user" ngFor="let name of orderedNamesInQueue" >{{name}}</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="addUserToQueue()">Join</button>
+</div>
