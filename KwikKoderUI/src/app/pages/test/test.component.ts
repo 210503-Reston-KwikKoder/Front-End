@@ -128,9 +128,12 @@ export class TestComponent implements OnInit {
       this.state.startTime = new Date()
       this.startTimer()
     }
-    let expectedLetter = this.state.wordarray[this.state.letterPosition]
+    let expectedLetter = this.state.wordarray[this.state.letterPosition];
 
-
+    
+    if(e == "Enter"){
+      e="\n"
+    }
 
     if(e == expectedLetter){
       //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
@@ -139,9 +142,6 @@ export class TestComponent implements OnInit {
       this.state.correctchars +=1;
       this.state.letterPosition+=1;
       this.ShowCaret();
-    }
-    else if(e == "Enter"){
-      e="\n"
     }
     else if(e == "Backspace"){
       //e="";
@@ -159,6 +159,7 @@ export class TestComponent implements OnInit {
         this.state.errors+=1;
       }
     }
+
 
     if(this.checkIfFinished()){
       return
