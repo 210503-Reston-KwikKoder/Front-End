@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { RestService } from 'src/Services/rest.service';
 import { StatModel } from 'src/Models/StatModel';
@@ -11,7 +11,8 @@ import { ProgressGraphComponent } from 'src/app/components/progress-graph/progre
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProfileComponent implements OnInit {
   username: string = '';

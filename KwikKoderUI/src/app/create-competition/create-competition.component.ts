@@ -67,7 +67,7 @@ export class CreateCompetitionComponent implements OnInit {
       })
   }
   CreateCompetition(): void{
-   
+
     
     this.realEndDate = new Date(this.endDate);
     this.realStartDate = new Date(this.startDate);
@@ -76,7 +76,6 @@ export class CreateCompetitionComponent implements OnInit {
     console.log( this.realStartDate)
     console.log(this.realEndDate)
     
-   
     this.UserName = new UserNameModel;
 
     this.api.getloggedInUser().then(user => {this.UserName = user
@@ -109,10 +108,6 @@ export class CreateCompetitionComponent implements OnInit {
       this.router.navigate(['./competitions']).then();
       }
     );   
-   }
+}
 
-   
-
-
-   
 }

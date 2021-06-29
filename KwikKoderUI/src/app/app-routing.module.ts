@@ -10,7 +10,8 @@ import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component'
 import { ViewCompetitionsComponent } from './pages/view-competitions/view-competitions.component';
 import { CompetitionTestComponent } from './pages/competition-test/competition-test.component';
 import { CreateCompetitionComponent } from './create-competition/create-competition.component';
-import { CompetitionResultComponent } from './pages/competition-result/competition-result.component'; 
+import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
+import { ActiveCompComponent } from './pages/active-comp/active-comp.component'; 
 
 /*
 //Routes to out page components
@@ -53,6 +54,10 @@ const routes: Routes = [
   {
     path: 'CompetitionResult/:compId',
     component: CompetitionResultComponent
+  },
+  {
+    path: 'ActiveCompetition/:compId',
+    component: ActiveCompComponent
   }
   
 
