@@ -56,15 +56,12 @@ import { PlayerTestAreaComponent } from './components/player-test-area/player-te
 import { QueComponent } from './components/que/que.component';
 
 
-<<<<<<< HEAD
 
-const config: SocketIoConfig = { url: 'http://20.69.69.228/api/chat-api/',
+const config: SocketIoConfig = { url: 'http://kwikkoder.com/chat-api/',
  options: {} };
-=======
 //syntax highligher
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
->>>>>>> 15ff434bad1816f63b6dba092962a15696183e92
+
 
 @NgModule({
   declarations: [

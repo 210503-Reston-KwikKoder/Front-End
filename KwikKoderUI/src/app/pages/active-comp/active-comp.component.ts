@@ -72,18 +72,20 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   focusInputArea(): void{
-    document.getElementById("input-area").focus()
+    document.getElementById("input-area").focus();
   }
 
   ngOnInit(): void {
-    this.joinSocketRoom()
-    this.SetMessageWatch()
+    this.joinSocketRoom();
+    this.SetMessageWatch();
+    this.comp.newTest();
     document.documentElement.addEventListener('keydown', function (e) {
       if ( ( e.key) == " ") {
           e.preventDefault();
       }
     }, false);
   }
+
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
