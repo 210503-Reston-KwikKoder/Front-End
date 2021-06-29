@@ -54,7 +54,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     .getMessages()
     .subscribe((message: any) => {
       this.messageList.push(message);
-    });
+    })
   }
 
   

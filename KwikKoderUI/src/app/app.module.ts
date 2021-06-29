@@ -55,7 +55,8 @@ import { QueComponent } from './components/que/que.component';
 
 
 
-const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
+const config: SocketIoConfig = { url: 'http://20.69.69.228/api/chat-api/',
+ options: {} };
 
 @NgModule({
   declarations: [

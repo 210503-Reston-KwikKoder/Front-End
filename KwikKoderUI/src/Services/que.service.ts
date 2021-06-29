@@ -15,19 +15,19 @@ export class QueService {
   ) { }
 
   addUserToQueue(roomId){
-    return this.http.post(`${env.dev.serverUrl}api/TypeTest`, roomId).toPromise()
+    return this.http.put(`${env.dev.serverUrl}api/LCQ`, roomId).toPromise()
   }
 
   removeUserFromQueue(roomId){
-    return this.http.delete(`${env.dev.serverUrl}api/`, roomId).toPromise()
+    return this.http.delete(`${env.dev.serverUrl}api/LCQ/whatever/${roomId}`).toPromise()
   }
 
   getQueueUserNames(roomId){
-    return this.http.get(`${env.dev.serverUrl}api/`).toPromise()
+    return this.http.get(`${env.dev.serverUrl}api/LCQ/whatever/${roomId}`).toPromise()
   }
 
   getnextInLine(roomId){
-    return this.http.get(`${env.dev.serverUrl}`)
+    return this.http.delete(`${env.dev.serverUrl}api/LCQ/whatever/${roomId}`, ).toPromise()
   }
 
   alertQueueChangeToSocket(roomId){
