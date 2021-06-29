@@ -37,16 +37,25 @@ import { ProgressGraphComponent } from './components/progress-graph/progress-gra
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 
-//Loader Material UI
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+// Node Modules
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 
-// material components
+// material UI components
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
+import { QueComponent } from './components/que/que.component';
 
+
+
+const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
 
 @NgModule({
   declarations: [
@@ -72,15 +81,20 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     CompetitionResultComponent,
     DisplayTimePipe,
     ProgressGraphComponent,
+    ActiveCompComponent,
+    PlayerTestAreaComponent,
+    QueComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
     HttpClientModule,
+    MatFormFieldModule,
     MatTabsModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatButtonModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
@@ -172,7 +186,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
             }
         ]
       }
-    })
+    }),
+    SocketIoModule.forRoot(config),
   ],
   providers: [
     DatePipe,
