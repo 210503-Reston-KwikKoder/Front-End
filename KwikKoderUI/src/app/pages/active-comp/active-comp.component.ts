@@ -24,7 +24,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     private queue: QueService
     ) {
       this.roomId = this.route.snapshot.paramMap.get('compId')
-     }
+    }
 
   joinSocketRoom(){
     console.log(this.roomId)
