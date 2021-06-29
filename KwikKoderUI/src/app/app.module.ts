@@ -40,23 +40,31 @@ import { DatePipe } from '@angular/common';
 // Node Modules
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
+//Loader Material UI
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 
 // material UI components
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
 import { QueComponent } from './components/que/que.component';
 
 
+<<<<<<< HEAD
 
 const config: SocketIoConfig = { url: 'http://20.69.69.228/api/chat-api/',
  options: {} };
+=======
+//syntax highligher
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
+>>>>>>> 15ff434bad1816f63b6dba092962a15696183e92
 
 @NgModule({
   declarations: [
@@ -100,6 +108,7 @@ const config: SocketIoConfig = { url: 'http://20.69.69.228/api/chat-api/',
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
+    HighlightModule,
     AuthModule.forRoot({
       domain: env.auth.domain,
       clientId: env.auth.clientId,
@@ -191,11 +200,17 @@ const config: SocketIoConfig = { url: 'http://20.69.69.228/api/chat-api/',
     SocketIoModule.forRoot(config),
   ],
   providers: [
-    DatePipe,
+      DatePipe,
       {
         provide: HTTP_INTERCEPTORS,
         useClass: AuthHttpInterceptor,
         multi: true,
+      },
+      {
+        provide: HIGHLIGHT_OPTIONS,
+        useValue: {
+          fullLibraryLoader: () => import('highlight.js'),
+        }
       }
     ],
   bootstrap: [AppComponent]
