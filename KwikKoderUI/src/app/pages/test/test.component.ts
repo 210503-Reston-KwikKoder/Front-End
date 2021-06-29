@@ -140,15 +140,19 @@ export class TestComponent implements OnInit {
     }
     else if(e == "Backspace"){
       //e="";
+      this.HideCaret();
       this.state.letterPosition-=1; 
+      this.ShowCaret();
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";
     }
     else if(e == "Shift"){
     }
     else{
+      this.HideCaret();
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "red";
       this.state.letterPosition+=1;
+      this.ShowCaret();
       var inp = String.fromCharCode(event.keyCode);
       if (/[a-zA-Z0-9-_ ]/.test(inp)){
         this.state.errors+=1;
