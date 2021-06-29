@@ -85,10 +85,7 @@ export class TestComponent implements OnInit {
     //get content to type
     this.api.getTestContentByCatagoryId(id).then(
       (obj)=> {
-        // Rainbow.color();
         this.testmat = obj;
-        //this.testmat.content= obj.content;
-        //this.testmat.author = obj.author;
         this.state.words = this.testmat.content;
         this.state.wordarray = this.state.words.split('');
         this.state.wordarray= this.state.wordarray.filter(this.isBadChar);
