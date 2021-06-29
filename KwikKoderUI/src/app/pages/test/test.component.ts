@@ -130,12 +130,10 @@ export class TestComponent implements OnInit {
     if(e == expectedLetter){
       //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.3";
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "transparent";
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "transparent";
+      this.HideCaret();
       this.state.correctchars +=1;
       this.state.letterPosition+=1;
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow"; 
+      this.ShowCaret();
     }
     else if(e == "Enter"){
       e="\n"
@@ -144,7 +142,7 @@ export class TestComponent implements OnInit {
       //e="";
       this.state.letterPosition-=1; 
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f"
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";
     }
     else if(e == "Shift"){
     }
@@ -176,9 +174,8 @@ export class TestComponent implements OnInit {
   focusInputArea(): void{
     console.log("giving focus", document.getElementById("input-area"));
     document.getElementById("input-area").focus();
-
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
+    this.ShowCaret();
+    
   }
 
   checkIfFinished(): boolean {
@@ -261,4 +258,14 @@ export class TestComponent implements OnInit {
       }
       }, 1000);
   }
+
+  ShowCaret(){
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
+  }
+  HideCaret(){
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "transparent";
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "transparent";
+  }
 }
+
