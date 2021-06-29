@@ -1,31 +1,26 @@
 <div class="container">
-    <div class="col-md-3">
+    <div class="">
         <div class="info-box span-align">
             <span class="info-text">Current Category</span>
             <span class="info-value" id="category">{{category | displayCategory}}</span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="">
         <div class="info-box span-align">
             <span class="info-text">Author</span>
             <span class="info-value-author" id="author">{{author}}</span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="">
         <div class="info-box span-align">
             <span class="info-text">Errors</span>
             <span class="info-value" id="errors">{{ state.errors }}</span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="">
         <div class="info-box span-align">
             <span class="info-text">Wpm</span>
             <span class="info-value" id="wpm">{{wpm}}</span>
         </div>
     </div>
-</div>
-<div class="container input-form">
-        <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="keyIntercept($event)" style="background-color: #f9f2f4;" class="info-box p-4" >
-            <code data-language="html"><span *ngFor="let t of state.wordarray; index as i"[attr.id]="'char-'+i">{{t}}</span></code>
-        </div>
 </div>

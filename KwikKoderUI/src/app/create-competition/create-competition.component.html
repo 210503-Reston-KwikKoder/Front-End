@@ -1,39 +1,41 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2"></div>
-        <div class="col-2">
-            <div>Competition Name</div>
+<div class="container">
+    <div class="form-group">
+        <label for="exampleInputPassword1" class="col-md-2">Competition Name :</label>
+        <div class="col-md-10">
             <input type="text" class="form-control" placeholder="Enter competition name" [(ngModel)]= "name">
         </div>
-        <div class="col-2">
-            <label for="comp-start">Competition start:</label><br>
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="comp-start" class="col-md-2">Competition start :</label>
+        <div class="col-md-10">
             <input type="datetime-local" class="form-control" id="comp-start"
-            name="comp-start" [(ngModel)]="startDate" max="{{endDate}}">
+                name="comp-start" [(ngModel)]="startDate" max="{{endDate}}">
         </div>
-        <div class="col-2">
-            <label for="comp-end">Competition end:</label><br>
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="comp-end" class="col-md-2">Competition end :</label>
+        <div class="col-md-10">
             <input type="datetime-local" class="form-control" id="comp-end"
             name="comp-end" [(ngModel)]="endDate" min="{{startDate}}">
         </div>
-        <div class="col-3">
-            <div>Category</div>
-            <app-lang-select (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
-            <button class="btn btn-light kwik-btn" (click)="newSnippet()">New Snippet</button>
-            <button class="btn btn-light kwik-btn" type="button" value="create" (click)="CreateCompetition()">Create</button>{{compId}}
-            <div *ngIf="compId">
+    </div>
+    <div class="form-group">
+        <label for="comp-end">Category</label>
+        <app-lang-select (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+        <button class="kwik-btn" (click)="newSnippet()">New Snippet</button>
+        <button class="kwik-btn" type="button" value="create" (click)="CreateCompetition()">Create</button>{{compId}}
+        <div *ngIf="compId">
             <span>Competition Link:</span><a href="https://kwikkoder.azurewebsites.net/CompetitionTest/{{compId}}">https://kwikkoder.azurewebsites.net/CompetitionTest/{{compId}}</a>
         </div>
-        </div>
     </div>
-    <div class="mt-2">
-        <div class="container-fluid input-form">
-            <div class="row">
-                <div class="col-12">
-                    <div>Snippet:</div>
-                    <pre contenteditable="true" [textContent]="snippet" (input)="snippet=$event.target.textContent" class="text-light bg-dark p-1">{{snippet}}</pre>
-                </div>
-            </div>
-        </div>
-    </div>    
 </div>
-
+<div class="container input-form">
+    <h3>Snippet</h3>
+    <div contenteditable="true" id="input-area" [(ngModel)]="snippet" class="info-box p-4">
+        <code data-language="html">
+            {{snippet}}
+        </code>
+    </div>
+</div>

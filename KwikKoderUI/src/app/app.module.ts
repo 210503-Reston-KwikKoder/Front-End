@@ -44,17 +44,21 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-// material components
+
+// material UI components
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
+import { QueComponent } from './components/que/que.component';
 
 
-
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 //syntax highligher
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
 
 @NgModule({
   declarations: [
@@ -81,15 +85,19 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
     DisplayTimePipe,
     ProgressGraphComponent,
     ActiveCompComponent,
+    PlayerTestAreaComponent,
+    QueComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
     HttpClientModule,
+    MatFormFieldModule,
     MatTabsModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatButtonModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,

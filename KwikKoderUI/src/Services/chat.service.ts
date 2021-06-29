@@ -11,12 +11,12 @@ export class ChatService {
   constructor(private socket: Socket) { }
 
   public joinSocketRoom(id: any){
-    this.socket.emit('join-comp-room')
+    this.socket.emit('join-comp-room', id)
   }
 
   public sendMessage(message: any, id: any) {
     console.log("service is emiting new message: "+message)
-    this.socket.emit('new-message', message);
+    this.socket.emit('new-message', message, id);
   }
 
   public getMessages = () => {
