@@ -34,6 +34,10 @@
 </div>
 
 <div class="container input-form" >
+    <div *ngIf="state.finished" class="result">
+        <h1 id="result">{{result.text}}</h1>
+        <img src = 'assets/images/{{result.image}}.jpg'>
+    </div>
     <div class="row" *ngIf="category !== -1">
         <div class="col-xs-6">
             <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="keyIntercept($event)" class="Entry-Box p-4" >
@@ -52,9 +56,6 @@
         </div>
     </div>
     <button class="btn kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
-    <div *ngIf="state.finished">
-        <h1 id="result">{{result.text}}</h1>
-        <img src = 'assets/images/{{result.image}}.jpg'>
-    </div>
+    
 </div>
 

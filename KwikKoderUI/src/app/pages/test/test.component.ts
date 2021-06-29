@@ -136,7 +136,6 @@ export class TestComponent implements OnInit {
     }
 
     if(e == expectedLetter){
-      //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.3";
       this.HideCaret();
       this.state.correctchars +=1;
@@ -168,7 +167,6 @@ export class TestComponent implements OnInit {
       //display enter prompt
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
     }
-    //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
   keyIntercept(event: KeyboardEvent): void{
@@ -191,7 +189,9 @@ export class TestComponent implements OnInit {
     this.wpm = Math.floor(wpm);
 
     //check if words are done
+    console.log('checking for doneness', this.state)
     if(this.state.letterPosition >= this.state.wordarray.length){
+      console.log('tis done');
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
       console.log("#errors", this.state.errors);
@@ -266,6 +266,7 @@ export class TestComponent implements OnInit {
   }
 
   ShowCaret(){
+    if(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement == null) return;
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
   }
