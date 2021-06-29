@@ -67,7 +67,6 @@ export class CreateCompetitionComponent implements OnInit {
       })
   }
   CreateCompetition(): void{
-
     
     this.realEndDate = new Date(this.endDate);
     this.realStartDate = new Date(this.startDate);
