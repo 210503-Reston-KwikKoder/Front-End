@@ -23,8 +23,8 @@
 }
 .hljs{
     overflow-x: hidden; /* Hide horizontal scrollbar */
-    width: 1000px;
-    height: 800px;
+    /* width: 1000px;
+    height: 800px; */
 }
 
 
@@ -41,16 +41,14 @@
 }
 
 .Entry-Box{
-    overflow: scroll;
-    overflow-x: hidden; /* Hide horizontal scrollbar */
     overflow-wrap: normal;
     text-align: center;
     background-color: var(--dark0_soft);
     border-color: var(--dark0_hard);
     border-width: 5px;
     border-radius: 5px;
-    width: 900px;
-    height: 800px;
+    /* width: 900px;
+    height: 800px; */
 }
 .span-align > span{
     padding: 3px 0;
@@ -88,10 +86,21 @@ pre {
     background-color: inherit;
     padding: 0;
     margin: 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 #input-area:focus {
     border-color: rgba(69, 233, 118, 0.8);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgb(43, 255, 0);
     outline: 0 none;
+}
+
+code {
+    text-align: left;
+}
+
+.quote-box {
+    padding: 0.5em;
 }

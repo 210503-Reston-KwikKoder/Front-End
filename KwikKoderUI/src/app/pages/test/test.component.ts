@@ -80,7 +80,8 @@ export class TestComponent implements OnInit {
       correctchars: 0
     }
     this.expectSpace = false
-    this.skip = false
+    this.skip = false;
+    this.state.wordarray = [];
     clearInterval(this.intervalId);
     //get content to type
     this.api.getTestContentByCatagoryId(id).then(
