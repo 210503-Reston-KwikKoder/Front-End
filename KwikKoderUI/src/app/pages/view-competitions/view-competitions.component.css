@@ -1,3 +1,9 @@
 .opac{
     color:white;
 }
+.table{
+    color: #eee;
+}
+.table-hover>tbody>tr:hover{
+    background-image: linear-gradient(#9024b4,#f360a2);
+}

@@ -1,20 +1,30 @@
-mat-tab-group{
+.card_content {
+    padding: 1rem;
+}
+.tab-bar{
     overflow-x: hidden; /* Hide scrollbars */
     font-size: 8px;
     font-family: 'Press Start 2P', cursive;
 }
-mat-tab{
-    color:azure;
+.container{
+    color: #fff !important;
 }
-.info{
-    color: white;
+.mat-tab-label {
+    color: #fff;
+    opacity: 1 !important;
+    font-weight: 700;
 }
-.spacer{
-    width: 100%;
-    height: 150px;
+.profile-picture{
+    text-align: center;
+    background-image: linear-gradient(#9024b4,#f360a2);
+}
+.card_content{
+    text-align: left;
+}
+.profile-picture img{
+    border-radius: 50%;
 }
 .profile-head{
-    color: white;
     font-family: 'Press Start 2P', cursive;
 }
 .profile-head h2 h3 h4{
