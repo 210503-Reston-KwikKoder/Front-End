@@ -129,15 +129,30 @@ export class TestComponent implements OnInit {
     }
     let expectedLetter = this.state.wordarray[this.state.letterPosition]
 
-    if(e == "Enter"){
-      e="\n"
-    }
+
 
     if(e == expectedLetter){
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
+      //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.3";
+      this.HideCaret();
       this.state.correctchars +=1;
       this.state.letterPosition+=1;
-    }else{
+      this.ShowCaret();
+    }
+    else if(e == "Enter"){
+      e="\n"
+    }
+    else if(e == "Backspace"){
+      //e="";
+      this.state.letterPosition-=1; 
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";
+    }
+    else if(e == "Shift"){
+    }
+    else{
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "red";
+      this.state.letterPosition+=1;
       var inp = String.fromCharCode(event.keyCode);
       if (/[a-zA-Z0-9-_ ]/.test(inp)){
         this.state.errors+=1;
@@ -151,7 +166,7 @@ export class TestComponent implements OnInit {
       //display enter prompt
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
     }
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
+    //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
   keyIntercept(event: KeyboardEvent): void{
@@ -163,6 +178,8 @@ export class TestComponent implements OnInit {
   focusInputArea(): void{
     console.log("giving focus", document.getElementById("input-area"));
     document.getElementById("input-area").focus();
+    this.ShowCaret();
+    
   }
 
   checkIfFinished(): boolean {
@@ -245,4 +262,14 @@ export class TestComponent implements OnInit {
       }
       }, 1000);
   }
+
+  ShowCaret(){
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
+  }
+  HideCaret(){
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "transparent";
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "transparent";
+  }
 }
+
