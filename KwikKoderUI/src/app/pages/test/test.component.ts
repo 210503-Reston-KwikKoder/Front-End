@@ -125,19 +125,26 @@ export class TestComponent implements OnInit {
     }
     let expectedLetter = this.state.wordarray[this.state.letterPosition]
 
-    if(e == "Enter"){
-      e="\n"
-    }
+
 
     if(e == expectedLetter){
       //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.9";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.3";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "transparent";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "transparent";
       this.state.correctchars +=1;
-      this.state.letterPosition+=1;    
+      this.state.letterPosition+=1;
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow"; 
+    }
+    else if(e == "Enter"){
+      e="\n"
     }
     else if(e == "Backspace"){
       //e="";
-      this.state.letterPosition-=1;
+      this.state.letterPosition-=1; 
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f"
     }
     else if(e == "Shift"){
     }
@@ -169,6 +176,9 @@ export class TestComponent implements OnInit {
   focusInputArea(): void{
     console.log("giving focus", document.getElementById("input-area"));
     document.getElementById("input-area").focus();
+
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
   }
 
   checkIfFinished(): boolean {
