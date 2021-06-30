@@ -58,6 +58,8 @@ import { QueComponent } from './components/que/que.component';
 
 //syntax highligher
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { ForumComponent } from './pages/forum/forum.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
 
 @NgModule({
@@ -87,6 +89,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
     ActiveCompComponent,
     PlayerTestAreaComponent,
     QueComponent,
+    ForumComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -103,6 +106,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
     AppRoutingModule,
     FontAwesomeModule,
     HighlightModule,
+    EditorModule ,
     AuthModule.forRoot({
       domain: env.auth.domain,
       clientId: env.auth.clientId,
