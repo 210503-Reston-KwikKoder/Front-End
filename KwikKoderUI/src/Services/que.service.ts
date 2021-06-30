@@ -15,7 +15,7 @@ export class QueService {
   ) { }
 
   addUserToQueue(roomId){
-    return this.http.put(`${env.dev.serverUrl}api/LCQ`, roomId).toPromise()
+    return this.http.put(`${env.dev.serverUrl}api/LiveCompetition/${roomId}/LCQ`, roomId).toPromise()
   }
 
   removeUserFromQueue(roomId){

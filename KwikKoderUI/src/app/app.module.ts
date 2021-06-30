@@ -57,8 +57,11 @@ import { QueComponent } from './components/que/que.component';
 
 
 
-const config: SocketIoConfig = { url: 'http://kwikkoder.com/chat-api/',
- options: {} };
+const config: SocketIoConfig = { url: "http://20.69.69.228/chat-api/socket.io/",
+ options: {
+  withCredentials: false,
+  path: "/chat-api/socket.io/",
+ } };
 //syntax highligher
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 
@@ -179,9 +182,22 @@ import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
                 scope: 'read:current_user',
                 //Authorization: `Bearer ${ this.userToken }`
               }
-            },{
+            }
+            ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/Competition/bet/*`,
+              uri: `${env.dev.serverUrl}api/LiveCompetition/{CompId}/LCQ`,
+              httpMethod: "PUT",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            }
+            ,{
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}api/LiveCompetition/{CompId}/LCQ`,
               httpMethod: "PUT",
               tokenOptions: {
                 // The attached token should target this audience
