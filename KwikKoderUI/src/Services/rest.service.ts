@@ -69,6 +69,7 @@ export class RestService {
     );
     return null;
   }
+  // possible bug generation
   getCompetitionContent(id: number):Promise<CompetitionContent>{
     return this.http.get<CompetitionContent>(`${env.dev.serverUrl}competition/api/CompetitonStats/${id}`).toPromise();    
   }

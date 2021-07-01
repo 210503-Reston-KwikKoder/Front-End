@@ -8,7 +8,7 @@ import { QueService } from 'src/Services/que.service';
 })
 export class QueComponent implements OnInit {
   
-  public orderedNamesInQueue: any
+  public orderedUsersInQueue: any
   @Input() roomId
 
   constructor(
@@ -19,7 +19,7 @@ export class QueComponent implements OnInit {
   getQueParticipants(){
     this.queue.getQueueUserNames(this.roomId)
     .then(usersNames => {
-      this.orderedNamesInQueue = usersNames
+      this.orderedUsersInQueue = usersNames
     })
     .catch(err => console.log(err))
   }

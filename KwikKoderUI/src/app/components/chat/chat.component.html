@@ -1,0 +1,9 @@
+<div>
+    <div id="chat-box">
+        <div *ngFor="let mesName of messageList" class="chat-message-div">
+            <p >{{mesName.senderName}}:      {{mesName.message}}</p>
+        </div>
+    </div>
+    <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" />
+    <button (click)="sendMessage()" mat-raised-button color="primary">Send Message</button>
+</div>

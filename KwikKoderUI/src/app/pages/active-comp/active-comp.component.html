@@ -1,31 +1,16 @@
 
 <div class="container" id="comp-room">
     <div class="row">
-        <div class="col-md-3" id="que">
-            <app-que [roomId]="roomId"></app-que>
-        </div>
-        <div class="col-md-6" id="comp-arena">
+        <div class="col-md-9" id="comp-arena">
             <div id="prompt-box">
-
             </div>
             <div class="player-test-view">
-                <app-player-test-area></app-player-test-area>
+                <!-- <app-player-test-area></app-player-test-area> -->
             </div>
         </div>
         <div class="col-md-3" id="chat">
-            <div id="chat-box">
-                <div *ngFor="let message of messageList" class="chat-message-div">
-                    <p >{{message}}</p>
-                </div>
-            </div>
-            <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" (keydown)="log($event)" />
-            <!-- <mat-form-field appearance="outline">
-                <mat-label>Outline form field</mat-label>
-                <input matInput placeholder="message" (ngModel)="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Join the conversation</mat-hint>
-            </mat-form-field> -->
-            <button (click)="sendMessage()" mat-raised-button color="primary">Send Message</button>
+            <app-chat [roomId]="roomId" [userName]="currentUserName"></app-chat>
+            <app-que [roomId]="roomId"></app-que>
         </div>
     </div>
 </div>

@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user$.subscribe(
-      (profile) => (this.profileJson = JSON.stringify(profile, null, 2))
+      (profile) => ( this.profileJson = JSON.stringify(profile, null, 2))
     );
     this.auth.idTokenClaims$.subscribe(
       claims => (console.log(claims))

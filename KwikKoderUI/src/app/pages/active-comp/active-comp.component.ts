@@ -2,9 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ChatService } from 'src/Services/chat.service';
-import { RestService } from 'src/Services/rest.service';
+// import { RestService } from 'src/Services/rest.service';
 import { CompFunctionsService } from 'src/Services/comp-functions.service';
 import { QueService } from 'src/Services/que.service';
+import { LiveCompService } from 'src/Services/live-comp.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-active-comp',
@@ -13,51 +15,38 @@ import { QueService } from 'src/Services/que.service';
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
-  newMessage: string;
-  messageList:  string[] = [];
+  currentUserId: any;
+  currentUserName: any
+  currentChallenger: boolean = false
+  wonLastRound: boolean = false
 
   constructor(
     private chatService: ChatService, 
-    private restService: RestService,
+    // private restService: RestService,
     private route: ActivatedRoute,
-    private comp: CompFunctionsService,
-    private queue: QueService
+    // private comp: CompFunctionsService,
+    private queue: QueService,
+    private liveComp: LiveCompService,
+    public auth: AuthService
     ) {
       this.roomId = this.route.snapshot.paramMap.get('compId')
     }
 
+  // enters the user into the correct room in the socket
   joinSocketRoom(){
-    console.log(this.roomId)
     this.chatService.joinSocketRoom(this.roomId)
   }
 
-  log(e){
-    console.log(e)
-    console.log(this.newMessage)
+
+  // subscribes to the next challenger event and checks if user is the next challenger
+  setNextChallengerWatch(){
+    this.liveComp.subscribableCheckIfUserIsNext().subscribe(challengerId => {
+      if(challengerId == this.currentUserId){
+        this.currentChallenger = true
+      }
+    })
   }
 
-  messageInputHandler(e){
-    if(e.keyCode == 13){
-      this.sendMessage()
-    }else if(e.key === " "){
-      this.newMessage += e.key
-    }
-  }
-
-  sendMessage(){
-    this.chatService.sendMessage(this.newMessage, this.roomId);
-    this.newMessage = '';
-  }
-
-  SetMessageWatch(){
-    this.chatService
-    .getMessages()
-    .subscribe((message: any) => {
-      this.messageList.push(message);
-    });
-  }
-
-  
   addToQueue(){
     //TO DO: add users to queue to be placed in competition
   }
@@ -65,25 +54,35 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
     if (event){
-      this.comp.onWordChange(event)
+      // this.comp.onWordChange(event)
     } else {
       console.log("check event: " + event);
     }
   }
 
   focusInputArea(): void{
-    document.getElementById("input-area").focus()
+    document.getElementById("input-area").focus();
   }
 
   ngOnInit(): void {
-    this.joinSocketRoom()
-    this.SetMessageWatch()
+    // enters user into the socket room
+    this.joinSocketRoom();
+    // sets the user Id
+    this.auth.user$.subscribe((profile) => {
+      this.currentUserId = profile.sub;
+      this.currentUserName = profile.name
+    })
+
+    // this.comp.newTest();
+
+    // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
       if ( ( e.key) == " ") {
           e.preventDefault();
       }
     }, false);
   }
+
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
