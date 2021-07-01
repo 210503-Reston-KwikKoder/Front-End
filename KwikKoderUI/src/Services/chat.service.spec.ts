@@ -23,4 +23,17 @@ describe('ChatService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('getMessages should be created', () => {
+    expect(service.getMessages).toBeTruthy();
+  });
+
+  it('joinSocketRoom should be created', () => {
+    expect(service.joinSocketRoom).toBeTruthy();
+  });
+
+  it('sendMessage  should be created', () => {
+    expect(service.sendMessage ).toBeTruthy();
+  });
+
 });
