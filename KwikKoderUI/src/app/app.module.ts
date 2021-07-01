@@ -56,12 +56,19 @@ import { PlayerTestAreaComponent } from './components/player-test-area/player-te
 import { QueComponent } from './components/que/que.component';
 
 
-
-const config: SocketIoConfig = { url: "http://20.69.69.228/chat-api/socket.io/",
+//Cluster Chat server
+const config: SocketIoConfig = { url: "20.69.69.228",
  options: {
   withCredentials: false,
   path: "/chat-api/socket.io/",
  } };
+
+// Backup Chat Server:
+//  const config: SocketIoConfig = { url: "45.79.192.95:3000",
+//  options: {
+//   withCredentials: false
+//  } };
+
 //syntax highligher
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { ChatComponent } from './components/chat/chat.component';
