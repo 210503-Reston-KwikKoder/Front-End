@@ -17,7 +17,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   messageList:  string[] = [];
 
   constructor(
-    private chatService: ChatService, 
+    private chatService: ChatService,
     private restService: RestService,
     private route: ActivatedRoute,
     private comp: CompFunctionsService,
@@ -57,7 +57,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     });
   }
 
-  
+
   addToQueue(){
     //TO DO: add users to queue to be placed in competition
   }
@@ -66,8 +66,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     //check for special keycodes if needed
     if (event){
       this.comp.onWordChange(event)
-    } else {
-      console.log("check event: " + event);
     }
   }
 
@@ -85,7 +83,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     }, false);
   }
 
-  // if the user leaves the room they are removed from the que 
+  // if the user leaves the room they are removed from the que
   ngOnDestroy(){
     this.queue.removeUserFromQueue(this.roomId)
     .catch(err => console.log(err))
