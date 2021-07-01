@@ -67,10 +67,72 @@ describe('ActiveCompComponent', () => {
     expect(component.SetMessageWatch()).toHaveBeenCalled;
   });
 
-  // it('...', () => {
-  //   spyOn(chatService, 'getMessages').and.callFake;
-  //   // do stuff
-  //   expect(chatService.getMessages).toHaveBeenCalled();
-  // })
+  it('keyIntercept should call onWordChange', () => {
+    var event = KeyboardEvent;
+    spyOn(component, 'keyIntercept').and.callFake(function(event) {
+      if (event)
+        spyOn(comp, 'onWordChange').arguments(event);
+        expect(comp.onWordChange).toHaveBeenCalled();
+    })
+  })
+
+  it('focusInputArea should call getElementById', () => {
+    var event = KeyboardEvent;
+    spyOn(component, 'keyIntercept').and.callFake;
+    expect(document.getElementById("input-area")).toHaveBeenCalled;
+  })
+
+  it('messageList should add', () => {
+    fixture = TestBed.createComponent(ActiveCompComponent);
+    component = fixture.componentInstance;
+    var expected = "abc";
+    component.messageList.push(expected);
+    expect(component.messageList[0]).toBe(expected);
+  })
+
+  it('keydown should be false on ngOnInit', () => {
+    fixture = TestBed.createComponent(ActiveCompComponent);
+    component = fixture.componentInstance;
+    spyOn(component, 'ngOnInit').and.callFake;
+    var expected = KeyboardEvent;
+    var test = document.documentElement.addEventListener('keydown', function (expected) {
+      if ((expected.key) == " ") {
+        expected.preventDefault();
+      }
+    }, false);
+    expect(test).toBeFalsy();
+  });
+
+  it('messageInputHandler should call sendMessage', () => {
+    fixture = TestBed.createComponent(ActiveCompComponent);
+    component = fixture.componentInstance;
+    var event = KeyboardEvent;
+    var expected = 13;
+    spyOn(component, 'messageInputHandler').and.callFake(function(event) {
+      event.keyCode = expected;
+      if (event.keyCode == expected)
+        expect(component.sendMessage()).toHaveBeenCalled;
+    })
+  })
+
+  it('messageInputHandler should call newMessage ', () => {
+    fixture = TestBed.createComponent(ActiveCompComponent);
+    component = fixture.componentInstance;    var event = KeyboardEvent;
+    var expected = 0;
+    spyOn(component, 'messageInputHandler').and.callFake(function(event) {
+      event.keyCode = 13;
+      if (event.keyCode != expected)
+        expect(component.newMessage).toBe(" ");
+    })
+  })
+
+  it('messageInputHandler should call newMessage ', () => {
+    fixture = TestBed.createComponent(ActiveCompComponent);
+    component = fixture.componentInstance;    var event = KeyboardEvent;
+    var expected = 0;
+    spyOn(component, 'log').and.callFake(function(event) {
+    })
+    expect(component.log).toBeTruthy;
+  })
 
 });
