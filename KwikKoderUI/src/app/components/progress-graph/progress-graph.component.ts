@@ -15,7 +15,7 @@ export class ProgressGraphComponent implements OnInit {
 
   ngOnInit() {
     
-    let dataPoints = [];		
+    /*let dataPoints = [];		
     this.api.getProgressResults().then(
       (obj) => {
         this.data = obj;
@@ -45,7 +45,7 @@ export class ProgressGraphComponent implements OnInit {
           
         chart.render();
       }
-    )
+    )*/
     
       }
   }

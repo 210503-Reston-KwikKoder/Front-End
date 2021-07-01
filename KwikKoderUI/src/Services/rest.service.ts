@@ -35,35 +35,35 @@ export class RestService {
   //production api calls:
   getLeaderBoardByCatagoryId(id: number): Promise<LBModel[]>{
     if(id == 0){
-      return this.http.get<LBModel[]>(`${env.dev.serverUrl}api/LB`).toPromise(); 
+      return this.http.get<LBModel[]>(`${env.dev.serverUrl}LB/api/LB`).toPromise(); 
     }else{
-      return this.http.get<LBModel[]>(`${env.dev.serverUrl}api/LB/${id}`).toPromise(); 
+      return this.http.get<LBModel[]>(`${env.dev.serverUrl}LB/api/LB/${id}`).toPromise(); 
     }
   }
 
   getTestContentByCatagoryId(id: number): Promise<TestMaterial>{
-    return this.http.get<TestMaterial>(`${env.dev.serverUrl}api/TypeTest/${id}`).toPromise();
+    return this.http.get<TestMaterial>(`${env.dev.serverUrl}typetest/api/TypeTest/${id}`).toPromise();
   }
   getCompetitions(): Promise<CompModel[]>{
-    return this.http.get<CompModel[]>(`${env.dev.serverUrl}api/Competition`).toPromise();
+    return this.http.get<CompModel[]>(`${env.dev.serverUrl}competition/api/Competition`).toPromise();
   }
 
   postTestResults(test: TestModel){
-    let status = this.http.post(`${env.dev.serverUrl}api/TypeTest`, test);
+    let status = this.http.post(`${env.dev.serverUrl}typetest/api/TypeTest`, test);
     status.subscribe(
       (code) => {console.log("status code:", code);} 
     )
   }
 
   postCompetitionResults(test: CompetitionTestResults){
-    let status =  this.http.post(`${env.dev.serverUrl}api/CompetitonStats`, test)
+    let status =  this.http.post(`${env.dev.serverUrl}competition/api/CompetitonStats`, test)
     status.subscribe(
       (code) => {console.log("status code:", code);} 
     ) 
   }
   postCompetition(comp: CompModel): number{
 
-    let status = this.http.post(`${env.dev.serverUrl}api/Competition`, comp);
+    let status = this.http.post(`${env.dev.serverUrl}competition/api/Competition`, comp);
     status.subscribe(
       (id) => {return id}
     );
@@ -71,21 +71,25 @@ export class RestService {
   }
   // possible bug generation
   getCompetitionContent(id: number):Promise<CompetitionContent>{
+<<<<<<< HEAD
     return this.http.get<CompetitionContent>(`${env.dev.serverUrl}api/CompetitonStats/${id}`).toPromise();    
+=======
+    return this.http.get<CompetitionContent>(`${env.dev.serverUrl}competition/api/CompetitonStats/${id}`).toPromise();    
+>>>>>>> 4faf8b04293229cb1d085646daf57abb9aa19905
   }
   getloggedInUser():Promise<UserNameModel>{
-    return this.http.get<UserNameModel>(`${env.dev.serverUrl}api/User/username`).toPromise();
+    return this.http.get<UserNameModel>(`${env.dev.serverUrl}typetest/api/User/username`).toPromise();
   }
   getUserStats(): Promise<StatModel[]>{
-    return this.http.get<StatModel[]>(`${env.dev.serverUrl}api/UserStat/all`).toPromise();
+    return this.http.get<StatModel[]>(`${env.dev.serverUrl}typetest/api/UserStat/all`).toPromise();
   }
   getUserName(): Promise<Usermodel>{
-    return this.http.get<Usermodel>(`${env.dev.serverUrl}api/User/username`).toPromise();
+    return this.http.get<Usermodel>(`${env.dev.serverUrl}typetest/api/User/username`).toPromise();
   }
   getCompetitionResults(id: number): Promise<CompStatModel[]>{
-    return this.http.get<CompStatModel[]>(`${env.dev.serverUrl}api/Competition/${id}`).toPromise();    
+    return this.http.get<CompStatModel[]>(`${env.dev.serverUrl}competition/api/Competition/${id}`).toPromise();    
   }
-  getProgressResults(): Promise<ProgressGraphData[]>{
-    return this.http.get<ProgressGraphData[]>(`${env.dev.serverUrl}api/UserStat/tests`).toPromise();
+  getProgressResults(): Promise<ProgressGraphData[][]>{
+    return this.http.get<ProgressGraphData[][]>(`${env.dev.serverUrl}typetest/api/UserStat/tests`).toPromise();
   }
 }

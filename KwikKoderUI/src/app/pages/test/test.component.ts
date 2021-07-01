@@ -204,6 +204,7 @@ export class TestComponent implements OnInit {
       clearInterval(this.intervalId);
       this.state.finished = true;
       //submit result to the server
+      console.log("Test Complete Submitting Results");
       this.submitResults();
       return true;
 
