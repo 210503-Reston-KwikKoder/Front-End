@@ -71,11 +71,7 @@ export class RestService {
   }
   // possible bug generation
   getCompetitionContent(id: number):Promise<CompetitionContent>{
-<<<<<<< HEAD
-    return this.http.get<CompetitionContent>(`${env.dev.serverUrl}api/CompetitonStats/${id}`).toPromise();    
-=======
     return this.http.get<CompetitionContent>(`${env.dev.serverUrl}competition/api/CompetitonStats/${id}`).toPromise();    
->>>>>>> 4faf8b04293229cb1d085646daf57abb9aa19905
   }
   getloggedInUser():Promise<UserNameModel>{
     return this.http.get<UserNameModel>(`${env.dev.serverUrl}typetest/api/User/username`).toPromise();
