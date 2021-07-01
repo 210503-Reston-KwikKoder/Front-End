@@ -113,7 +113,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
           //`${env.dev.serverUrl}api/test/CodeSnippet/Secret`,
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/TypeTest*`,
+              uri: `${env.dev.serverUrl}typetest/api/TypeTest*`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -124,7 +124,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/User/username`,
+              uri: `${env.dev.serverUrl}typetest/api/User/username`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -135,7 +135,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/Competition`,
+              uri: `${env.dev.serverUrl}competition/api/Competition`,
               httpMethod: "POST",
               tokenOptions: {
                 // The attached token should target this audience
@@ -147,7 +147,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/UserStat/*`,
+              uri: `${env.dev.serverUrl}typetest/api/UserStat/*`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -158,7 +158,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/CompetitonStats`,
+              uri: `${env.dev.serverUrl}competition/api/CompetitonStats`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
