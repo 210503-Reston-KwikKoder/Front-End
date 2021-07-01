@@ -1,7 +1,7 @@
 <div>
     <div id="chat-box">
-        <div *ngFor="let message of messageList" class="chat-message-div">
-            <p >{{message}}</p>
+        <div *ngFor="let mesName of messageList" class="chat-message-div">
+            <p >{{mesName.senderName}}:      {{mesName.message}}</p>
         </div>
     </div>
     <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" />

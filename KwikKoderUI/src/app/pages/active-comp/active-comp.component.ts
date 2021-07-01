@@ -15,8 +15,6 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
-  // newMessage: string;
-  // messageList:  string[] = [];
   currentUserId: any;
   currentUserName: any
   currentChallenger: boolean = false
@@ -72,6 +70,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
       this.currentUserId = profile.sub;
+      this.currentUserName = profile.name
     })
 
     // this.comp.newTest();
@@ -87,7 +86,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
-    this.queue.removeUserFromQueue(this.roomId, this.currentUserId)
+    this.queue.removeUserFromQueue(this.roomId)
     .catch(err => console.log(err))
   }
 

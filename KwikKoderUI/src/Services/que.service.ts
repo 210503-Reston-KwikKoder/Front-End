@@ -20,8 +20,8 @@ export class QueService {
   }
 
   // nothing returned
-  removeUserFromQueue(roomId, userId){
-    return this.http.delete(`${env.dev.serverUrl}api/LiveCompetition/${roomId}/LCQ/${userId}`).toPromise()
+  removeUserFromQueue(roomId){
+    return this.http.delete(`${env.dev.serverUrl}api/LiveCompetition/${roomId}/LCQ/`).toPromise()
   }
 
   // returns an ordered array of user objects

@@ -9,8 +9,9 @@ import { ChatService } from 'src/Services/chat.service';
 export class ChatComponent implements OnInit {
 
   @Input() roomId
+  @Input() userName
   newMessage: string;
-  messageList:  string[] = [];
+  messageList: any = [];
 
   constructor(
     private chatService: ChatService,
@@ -25,9 +26,10 @@ export class ChatComponent implements OnInit {
     }
   }
 
-      // sends message when the send btn is pressed
+  // sends message when the send btn is pressed
   sendMessage(){
-    this.chatService.sendMessage(this.newMessage, this.roomId);
+    console.log(this.userName)
+    this.chatService.sendMessage(this.newMessage, this.userName, this.roomId);
     this.newMessage = '';
   }
 
@@ -35,8 +37,8 @@ export class ChatComponent implements OnInit {
   SetMessageWatch(){
     this.chatService
     .getMessages()
-    .subscribe((message: any) => {
-      this.messageList.push(message);
+    .subscribe((messageAndName: any) => {
+      this.messageList.push(messageAndName);
     })
   }
 
