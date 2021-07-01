@@ -19,7 +19,9 @@ describe('ActiveCompComponent', () => {
   let chatService: ChatService;
 
   class MockQueService {}
-  class MockHttp{}
+  class MockHttp{
+    delete(){}
+  }
   class MockSocket {}
   class MockChatService {
     joinSocketRoom(id : any) {};
@@ -69,9 +71,9 @@ describe('ActiveCompComponent', () => {
 
   it('keyIntercept should call onWordChange', () => {
     var event = KeyboardEvent;
-    spyOn(component, 'keyIntercept').and.callFake(function(event) {
+    spyOn(component, 'keyIntercept').and.callFake(function(e) {
       if (event)
-        spyOn(comp, 'onWordChange').arguments(event);
+        spyOn(comp, 'onWordChange').and.callFake;
         expect(comp.onWordChange).toHaveBeenCalled();
     })
   })
@@ -126,7 +128,7 @@ describe('ActiveCompComponent', () => {
     })
   })
 
-  it('messageInputHandler should call newMessage ', () => {
+  it('log should call ', () => {
     fixture = TestBed.createComponent(ActiveCompComponent);
     component = fixture.componentInstance;    var event = KeyboardEvent;
     var expected = 0;
