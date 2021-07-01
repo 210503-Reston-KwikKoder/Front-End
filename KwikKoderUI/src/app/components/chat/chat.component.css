@@ -1,0 +1,17 @@
+#chat-box{
+    background-color: white;
+    padding: 1rem;
+    height: 75vh;
+    border-radius: 1rem;
+    overflow-y: scroll;
+    margin-bottom: 2rem;
+}
+
+.chat-message-div{
+    background-color: lightblue;
+    border-radius: 1rem;
+}
+
+.chat-message-div p{
+    padding-left: 1rem;
+}

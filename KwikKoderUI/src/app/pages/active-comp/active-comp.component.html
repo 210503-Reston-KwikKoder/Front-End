@@ -9,19 +9,7 @@
             </div>
         </div>
         <div class="col-md-3" id="chat">
-            <div id="chat-box">
-                <div *ngFor="let message of messageList" class="chat-message-div">
-                    <p >{{message}}</p>
-                </div>
-            </div>
-            <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" />
-            <!-- <mat-form-field appearance="outline">
-                <mat-label>Outline form field</mat-label>
-                <input matInput placeholder="message" (ngModel)="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Join the conversation</mat-hint>
-            </mat-form-field> -->
-            <button (click)="sendMessage()" mat-raised-button color="primary">Send Message</button>
+            <app-chat [roomId]="roomId"></app-chat>
             <app-que [roomId]="roomId"></app-que>
         </div>
     </div>

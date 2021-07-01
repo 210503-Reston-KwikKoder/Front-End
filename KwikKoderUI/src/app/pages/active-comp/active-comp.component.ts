@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ChatService } from 'src/Services/chat.service';
-import { RestService } from 'src/Services/rest.service';
+// import { RestService } from 'src/Services/rest.service';
 import { CompFunctionsService } from 'src/Services/comp-functions.service';
 import { QueService } from 'src/Services/que.service';
 import { LiveCompService } from 'src/Services/live-comp.service';
@@ -15,17 +15,18 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
-  newMessage: string;
-  messageList:  string[] = [];
+  // newMessage: string;
+  // messageList:  string[] = [];
   currentUserId: any;
   currentUserName: any
-  currentChallenger: any
+  currentChallenger: boolean = false
+  wonLastRound: boolean = false
 
   constructor(
     private chatService: ChatService, 
-    private restService: RestService,
+    // private restService: RestService,
     private route: ActivatedRoute,
-    private comp: CompFunctionsService,
+    // private comp: CompFunctionsService,
     private queue: QueService,
     private liveComp: LiveCompService,
     public auth: AuthService
@@ -38,29 +39,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.chatService.joinSocketRoom(this.roomId)
   }
 
-  // this allows the chat to use spaces and sends the message if enter is pressed
-  messageInputHandler(e){
-    if(e.keyCode == 13){
-      this.sendMessage()
-    }else if(e.key === " "){
-      this.newMessage += e.key
-    }
-  }
-
-  // sends message when the send btn is pressed
-  sendMessage(){
-    this.chatService.sendMessage(this.newMessage, this.roomId);
-    this.newMessage = '';
-  }
-
-  // subscribes to new messages from socket room
-  SetMessageWatch(){
-    this.chatService
-    .getMessages()
-    .subscribe((message: any) => {
-      this.messageList.push(message);
-    })
-  }
 
   // subscribes to the next challenger event and checks if user is the next challenger
   setNextChallengerWatch(){
@@ -78,7 +56,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
     if (event){
-      this.comp.onWordChange(event)
+      // this.comp.onWordChange(event)
     } else {
       console.log("check event: " + event);
     }
@@ -94,16 +72,9 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
       this.currentUserId = profile.sub;
-
-      console.log(profile);
     })
-    // sets an observable to notify when there are new messages
-    this.SetMessageWatch();
-    // sets an observabel to notify when the user is entered into the competion
 
-
-
-    this.comp.newTest();
+    // this.comp.newTest();
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
@@ -116,7 +87,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
-    this.queue.removeUserFromQueue(this.roomId)
+    this.queue.removeUserFromQueue(this.roomId, this.currentUserId)
     .catch(err => console.log(err))
   }
 

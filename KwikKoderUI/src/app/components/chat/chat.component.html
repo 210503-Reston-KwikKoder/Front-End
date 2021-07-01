@@ -1,0 +1,9 @@
+<div>
+    <div id="chat-box">
+        <div *ngFor="let message of messageList" class="chat-message-div">
+            <p >{{message}}</p>
+        </div>
+    </div>
+    <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" />
+    <button (click)="sendMessage()" mat-raised-button color="primary">Send Message</button>
+</div>

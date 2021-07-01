@@ -15,7 +15,7 @@ export class ChatService {
   }
 
   public sendMessage(message: any, id: any) {
-    console.log("service is emiting new message: "+message)
+    console.log("service is emiting new message: "+message, "with roomId"+id)
     this.socket.emit('new-message', message, id);
   }
 
