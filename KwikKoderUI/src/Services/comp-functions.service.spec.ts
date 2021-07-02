@@ -8,7 +8,6 @@ import { CompFunctionsService } from './comp-functions.service';
 import { RestService } from './rest.service';
 import { environment as env } from '../environments/environment';
 
-
 describe('CompFunctionsService', () => {
   let service: CompFunctionsService;
   let rest: RestService;
@@ -20,6 +19,15 @@ describe('CompFunctionsService', () => {
     };
     postCompetitionResults(model : CompetitionTestResults){};
   }
+
+  // class MockService {
+  //   observeIfCompFinished() {}
+  //   newTest() {}
+  //   checkIsBadChar(element: string, index: number, array: any) {}
+  //   calcWordsPerMinute(charsTyped: number, ms: number) {}
+  //   checkIfFinished() {}
+  //   onWordChange() {}
+  // }
 
   var dummyState =
   {
@@ -41,7 +49,8 @@ describe('CompFunctionsService', () => {
       imports: [HttpClientTestingModule],
 
       providers: [
-        {provide: RestService, useClass: MockRestService}
+        {provide: RestService, useClass: MockRestService},
+        //{provide: CompFunctionsService, useClass: MockService}
       ]
     });
 
@@ -54,7 +63,7 @@ describe('CompFunctionsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call', () => {
+  it('newTest should call', () => {
     expect(service.newTest()).toHaveBeenCalled;
   });
 
@@ -124,24 +133,26 @@ describe('CompFunctionsService', () => {
     expect(test).toBeTrue();
   });
 
-  it('observeIfCompFinished should create', () =>{
-    service.state = {
-      words: '',
-      wordarray: new Array(),
-      typedarray: new Array(),
-      enteredText: '',
-      errors: 0,
-      started: false,
-      startTime: null,
-      timeTaken: 0,
-      letterPosition: 0,
-      finished: false,
-      correctchars: 0
-    }
-    service.state.finished = true;
-    var test = spyOn(service, 'observeIfCompFinished').and.returnValue;
-    expect(test).toBeTruthy();
-  });
+  // it('observeIfCompFinished should create', () =>{
+  //   service.state = {
+  //     words: '',
+  //     wordarray: new Array(),
+  //     typedarray: new Array(),
+  //     enteredText: '',
+  //     errors: 0,
+  //     started: false,
+  //     startTime: null,
+  //     timeTaken: 0,
+  //     letterPosition: 0,
+  //     finished: false,
+  //     correctchars: 0
+  //   }
+  //   var fun = service.observeIfCompFinished();
+  //   const isFinished = of(service.state.finished);
+  //   var test = typeof fun;
+  //   var expected = typeof isFinished;
+  //   expect(test === expected).toBeTrue();
+  // });
 
   it('getCompetitionContent should call getCompetitionContent', () =>{
     service.state = {
