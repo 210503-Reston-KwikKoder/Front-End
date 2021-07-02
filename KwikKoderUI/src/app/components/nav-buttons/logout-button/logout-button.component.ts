@@ -14,8 +14,8 @@ export class LogoutButtonComponent implements OnInit {
     @Inject(DOCUMENT) private doc: Document
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
+
   logout(): void {
     this.auth.logout({ returnTo: this.doc.location.origin });
   }
