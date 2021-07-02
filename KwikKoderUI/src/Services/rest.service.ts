@@ -86,6 +86,6 @@ export class RestService {
     return this.http.get<CompStatModel[]>(`${env.dev.serverUrl}competition/api/Competition/${id}`).toPromise();    
   }
   getProgressResults(): Promise<ProgressGraphData[][]>{
-    return this.http.get<ProgressGraphData[][]>(`${env.dev.serverUrl}typetest/api/UserStat/tests`).toPromise();
+    return this.http.get<ProgressGraphData[][]>(`${env.dev.serverUrl}typetest/api/UserStat/tests/all`).toPromise();
   }
 }

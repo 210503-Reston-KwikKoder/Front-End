@@ -4,4 +4,5 @@ export class ProgressGraphData{
     wpm: number;
     timetakenms: number;
     date: Date;
+    category: number;
 }
