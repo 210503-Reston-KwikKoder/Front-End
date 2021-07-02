@@ -94,16 +94,28 @@ describe('ActiveCompComponent', () => {
     expect(component.sendMessage).toHaveBeenCalled;
   });
 
-  it('messageInputHandler should call sendMessage', () => {
+  it('SetMessageWatch should call sendMessage', () => {
     fixture = TestBed.createComponent(ActiveCompComponent);
     component = fixture.componentInstance;
-    var target = "Digit1"
-    var event = new KeyboardEvent('keydown', { code : "Digit2"});
-    component.messageInputHandler(event);
-    if (event.code != target)
-      var expected = component.newMessage + event.key
-      component.newMessage = expected;
-    expect(component.newMessage).toBe(expected);
+    var expected = "some messge";
+    component.SetMessageWatch();
+    component.messageList.push(expected);
+    expect(component.messageList[0]).toBe(expected);
+  });
+
+    it('keydown should be false on ngOnInit', () => {
+    fixture = TestBed.createComponent(ActiveCompComponent);
+    component = fixture.componentInstance;
+    component.ngOnInit();
+    var target = new KeyboardEvent('keydown', { code : " "});
+    document.documentElement.addEventListener('keydown', function (e) {
+      e = target;
+      if ( ( e.key) == " ") {
+        e.preventDefault();
+      }
+      var expected = target.key;
+      expect(e.key).toBe(expected);
+    }, false);
   });
 
   // it('keyIntercept should call onWordChange', () => {

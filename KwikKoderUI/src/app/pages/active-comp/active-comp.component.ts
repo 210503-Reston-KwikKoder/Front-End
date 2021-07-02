@@ -32,16 +32,13 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   log(e){
-    console.log(e)
-    console.log(this.newMessage)
+    //console.log(e)
+    //console.log(this.newMessage)
   }
 
   messageInputHandler(e){
-    if(e.keyCode == 13){
-      this.sendMessage()
-    }else if(e.key === " "){
-      this.newMessage += e.key
-    }
+    if(e.keyCode == 13) this.sendMessage();
+    else if(e.key === " ") this.newMessage += e.key
   }
 
   sendMessage(){
@@ -64,9 +61,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
-    if (event){
-      this.comp.onWordChange(event)
-    }
+    if (event) this.comp.onWordChange(event)
   }
 
   focusInputArea(): void{
@@ -77,16 +72,12 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.joinSocketRoom()
     this.SetMessageWatch()
     document.documentElement.addEventListener('keydown', function (e) {
-      if ( ( e.key) == " ") {
-          e.preventDefault();
-      }
-    }, false);
+      if ( ( e.key) == " ") e.preventDefault();}, false);
   }
 
   // if the user leaves the room they are removed from the que
   ngOnDestroy(){
-    this.queue.removeUserFromQueue(this.roomId)
-    .catch(err => console.log(err))
+    this.queue.removeUserFromQueue(this.roomId).catch(err => console.log(err))
   }
 
 }
