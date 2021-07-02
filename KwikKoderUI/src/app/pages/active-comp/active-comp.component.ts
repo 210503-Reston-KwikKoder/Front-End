@@ -26,7 +26,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     private chatService: ChatService, 
     // private restService: RestService,
     private route: ActivatedRoute,
-    // private comp: CompFunctionsService,
+    public comp: CompFunctionsService,
     private queue: QueService,
     private liveComp: LiveCompService,
     public auth: AuthService
@@ -83,7 +83,8 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentUserName = profile.name
     })
 
-    // this.comp.newTest();
+    this.comp.newTest();
+    console.log(this.comp);
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
@@ -91,6 +92,12 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
           e.preventDefault();
       }
     }, false);
+  }
+
+  langSelected(event: number){
+    console.log('lang select event', event);
+    this.comp.category = event;
+    this.comp.newTest();
   }
 
 
