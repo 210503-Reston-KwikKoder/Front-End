@@ -9,12 +9,36 @@ import { ɵɵsetComponentScope } from '@angular/core';
 // import { regExpEscape } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { environment} from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { TestModel } from 'src/Models/TestModel';
+import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
+import { CompModel } from 'src/Models/CompModel';
 
 describe('RestService', () => {
   let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
   let service: RestService;
   let httpMock : HttpTestingController;
+
+  class MockService {
+    testcallApi() {}
+    testcallApiPublic() {}
+    testcallApiGetUserInfo() {}
+    getLeaderBoardByCatagoryId(id: number) {}
+    getTestContentByCatagoryId(id: number) {}
+    getCompetitions() {}
+    postTestResults(test: TestModel) {}
+    postCompetitionResults(test: CompetitionTestResults) {}
+    postCompetition(comp: CompModel) {}
+    getCompetitionContent(id: number):Promise<any>{
+      return new Promise<any>((resolve, reject) => {})
+    };
+    getloggedInUser() {}
+    getUserStats() {}
+    getUserName() {}
+    getCompetitionResults(id: number) {}
+    getProgressResults() {}
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -30,8 +54,8 @@ describe('RestService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });  
-  
+  });
+
     it('getUserStats should return', () =>{
       const userStats = [{username : "A",
         userID: "1",
@@ -49,9 +73,9 @@ describe('RestService', () => {
         req.flush(userStats);
         httpTestingController.verify();
     });
-  
+
   });
-  
+
   /* describe('#getUserStats', () =>{
     let expectedURL = `${environment.dev.serverUrl}api/UserStat/all`;
     let expectedStats: StatModel[] = [];
