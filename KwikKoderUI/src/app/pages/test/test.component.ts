@@ -41,9 +41,7 @@ export class TestComponent implements OnInit {
     this.category = -1;
     this.newTest();
     document.documentElement.addEventListener('keydown', function (e) {
-      if (( e.key) == " ") {
-          e.preventDefault();
-      }
+      if (( e.key) == " ") { e.preventDefault();}
     }, false);
   }
 
@@ -91,12 +89,8 @@ export class TestComponent implements OnInit {
         //limit to 50 new line chars
         for (let index = 0; index < this.state.wordarray.length; index++) {
           const element = this.state.wordarray[index];
-          if(element == "\n"){
-            lines++;
-          }
-          if(lines > 50){
-            this.state.wordarray = this.state.wordarray.slice(0, index);
-          }
+          if(element == "\n"){ lines++; }
+          if(lines > 50){ this.state.wordarray = this.state.wordarray.slice(0, index); }
         }
       })
   }
@@ -114,9 +108,7 @@ export class TestComponent implements OnInit {
   }
 
   onWordChange(event: KeyboardEvent): void {
-    if(this.state.finished){
-      return
-    }
+    if(this.state.finished){ return }
     let e = event.key
     if (!this.state.started) {
       this.state.started= true
@@ -124,8 +116,6 @@ export class TestComponent implements OnInit {
       this.startTimer()
     }
     let expectedLetter = this.state.wordarray[this.state.letterPosition]
-
-
 
     if(e == expectedLetter){
       //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
@@ -135,12 +125,10 @@ export class TestComponent implements OnInit {
       this.state.letterPosition+=1;
       this.ShowCaret();
     }
-    else if(e == "Enter"){
-      e="\n"
-    }
+    else if(e == "Enter"){ e="\n"}
     else if(e == "Backspace"){
       //e="";
-      this.state.letterPosition-=1; 
+      this.state.letterPosition-=1;
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";
     }
@@ -150,14 +138,10 @@ export class TestComponent implements OnInit {
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "red";
       this.state.letterPosition+=1;
       var inp = String.fromCharCode(event.keyCode);
-      if (/[a-zA-Z0-9-_ ]/.test(inp)){
-        this.state.errors+=1;
-      }
+      if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
-    if(this.checkIfFinished()){
-      return
-    }
+    if(this.checkIfFinished()){ return }
     if(this.state.wordarray[this.state.letterPosition]=="\n"){
       //display enter prompt
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
@@ -175,7 +159,6 @@ export class TestComponent implements OnInit {
     console.log("giving focus", document.getElementById("input-area"));
     document.getElementById("input-area").focus();
     this.ShowCaret();
-    
   }
 
   checkIfFinished(): boolean {
@@ -196,7 +179,6 @@ export class TestComponent implements OnInit {
       //submit result to the server
       this.submitResults();
       return true;
-
     }
     //did we run out of time instead?
     if(this.timerFinished){

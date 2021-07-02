@@ -73,30 +73,20 @@ export class CompFunctionsService {
   }
 
   calcWordsPerMinute (charsTyped: number, ms: number): number {
-    let result: number;
-    if (charsTyped || ms) {
-      result = (charsTyped / 5) / (ms / 60000);
-    } else {
-      console.log("check input ");
-    }
-    return result;
+    return (charsTyped / 5) / (ms / 60000);
   }
 
   onWordChange(event: KeyboardEvent): void {
-    if(this.state.finished){
-      return
-    }
+    if(this.state.finished) { return }
     let e = event.key
-    
+
     if (!this.state.started) {
       this.state.started= true
       this.state.startTime = new Date()
     }
     let expectedLetter = this.state.wordarray[this.state.letterPosition]
 
-    if(e == "Enter"){
-      e="\n"
-    }
+    if(e == "Enter"){ e="\n" }
 
     if(e == expectedLetter){
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
@@ -104,27 +94,19 @@ export class CompFunctionsService {
       this.state.letterPosition+=1;
     }else{
       var inp = String.fromCharCode(event.keyCode);
-      if (/[a-zA-Z0-9-_ ]/.test(inp)){
-        this.state.errors+=1;
-      }
+      if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
-    if(this.checkIfFinished()){
-      return
-    }
-    if(this.state.wordarray[this.state.letterPosition]=="\n"){
-      //display enter prompt
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
+    if(this.checkIfFinished()){ return }
+    if(this.state.wordarray[this.state.letterPosition]=="\n"){ (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
     }
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
   checkIfFinished(): boolean {
     let numletters = this.state.wordarray.length-1
-
     const wpm = this.calcWordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
-
     //check if words are done
     if(this.state.letterPosition >= this.state.wordarray.length){
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
@@ -132,8 +114,6 @@ export class CompFunctionsService {
 
       console.log("#errors", this.state.errors)
       this.state.finished = true;
-
-      
       return true
     }
     return false;
@@ -143,5 +123,5 @@ export class CompFunctionsService {
     const isFinished = of(this.state.finished)
     return isFinished
   }
-  
+
 }
