@@ -15,6 +15,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
+import { LiveCompsComponent } from './pages/live-comps/live-comps.component';
 
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { TestComponent } from './pages/test/test.component';
@@ -102,6 +103,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
     PlayerTestAreaComponent,
     QueComponent,
     ChatComponent,
+    LiveCompsComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -195,7 +197,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             // }
             ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/*`,
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
               httpMethod: "PUT",
               tokenOptions: {
                 // The attached token should target this audience
@@ -207,8 +209,20 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             }
             ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/*`,
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
               httpMethod: "DELETE",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            }
+            ,{
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition`,
+              httpMethod: "POST",
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,

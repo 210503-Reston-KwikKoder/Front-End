@@ -1,4 +1,18 @@
+/* 
+    users enter a que
+    pull the next user from the que
+    if there is no current winner then make that user a current winnner
+    if there is a current winner then make the user the current challenger
+    
 
+*/
+
+/* 
+    the socket alrets all user frontends in the socket room that the que has changed
+    then the frontend calls the database
+
+
+*/
 #comp-room{
     background-color:rgb(97, 95, 114, .9);
     border-radius: 1rem;

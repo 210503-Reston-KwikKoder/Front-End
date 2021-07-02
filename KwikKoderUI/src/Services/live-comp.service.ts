@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { environment as env } from '../environments/environment';;
 import { observable, Observable } from 'rxjs';
 
 @Injectable({
@@ -13,6 +14,18 @@ export class LiveCompService {
     private socket: Socket
   ) { }
 
+  // returns link to new competition and competition Id as int in body
+  public createNewLiveCompRoom(name: any){
+    return this.http.post(
+      `${env.dev.serverUrl}api/LiveCompetition`,
+      name
+    ).toPromise()
+  }
+
+  // returns an array of { id: , name: } objects
+  public getAllLiveCompRooms(){
+    this.http.get(`${env.dev.serverUrl}api/LiveCompetition`).toPromise()
+  }
 
   public subscribableCheckIfUserIsNext = () => {
     return new Observable((observer) => {

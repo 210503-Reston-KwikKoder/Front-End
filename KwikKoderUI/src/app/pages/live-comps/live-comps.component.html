@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <input [(ngModel)]="newCompName" (keyup)="messageInputHandler($event)" />
+        </div>
+        <div class="col-6">
+            <button mat-raised-button color="primary" (click)="createNewComp()">Create</button>
+        </div>
+    </div>
+    <div class="row" *ngFor="let comp of comps">
+        <div class="col-9">
+            {{comp.name}}
+        </div>
+        <div class="col-3">
+            <button mat-raised-button color="primary" (click)="enterRoom(comp.id)">Join</button>
+        </div>
+    </div>
+    
+</div>
