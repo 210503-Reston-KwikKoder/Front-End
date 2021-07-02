@@ -17,6 +17,8 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
   currentUserId: any;
   currentUserName: any
+  currentChallengerName: any
+  currentWinnerName: any
   currentChallenger: boolean = false
   wonLastRound: boolean = false
 
@@ -40,10 +42,18 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   // subscribes to the next challenger event and checks if user is the next challenger
   setNextChallengerWatch(){
-    this.liveComp.subscribableCheckIfUserIsNext().subscribe(challengerId => {
-      if(challengerId == this.currentUserId){
+    this.liveComp.subscribableCheckIfUserIsNext().subscribe((challengerAndWinner: any) => {
+      if(challengerAndWinner.challengerId == this.currentUserId){
         this.currentChallenger = true
       }
+
+      this.currentWinnerName = challengerAndWinner.winnerName
+    })
+  }
+
+  setChallengerName(){
+    this.liveComp.subscibableNewChallengeName().subscribe(challengerName => {
+      this.currentChallengerName = challengerName
     })
   }
 
