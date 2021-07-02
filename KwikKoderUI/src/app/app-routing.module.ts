@@ -57,7 +57,8 @@ const routes: Routes = [
   },
   {
     path: 'ActiveCompetition/:compId',
-    component: ActiveCompComponent
+    component: ActiveCompComponent,
+    canActivate: [AuthGuard]
   }
   
 

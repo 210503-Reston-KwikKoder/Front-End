@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { Observable } from 'rxjs';
+import { observable, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,21 @@ export class LiveCompService {
 
   public subscribableCheckIfUserIsNext = () => {
     return new Observable((observer) => {
-        this.socket.on('new-challenger', ((challengerId: any) => {
-            observer.next(challengerId)
+        this.socket.on('new-challenger', ((challengerId: any, winnerName: any) => {
+            let challengerAndWinner = {
+              challengerId: challengerId,
+              winnerName: winnerName
+            }
+            observer.next(challengerAndWinner)
         }))
+    })
+  }
+
+  public subscibableNewChallengeName = () => {
+    return new Observable((observer) => {
+      this.socket.on('challenge-accepted', ((challengerName: any) => {
+        observer.next(challengerName)
+      }))
     })
   }
   

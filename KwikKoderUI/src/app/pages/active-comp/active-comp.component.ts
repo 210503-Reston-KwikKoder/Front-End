@@ -17,6 +17,8 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
   currentUserId: any;
   currentUserName: any
+  currentChallengerName: any
+  currentWinnerName: any
   currentChallenger: boolean = false
   wonLastRound: boolean = false
 
@@ -24,7 +26,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     private chatService: ChatService, 
     // private restService: RestService,
     private route: ActivatedRoute,
-    // private comp: CompFunctionsService,
+    public comp: CompFunctionsService,
     private queue: QueService,
     private liveComp: LiveCompService,
     public auth: AuthService
@@ -40,10 +42,18 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   // subscribes to the next challenger event and checks if user is the next challenger
   setNextChallengerWatch(){
-    this.liveComp.subscribableCheckIfUserIsNext().subscribe(challengerId => {
-      if(challengerId == this.currentUserId){
+    this.liveComp.subscribableCheckIfUserIsNext().subscribe((challengerAndWinner: any) => {
+      if(challengerAndWinner.challengerId == this.currentUserId){
         this.currentChallenger = true
       }
+
+      this.currentWinnerName = challengerAndWinner.winnerName
+    })
+  }
+
+  setChallengerName(){
+    this.liveComp.subscibableNewChallengeName().subscribe(challengerName => {
+      this.currentChallengerName = challengerName
     })
   }
 
@@ -73,7 +83,8 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentUserName = profile.name
     })
 
-    // this.comp.newTest();
+    this.comp.newTest();
+    console.log(this.comp);
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
@@ -81,6 +92,12 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
           e.preventDefault();
       }
     }, false);
+  }
+
+  langSelected(event: number){
+    console.log('lang select event', event);
+    this.comp.category = event;
+    this.comp.newTest();
   }
 
 
