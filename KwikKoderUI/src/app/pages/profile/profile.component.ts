@@ -7,6 +7,7 @@ import { DisplayCategoryPipe } from 'src/app/pipes/display-category.pipe';
 import { DisplayPercentPipe } from 'src/app/pipes/display-percent.pipe';
 import { DisplayTimePipe } from 'src/app/pipes/display-time.pipe';
 import { ProgressGraphComponent } from 'src/app/components/progress-graph/progress-graph.component';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ export class ProfileComponent implements OnInit {
   constructor(public auth: AuthService, private api: RestService) {}
 
   ngOnInit(): void {
+    console.log("profile pagee");
     this.auth.user$.subscribe(
       (profile) => (this.profileJson = JSON.stringify(profile, null, 2))
     );

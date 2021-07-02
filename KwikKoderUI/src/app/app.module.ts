@@ -124,6 +124,18 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}typetest/api/UserStat/tests/all`,
+              httpMethod: "GET",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}typetest/api/User/username`,
               tokenOptions: {
                 // The attached token should target this audience
