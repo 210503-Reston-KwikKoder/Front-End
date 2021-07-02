@@ -40,7 +40,7 @@ describe('RestService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getUserStats should return', () =>{
+  it('getUserStats should get', () =>{
     const userStats = [{
       username : "A",
       userID: "1",
@@ -59,7 +59,7 @@ describe('RestService', () => {
       httpTestingController.verify();
   });
 
-  it('getLeaderBoardByCatagoryId should return', () =>{
+  it('getLeaderBoardByCatagoryId should get', () =>{
     const test = [{
       userName : "A",
       name: "some string",
@@ -95,7 +95,7 @@ describe('RestService', () => {
       httpTestingController.verify();
   });
 
-  it('getTestContentByCatagoryId should return', () =>{
+  it('getTestContentByCatagoryId should get', () =>{
     const test = {
       catagoryId: Language.ActionScript,
       content: "string",
@@ -112,7 +112,7 @@ describe('RestService', () => {
       httpTestingController.verify();
   });
 
-  it('getCompetitions should return', () =>{
+  it('getCompetitions should get', () =>{
     const test = [{
       start: new Date(),
       end: new Date(),
@@ -132,7 +132,7 @@ describe('RestService', () => {
   });
 
   //get route doesn't work - will circle back
-  // it('getCompetitionContent should return', () =>{
+  // it('getCompetitionContent should get', () =>{
   //   const test = {
   //     id: 1,
   //     testString: "some string",
@@ -150,7 +150,7 @@ describe('RestService', () => {
   //     httpTestingController.verify();
   // });
 
-  it('getloggedInUser should return', () =>{
+  it('getloggedInUser should get', () =>{
     const test = {
       userName: "some string",
       name: "some string"
@@ -164,7 +164,7 @@ describe('RestService', () => {
     httpTestingController.verify();
   });
 
-  it('getUserName should return', () =>{
+  it('getUserName should get', () =>{
     const test = {
       username: "some string",
       name: "some string",
@@ -180,7 +180,7 @@ describe('RestService', () => {
     httpTestingController.verify();
   });
 
-  it('getCompetitionResults should return', () =>{
+  it('getCompetitionResults should get', () =>{
     const test = [{
       wpm: 1,
       rank: 1,
@@ -199,7 +199,7 @@ describe('RestService', () => {
     httpTestingController.verify();
   });
 
-  it('getProgressResults should return', () =>{
+  it('getProgressResults should get', () =>{
     const test = [{
       numberofcharacters: 1,
       numberoferrors: 1,
@@ -212,6 +212,95 @@ describe('RestService', () => {
     });
     const req = httpTestingController.expectOne(`${environment.dev.serverUrl}api/UserStat/tests`);
     expect(req.request.method).toEqual("GET");
+    req.flush(test);
+    httpTestingController.verify();
+  });
+
+  it('testcallApi should get', () =>{
+    const test = "some string"
+    service.testcallApi().then(res =>{
+      expect(res).toEqual(test);
+    });
+    const req = httpTestingController.expectOne(`${environment.dev.serverUrl}api/test/CodeSnippet/Secret`);
+    expect(req.request.method).toEqual("GET");
+    req.flush(test);
+    httpTestingController.verify();
+  });
+
+  it('testcallApiPublic should get', () =>{
+    const test = "some string"
+    service.testcallApiPublic().then(res =>{
+      expect(res).toEqual(test);
+    });
+    const req = httpTestingController.expectOne(`${environment.dev.serverUrl}api/test/CodeSnippet`);
+    expect(req.request.method).toEqual("GET");
+    req.flush(test);
+    httpTestingController.verify();
+  });
+
+  it('testcallApiGetUserInfo should get', () =>{
+    const test = "some string"
+    service.testcallApiGetUserInfo().then(res =>{
+      expect(res).toEqual(test);
+    });
+    const req = httpTestingController.expectOne(`${environment.dev.serverUrl}api/test/Test/Secret`);
+    expect(req.request.method).toEqual("GET");
+    req.flush(test);
+    httpTestingController.verify();
+  });
+
+  it('postTestResults should post', () =>{
+    const test = {
+      categoryId: 1,
+      numberofcharacters : 1,
+      numberoferrors: 1,
+      wpm: 1,
+      timetakenms : 1,
+      date: new Date()
+    }
+
+    service.postTestResults(test);
+
+    const req = httpTestingController.expectOne(`${environment.dev.serverUrl}api/TypeTest`);
+    expect(req.request.method).toEqual("POST");
+    req.flush(test);
+    httpTestingController.verify();
+  });
+
+  it('postCompetitionResults should post', () =>{
+    const test = {
+      categoryId: 1,
+      numberofcharacters: 1,
+      numberoferrors: 1,
+      wpm: 1,
+      timetakenms: 1,
+      date: new Date(),
+      compId: 1
+    }
+
+    service.postCompetitionResults(test);
+
+    const req = httpTestingController.expectOne(`${environment.dev.serverUrl}api/CompetitonStats`);
+    expect(req.request.method).toEqual("POST");
+    req.flush(test);
+    httpTestingController.verify();
+  });
+
+  it('postCompetition should post', () =>{
+    const test = {
+      start : new Date(),
+      end : new Date(),
+      category: 1,
+      name : "some string",
+      snippet: "some string",
+      author: "some string",
+      compId: 1
+    }
+
+    service.postCompetition(test);
+
+    const req = httpTestingController.expectOne(`${environment.dev.serverUrl}api/Competition`);
+    expect(req.request.method).toEqual("POST");
     req.flush(test);
     httpTestingController.verify();
   });
