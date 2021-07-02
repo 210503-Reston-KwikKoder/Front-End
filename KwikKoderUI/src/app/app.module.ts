@@ -195,7 +195,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             // }
             ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/LiveCompetition/:compId/LCQ`,
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/*`,
               httpMethod: "PUT",
               tokenOptions: {
                 // The attached token should target this audience
@@ -207,7 +207,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             }
             ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/LiveCompetition/:compId/LCQ`,
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/*`,
               httpMethod: "DELETE",
               tokenOptions: {
                 // The attached token should target this audience
