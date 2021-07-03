@@ -188,7 +188,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/CompetitonStats`,
+              uri: `${env.dev.serverUrl}competition/api/CompetitonTests`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
