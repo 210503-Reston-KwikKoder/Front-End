@@ -17,14 +17,14 @@ export class LiveCompService {
   // returns link to new competition and competition Id as int in body
   public createNewLiveCompRoom(name: any){
     return this.http.post(
-      `${env.dev.serverUrl}api/LiveCompetition`,
+      `${env.dev.serverUrl}competition/api/LiveCompetition`,
       name
     ).toPromise()
   }
 
   // returns an array of { id: , name: } objects
   public getAllLiveCompRooms(){
-    this.http.get(`${env.dev.serverUrl}api/LiveCompetition`).toPromise()
+    return this.http.get(`${env.dev.serverUrl}competition/api/LiveCompetition`).toPromise()
   }
 
   public subscribableCheckIfUserIsNext = () => {
