@@ -15,6 +15,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
+import { LiveCompsComponent } from './pages/live-comps/live-comps.component';
 
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { TestComponent } from './pages/test/test.component';
@@ -40,6 +41,10 @@ import { DatePipe } from '@angular/common';
 // Node Modules
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
+//syntax highligher
+import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { ChatComponent } from './components/chat/chat.component';
+
 //Loader Material UI
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -56,9 +61,19 @@ import { PlayerTestAreaComponent } from './components/player-test-area/player-te
 import { QueComponent } from './components/que/que.component';
 
 
-//syntax highligher
-import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} };
+//Cluster Chat server
+const config: SocketIoConfig = { url: "20.69.69.228",
+ options: {
+  withCredentials: false,
+  path: "/chat-api/socket.io/",
+ } };
+
+// Backup Chat Server:
+//  const config: SocketIoConfig = { url: "45.79.192.95:3000",
+//  options: {
+//   withCredentials: false
+//  } };
+
 
 @NgModule({
   declarations: [
@@ -87,6 +102,8 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
     ActiveCompComponent,
     PlayerTestAreaComponent,
     QueComponent,
+    ChatComponent,
+    LiveCompsComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -113,7 +130,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
           //`${env.dev.serverUrl}api/test/CodeSnippet/Secret`,
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/TypeTest*`,
+              uri: `${env.dev.serverUrl}typetest/api/TypeTest*`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -124,7 +141,8 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/User/username`,
+              uri: `${env.dev.serverUrl}typetest/api/UserStat/tests/all`,
+              httpMethod: "GET",
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -135,7 +153,19 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/Competition`,
+              uri: `${env.dev.serverUrl}typetest/api/User/username`,
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // this works currentlly 7/2/21
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}competition/api/Competition`,
               httpMethod: "POST",
               tokenOptions: {
                 // The attached token should target this audience
@@ -147,7 +177,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/UserStat/*`,
+              uri: `${env.dev.serverUrl}typetest/api/UserStat/*`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -158,7 +188,7 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/CompetitonStats`,
+              uri: `${env.dev.serverUrl}competition/api/CompetitonTests`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -166,19 +196,21 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
                 scope: 'read:current_user',
                 //Authorization: `Bearer ${ this.userToken }`
               }
-            },{
-              uri: `${env.dev.serverUrl}api/Competition/bet`,
-              httpMethod: "PUT",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },{
+            }
+            //,{
+            //   uri: `${env.dev.serverUrl}api/Competition/bet`,
+            //   httpMethod: "PUT",
+            //   tokenOptions: {
+            //     // The attached token should target this audience
+            //     audience: env.auth.audience,
+            //     // The attached token should have these scopes
+            //     scope: 'read:current_user',
+            //     //Authorization: `Bearer ${ this.userToken }`
+            //   }
+            // }
+            ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}api/Competition/bet/*`,
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
               httpMethod: "PUT",
               tokenOptions: {
                 // The attached token should target this audience
@@ -188,6 +220,31 @@ const config: SocketIoConfig = { url: 'http://45.79.192.95:3000/', options: {} }
                 //Authorization: `Bearer ${ this.userToken }`
               }
             }
+            ,{
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
+              httpMethod: "DELETE",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            }
+            ,{
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition`,
+              httpMethod: "POST",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            }
+
         ]
       }
     }),

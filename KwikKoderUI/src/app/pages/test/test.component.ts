@@ -50,6 +50,12 @@ export class TestComponent implements OnInit {
     this.newTest()
   }
 
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   newTest(): void{
     let id : number = this.category
     this.categoryName = Language[id]
@@ -72,28 +78,31 @@ export class TestComponent implements OnInit {
       correctchars: 0
     }
     this.expectSpace = false
-    this.skip = false
+    this.skip = false;
+    this.state.wordarray = [];
     clearInterval(this.intervalId);
     //get content to type
     this.api.getTestContentByCatagoryId(id).then(
       (obj)=> {
-        // Rainbow.color();
         this.testmat = obj;
-        //this.testmat.content= obj.content;
-        //this.testmat.author = obj.author;
         this.state.words = this.testmat.content;
         this.state.wordarray = this.state.words.split('');
         this.state.wordarray= this.state.wordarray.filter(this.isBadChar);
 
-        let lines = 0;
-        //limit to 50 new line chars
-        for (let index = 0; index < this.state.wordarray.length; index++) {
-          const element = this.state.wordarray[index];
-          if(element == "\n"){ lines++; }
-          if(lines > 50){ this.state.wordarray = this.state.wordarray.slice(0, index); }
+        let lineIndicies = [];
+        for(let i = 0; i < this.state.wordarray.length; i++) {
+          if(this.state.wordarray[i] === "\n") lineIndicies.push(i);
+        }
+        //limit to 30 new line chars
+        if(lineIndicies.length > 30) {
+          let maxNum = lineIndicies.length - 30;
+          let randomStart = this.getRandomInt(0, maxNum);
+          this.state.wordarray = this.state.wordarray.slice(lineIndicies[randomStart] + 1, lineIndicies[randomStart + 30]);
         }
       })
   }
+
+  
 
   isBadChar(element: string, index: number, array: any) {
     if((element == "\r") || (element == "\t")){
@@ -115,38 +124,47 @@ export class TestComponent implements OnInit {
       this.state.startTime = new Date()
       this.startTimer()
     }
-    let expectedLetter = this.state.wordarray[this.state.letterPosition]
+    let expectedLetter = this.state.wordarray[this.state.letterPosition];
+
+    
+    if(e == "Enter"){
+      e="\n"
+    }
 
     if(e == expectedLetter){
-      //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.3";
       this.HideCaret();
       this.state.correctchars +=1;
       this.state.letterPosition+=1;
       this.ShowCaret();
     }
-    else if(e == "Enter"){ e="\n"}
     else if(e == "Backspace"){
       //e="";
-      this.state.letterPosition-=1;
+      this.HideCaret();
+      this.state.letterPosition-=1; 
+      this.ShowCaret();
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";
     }
     else if(e == "Shift"){
     }
     else{
+      this.HideCaret();
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "red";
       this.state.letterPosition+=1;
+      this.ShowCaret();
       var inp = String.fromCharCode(event.keyCode);
       if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
-    if(this.checkIfFinished()){ return }
+
+    if(this.checkIfFinished()){
+      return
+    }
     if(this.state.wordarray[this.state.letterPosition]=="\n"){
       //display enter prompt
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
     }
-    //(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
   keyIntercept(event: KeyboardEvent): void{
@@ -168,7 +186,9 @@ export class TestComponent implements OnInit {
     this.wpm = Math.floor(wpm);
 
     //check if words are done
+    console.log('checking for doneness', this.state)
     if(this.state.letterPosition >= this.state.wordarray.length){
+      console.log('tis done');
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
       console.log("#errors", this.state.errors);
@@ -177,6 +197,7 @@ export class TestComponent implements OnInit {
       clearInterval(this.intervalId);
       this.state.finished = true;
       //submit result to the server
+      console.log("Test Complete Submitting Results");
       this.submitResults();
       return true;
     }
@@ -242,6 +263,7 @@ export class TestComponent implements OnInit {
   }
 
   ShowCaret(){
+    if(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement == null) return;
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
   }

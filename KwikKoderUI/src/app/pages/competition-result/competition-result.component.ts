@@ -15,7 +15,7 @@ export class CompetitionResultComponent implements OnInit {
   constructor(private myRoute: ActivatedRoute, private api: RestService, private router: Router) { }
   faSync = faSync;
   
-  ngOnInit(): void {
+  ngOnInit(): void{
   this.compId = Number(this.myRoute.snapshot.params.compId);
   this.getResults()
   }

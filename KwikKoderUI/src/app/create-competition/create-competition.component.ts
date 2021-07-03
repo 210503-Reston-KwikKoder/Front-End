@@ -67,14 +67,9 @@ export class CreateCompetitionComponent implements OnInit {
       })
   }
   CreateCompetition(): void{
-
     
     this.realEndDate = new Date(this.endDate);
     this.realStartDate = new Date(this.startDate);
-
-    console.log("after conv")
-    console.log( this.realStartDate)
-    console.log(this.realEndDate)
     
     this.UserName = new UserNameModel;
 
@@ -101,7 +96,7 @@ export class CreateCompetitionComponent implements OnInit {
         author: this.author,
         compId: 0
       };
-      //console.log(this.snippet);
+      console.log(newComp);
 
       this.compId = this.api.postCompetition(newComp);
       this.snackBar.displaySuccess("Competition Added!");

@@ -7,6 +7,7 @@ import { RestService } from '../Services/rest.service';
 import { of, Subscription } from 'rxjs';
 import { CompetitionContent } from '../Models/CompetitionContentModel';
 import { CompetitionTestResults } from '../Models/CompetitionTestResults';
+import { ResultModel } from 'src/Models/ResultModel';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +18,32 @@ export class CompFunctionsService {
     private api: RestService
   ) { }
 
-  testmat: CompetitionContent = null;
+  testmat: any = null;
   state: State;
   timeTaken: number;
   wpm: number;
   expectSpace: boolean;
   skip: boolean;
-  category: number;
+  category: number = -1;
+  categoryName: string;
   sub: Subscription;
   compId: number;
   author: string;
+  result : ResultModel;
+  timer = {
+    minutes: 1,
+    seconds: 0
+  };
+  intervalId: any;
+  timerFinished: boolean;
 
+  resetTimer(): void {
+    this.timer = {
+      minutes: 1,
+      seconds: 0
+    };
+  };
+  
   newTest(): void{
     this.wpm = 0;
     this.state = {
@@ -44,24 +60,56 @@ export class CompFunctionsService {
       finished: false,
       correctchars: 0
     }
+    this.resetTimer();
+    
     this.expectSpace = false
     this.skip = false
     //get content to type
-    this.api.getCompetitionContent(this.compId).then(
+    console.log(this.category);
+    this.api.getTestContentByCatagoryId(this.category).then(
       (obj)=> {
-              console.log(obj)
-              this.category = obj.categoryId
-              this.compId = obj.id
-              //this.categoryName = Language[this.category]
-              this.author = obj.author
-              //this.testmat.author = obj.author
-              //this.testmat.id = obj.id
-              this.state.words = obj.testString
-              //this.state.words = this.testmat.testString;
-              this.state.wordarray = this.state.words.split('');
-              this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar)
-            }
-    )
+        this.testmat = obj;
+        this.state.words = this.testmat.content;
+        this.state.wordarray = this.state.words.split('');
+        this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar);
+
+        let lineIndicies = [];
+        for(let i = 0; i < this.state.wordarray.length; i++) {
+          if(this.state.wordarray[i] === "\n") lineIndicies.push(i);
+        }
+        //limit to 30 new line chars
+        if(lineIndicies.length > 30) {
+          let maxNum = lineIndicies.length - 30;
+          let randomStart = this.getRandomInt(0, maxNum);
+          this.state.wordarray = this.state.wordarray.slice(lineIndicies[randomStart] + 1, lineIndicies[randomStart + 30]);
+        }
+      })
+  }
+
+  focusInputArea(): void{
+    document.getElementById("input-area").focus();
+    this.ShowCaret();    
+  }
+
+  ShowCaret(){
+    if(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement == null) return;
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
+  }
+  HideCaret(){
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "transparent";
+    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "transparent";
+  }
+
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  pad(num: number) {
+    if(num < 10) return `0${num}`;
+    else return num;
   }
 
   checkIsBadChar(element: string, index: number, array: any) {
@@ -79,28 +127,58 @@ export class CompFunctionsService {
   onWordChange(event: KeyboardEvent): void {
     if(this.state.finished) { return }
     let e = event.key
-
     if (!this.state.started) {
       this.state.started= true
       this.state.startTime = new Date()
+      this.startTimer()
     }
-    let expectedLetter = this.state.wordarray[this.state.letterPosition]
+    let expectedLetter = this.state.wordarray[this.state.letterPosition];
 
-    if(e == "Enter"){ e="\n" }
+    
+    if(e == "Enter"){
+      e="\n"
+    }
 
     if(e == expectedLetter){
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.3";
+      this.HideCaret();
       this.state.correctchars +=1;
       this.state.letterPosition+=1;
-    }else{
+      this.ShowCaret();
+    }
+    else if(e == "Backspace"){
+      //e="";
+      this.HideCaret();
+      this.state.letterPosition-=1; 
+      this.ShowCaret();
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";
+    }
+    else if(e == "Shift"){
+    }
+    else{
+      this.HideCaret();
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "red";
+      this.state.letterPosition+=1;
+      this.ShowCaret();
       var inp = String.fromCharCode(event.keyCode);
       if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
-    if(this.checkIfFinished()){ return }
-    if(this.state.wordarray[this.state.letterPosition]=="\n"){ (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
+
+    if(this.checkIfFinished()){
+      return;
     }
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
+    if(this.state.wordarray[this.state.letterPosition]=="\n"){
+      //display enter prompt
+      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
+    }
+  }
+
+  keyIntercept(event: KeyboardEvent): void{
+    //check for special keycodes if needed
+    console.log('intercepting key strokes', event);
+    this.onWordChange(event)
   }
 
   checkIfFinished(): boolean {
@@ -108,20 +186,52 @@ export class CompFunctionsService {
     const wpm = this.calcWordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
     //check if words are done
+    console.log('checking for doneness', this.state);
     if(this.state.letterPosition >= this.state.wordarray.length){
+      console.log('tis done');
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
+      console.log("#errors", this.state.errors);
 
-      console.log("#errors", this.state.errors)
+      //stop timer and flip the flag
+      clearInterval(this.intervalId);
       this.state.finished = true;
-      return true
+      //submit result to the server
+      console.log("Test Complete Submitting Results", this.result);
+      // this.submitResults();
+      return true;
+
     }
+    //did we run out of time instead?
+    if(this.timerFinished){
+      const timeMillis: number = new Date().getTime() - this.state.startTime.getTime();
+      this.timeTaken = timeMillis;
+      this.state.finished = true;
+      // this.submitResults();
+      return true;
+    }
+    console.log('finished??', this.state);
     return false;
   }
-
   observeIfCompFinished(){
     const isFinished = of(this.state.finished)
     return isFinished
   }
 
+  startTimer() {
+    this.resetTimer();
+    this.intervalId = setInterval(() => {
+      if (this.timer.seconds - 1 == -1) {
+        this.timer.minutes -= 1;
+        this.timer.seconds = 59;
+      }
+      else this.timer.seconds -= 1;
+      if (this.timer.minutes === 0 && this.timer.seconds == 0) {
+        this.timerFinished = true;
+        clearInterval(this.intervalId);
+        this.checkIfFinished();
+      }
+      }, 1000);
+  }
+  
 }

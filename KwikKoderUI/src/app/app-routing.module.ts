@@ -12,6 +12,7 @@ import { CompetitionTestComponent } from './pages/competition-test/competition-t
 import { CreateCompetitionComponent } from './create-competition/create-competition.component';
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component'; 
+import { LiveCompsComponent } from './pages/live-comps/live-comps.component';
 
 /*
 //Routes to out page components
@@ -57,7 +58,13 @@ const routes: Routes = [
   },
   {
     path: 'ActiveCompetition/:compId',
-    component: ActiveCompComponent
+    component: ActiveCompComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'LiveCompetitions',
+    component: LiveCompsComponent,
+    canActivate: [AuthGuard]
   }
   
 
