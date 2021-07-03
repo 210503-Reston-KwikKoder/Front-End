@@ -57,10 +57,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     })
   }
 
-  addToQueue(){
-    //TO DO: add users to queue to be placed in competition
-  }
-
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
     if (event){
