@@ -7,6 +7,7 @@ import { CompFunctionsService } from 'src/Services/comp-functions.service';
 import { QueService } from 'src/Services/que.service';
 import { LiveCompService } from 'src/Services/live-comp.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { Language } from 'src/Models/LanguageEnum';
 
 @Component({
   selector: 'app-active-comp',
@@ -17,7 +18,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
   currentUserId: any;
   currentUserName: any
-
+  currrentTest: any
   currentWinner: any
   currentChallenger: any
   wonLastRound: any
@@ -39,6 +40,11 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.chatService.joinSocketRoom(this.roomId)
   }
 
+  newWinnerAndChallenger(users){
+    this.currentWinner = users.winner
+    this.currentChallenger = users.challenger
+  }
+
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
     if (event){
@@ -58,6 +64,17 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     .subscribe(() => this.comp.startTest())
   }
 
+  setListenForNewTest(){
+    console.log('listened for new test')
+    this.liveComp
+    .listenForNewTest()
+    .subscribe((test) => {
+      this.currrentTest = test
+      console.log('got new test', test)
+      this.liveComp.emitStartTest();
+    })
+  }
+
   ngOnInit(): void {
     // enters user into the socket room
     this.joinSocketRoom();
@@ -68,7 +85,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     })
 
     this.setListenForRoundStart()
-
+    this.setListenForNewTest()
     this.comp.newTest();
     console.log(this.comp);
 
@@ -80,13 +97,20 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   langSelected(event: number){
     console.log('lang select event', event);
     this.comp.category = event;
+    this.comp.categoryName = Language[event];
     this.comp.newTest();
   }
 
 
+
+
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
-    this.queue.removeUserFromQueue(this.roomId).catch(err => console.log(err))
+    this.queue.removeUserFromQueue(this.roomId)
+    .then(() => {
+      this.queue.alertQueueChangeToSocket(this.roomId)
+    })
+    .catch(err => console.log(err))
   }
 
 }

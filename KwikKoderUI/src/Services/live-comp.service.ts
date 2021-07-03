@@ -35,6 +35,30 @@ export class LiveCompService {
     return this.socket.emit("start-round")
   }
 
+  // put a test on the liveComp room
+  // expects test as a { "compId": 0, "category": 0, "testString": "string", "testAuthor": "string" }
+  public setNextLiveCompTest(test: any){
+    return this.http.put(`${env.dev.serverUrl}competition/api/LiveCompetition/nexttest`, test).toPromise()
+  }
+
+  public listenForNewTest = () =>{
+    return new Observable((observer) => {
+      this.socket.on('new-test', ((test) => {
+        console.log('listened to new test');
+        observer.next(test);
+      }))
+    })
+  }
+
+  public alertNewTest(roomId, test){
+    console.log('alerting new test', roomId, test)
+    return this.socket.emit('new-test', roomId, test)
+  }
+
+  public getCurrentTest(roomId){
+    return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
+  }
+
   public listenForRoundStart = () => {
     return new Observable((observer) => {
             this.socket.on('round-start', (() => {

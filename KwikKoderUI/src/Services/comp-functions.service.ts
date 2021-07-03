@@ -9,6 +9,7 @@ import { CompetitionContent } from '../Models/CompetitionContentModel';
 import { CompetitionTestResults } from '../Models/CompetitionTestResults';
 import { ResultModel } from 'src/Models/ResultModel';
 import { LiveCompService } from './live-comp.service';
+import { Language } from 'src/Models/LanguageEnum';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class CompFunctionsService {
   expectSpace: boolean;
   skip: boolean;
   category: number = -1;
-  categoryName: string;
+  categoryName: string = Language[this.category];
   sub: Subscription;
   compId: number;
   author: string;
@@ -95,9 +96,16 @@ export class CompFunctionsService {
     this.ShowCaret();    
   }
 
-  startRound(): void {
+  startRound(roomId): void {
     console.log('starting round...');
-    this.liveSer.emitStartTest();
+    let test:any = { 
+      compId: roomId, 
+      category: this.category, 
+      testString: this.testmat.content, 
+      testAuthor: this.testmat.author
+    }; 
+    this.liveSer.alertNewTest(roomId, test)
+    // this.liveSer.emitStartTest();
   }
 
   startTest():void {

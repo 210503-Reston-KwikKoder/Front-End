@@ -1,3 +1,4 @@
+import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { QueService } from 'src/Services/que.service';
 
@@ -10,8 +11,9 @@ export class QueComponent implements OnInit {
   
   public orderedUsersInQueue: any
   @Input() roomId
-  @Input() currentWinner
-  @Input() currentChallenger
+  currentWinner: any;
+  currentChallenger: any;
+  @Output() alertNewWinnerAndChallenger = new EventEmitter<any>();
 
   constructor(
     private queue: QueService
@@ -27,6 +29,10 @@ export class QueComponent implements OnInit {
       this.orderedUsersInQueue = users
       this.currentWinner = this.orderedUsersInQueue[0]
       this.currentChallenger = this.orderedUsersInQueue[1]
+      this.alertNewWinnerAndChallenger.emit({
+          winner: this.currentWinner,
+          challenger: this.currentChallenger
+      })
     })
     .catch(err => console.log(err))
   }
@@ -35,7 +41,10 @@ export class QueComponent implements OnInit {
   addUserToQueue(){
     console.log('addingUserToQueue', this);
     this.queue.addUserToQueue(this.roomId)
-      .then(() => this.queue.alertQueueChangeToSocket)
+      .then(() => {
+        console.log('added user, now calling queue change');
+        this.queue.alertQueueChangeToSocket(this.roomId);
+      }) 
       .catch((err) => console.log(err))
   }
 
@@ -43,7 +52,10 @@ export class QueComponent implements OnInit {
   setListenForQueueUpdates(){
     this.queue
     .listenForQueueUpdates()
-    .subscribe(() => this.getQueParticipants())
+    .subscribe(() => {
+      console.log("heard that the queue has updated")
+      this.getQueParticipants()
+    })
   }
 
   ngOnInit(): void {
