@@ -163,6 +163,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
               }
             },
             {
+              // this works currentlly 7/2/21
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}competition/api/Competition`,
               httpMethod: "POST",

@@ -27,7 +27,10 @@ export class LiveCompsComponent implements OnInit {
   }
 
   createNewComp(){
-    this.livComp.createNewLiveCompRoom(this.newCompName);
+    this.livComp.createNewLiveCompRoom(this.newCompName)
+    .then((roomId) => {
+      
+    })
     this.newCompName = '';
   }
 
