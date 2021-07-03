@@ -8,6 +8,7 @@ import { of, Subscription } from 'rxjs';
 import { CompetitionContent } from '../Models/CompetitionContentModel';
 import { CompetitionTestResults } from '../Models/CompetitionTestResults';
 import { ResultModel } from 'src/Models/ResultModel';
+import { LiveCompService } from './live-comp.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,12 @@ import { ResultModel } from 'src/Models/ResultModel';
 export class CompFunctionsService {
 
   constructor(
-    private api: RestService
+    private api: RestService,
+    public liveSer: LiveCompService,
   ) { }
 
   testmat: any = null;
+  testStarted: boolean = false;
   state: State;
   timeTaken: number;
   wpm: number;
@@ -61,6 +64,7 @@ export class CompFunctionsService {
       correctchars: 0
     }
     this.resetTimer();
+    this.testStarted = false;
     
     this.expectSpace = false
     this.skip = false
@@ -89,6 +93,17 @@ export class CompFunctionsService {
   focusInputArea(): void{
     document.getElementById("input-area").focus();
     this.ShowCaret();    
+  }
+
+  startRound(): void {
+    console.log('starting round...');
+    this.liveSer.emitStartTest();
+  }
+
+  startTest():void {
+    console.log('starting test...');
+    this.testStarted = true;
+    this.startTimer();
   }
 
   ShowCaret(){
@@ -178,7 +193,9 @@ export class CompFunctionsService {
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
     console.log('intercepting key strokes', event);
-    this.onWordChange(event)
+    //has the test started?
+    if(!this.testStarted) return;
+    else this.onWordChange(event);
   }
 
   checkIfFinished(): boolean {

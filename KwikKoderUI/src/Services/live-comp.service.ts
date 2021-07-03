@@ -28,26 +28,20 @@ export class LiveCompService {
   }
 
   public subscribableCheckIfUserIsNext = () => {
-    return new Observable((observer) => {
-        this.socket.on('new-challenger', ((challengerId: any, winnerName: any) => {
-            let challengerAndWinner = {
-              challengerId: challengerId,
-              winnerName: winnerName
-            }
-            observer.next(challengerAndWinner)
-        }))
-    })
+
   }
 
-  public subscibableNewChallengeName = () => {
+  public emitStartTest(){
+    return this.socket.emit("start-round")
+  }
+
+  public listenForRoundStart = () => {
     return new Observable((observer) => {
-      this.socket.on('challenge-accepted', ((challengerName: any) => {
-        observer.next(challengerName)
-      }))
-    })
+            this.socket.on('round-start', (() => {
+                observer.next();
+            }));
+    });
   }
-  
-  public alertNextChallenger(challengerId){
-    return this.socket.emit('new-challenger', challengerId)
-  }
+
+
 }

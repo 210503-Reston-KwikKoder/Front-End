@@ -17,10 +17,10 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
   currentUserId: any;
   currentUserName: any
-  currentChallengerName: any
-  currentWinnerName: any
-  currentChallenger: boolean = false
-  wonLastRound: boolean = false
+
+  currentWinner: any
+  currentChallenger: any
+  wonLastRound: any
 
   constructor(
     private chatService: ChatService,
@@ -39,24 +39,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.chatService.joinSocketRoom(this.roomId)
   }
 
-
-  // subscribes to the next challenger event and checks if user is the next challenger
-  setNextChallengerWatch(){
-    this.liveComp.subscribableCheckIfUserIsNext().subscribe((challengerAndWinner: any) => {
-      if(challengerAndWinner.challengerId == this.currentUserId){
-        this.currentChallenger = true
-      }
-
-      this.currentWinnerName = challengerAndWinner.winnerName
-    })
-  }
-
-  setChallengerName(){
-    this.liveComp.subscibableNewChallengeName().subscribe(challengerName => {
-      this.currentChallengerName = challengerName
-    })
-  }
-
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
     if (event){
@@ -70,6 +52,12 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     document.getElementById("input-area").focus();
   }
 
+  setListenForRoundStart(){
+    this.liveComp
+    .listenForRoundStart()
+    .subscribe(() => this.comp.startTest())
+  }
+
   ngOnInit(): void {
     // enters user into the socket room
     this.joinSocketRoom();
@@ -78,6 +66,8 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentUserId = profile.sub;
       this.currentUserName = profile.name
     })
+
+    this.setListenForRoundStart()
 
     this.comp.newTest();
     console.log(this.comp);

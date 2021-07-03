@@ -8,10 +8,10 @@ import { RestService } from 'src/Services/rest.service';
 import { UserNameModel } from 'src/Models/UserNameModel';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { LangSelectComponent } from 'src/app/components/lang-select/lang-select.component';
-import { SnackBarComponent } from '../components/snack-bar/snack-bar.component';
+import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { DatePipe } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DisplayDatePipe } from '../pipes/display-date.pipe';
+import { DisplayDatePipe } from '../../pipes/display-date.pipe';
 import { Router } from '@angular/router';
 
 describe('CreateCompetitionComponent', () => {
