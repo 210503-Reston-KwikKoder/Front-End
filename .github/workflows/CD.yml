@@ -64,7 +64,6 @@ jobs:
       with:
         manifests: |
           manifests/deploy-webapp.yml
-          manifests/ingress.yml
         images: |
           ${{ secrets.DOCKERHUB_USERNAME}}/${{ env.APP_NAME }}:${{ github.sha }}
         namespace: ${{ env.NAMESPACE }}

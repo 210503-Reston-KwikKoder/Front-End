@@ -41,9 +41,7 @@ export class TestComponent implements OnInit {
     this.category = -1;
     this.newTest();
     document.documentElement.addEventListener('keydown', function (e) {
-      if (( e.key) == " ") {
-          e.preventDefault();
-      }
+      if (( e.key) == " ") { e.preventDefault();}
     }, false);
   }
 
@@ -119,9 +117,7 @@ export class TestComponent implements OnInit {
   }
 
   onWordChange(event: KeyboardEvent): void {
-    if(this.state.finished){
-      return
-    }
+    if(this.state.finished){ return }
     let e = event.key
     if (!this.state.started) {
       this.state.started= true
@@ -158,9 +154,7 @@ export class TestComponent implements OnInit {
       this.state.letterPosition+=1;
       this.ShowCaret();
       var inp = String.fromCharCode(event.keyCode);
-      if (/[a-zA-Z0-9-_ ]/.test(inp)){
-        this.state.errors+=1;
-      }
+      if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
 
@@ -183,7 +177,6 @@ export class TestComponent implements OnInit {
     console.log("giving focus", document.getElementById("input-area"));
     document.getElementById("input-area").focus();
     this.ShowCaret();
-    
   }
 
   checkIfFinished(): boolean {
@@ -207,7 +200,6 @@ export class TestComponent implements OnInit {
       console.log("Test Complete Submitting Results");
       this.submitResults();
       return true;
-
     }
     //did we run out of time instead?
     if(this.timerFinished){

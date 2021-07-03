@@ -23,7 +23,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   wonLastRound: boolean = false
 
   constructor(
-    private chatService: ChatService, 
+    private chatService: ChatService,
     // private restService: RestService,
     private route: ActivatedRoute,
     public comp: CompFunctionsService,
@@ -84,10 +84,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
-      if ( ( e.key) == " ") {
-          e.preventDefault();
-      }
-    }, false);
+      if ( ( e.key) == " ") e.preventDefault();}, false);
   }
 
   langSelected(event: number){
@@ -99,8 +96,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
-    this.queue.removeUserFromQueue(this.roomId)
-    .catch(err => console.log(err))
+    this.queue.removeUserFromQueue(this.roomId).catch(err => console.log(err))
   }
 
 }

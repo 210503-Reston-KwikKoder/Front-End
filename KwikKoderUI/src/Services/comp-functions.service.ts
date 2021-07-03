@@ -121,19 +121,11 @@ export class CompFunctionsService {
   }
 
   calcWordsPerMinute (charsTyped: number, ms: number): number {
-    let result: number;
-    if (charsTyped || ms) {
-      result = (charsTyped / 5) / (ms / 60000);
-    } else {
-      console.log("check input ");
-    }
-    return result;
+    return (charsTyped / 5) / (ms / 60000);
   }
 
   onWordChange(event: KeyboardEvent): void {
-    if(this.state.finished){
-      return
-    }
+    if(this.state.finished) { return }
     let e = event.key
     if (!this.state.started) {
       this.state.started= true
@@ -170,9 +162,7 @@ export class CompFunctionsService {
       this.state.letterPosition+=1;
       this.ShowCaret();
       var inp = String.fromCharCode(event.keyCode);
-      if (/[a-zA-Z0-9-_ ]/.test(inp)){
-        this.state.errors+=1;
-      }
+      if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
 
@@ -193,10 +183,8 @@ export class CompFunctionsService {
 
   checkIfFinished(): boolean {
     let numletters = this.state.wordarray.length-1
-
     const wpm = this.calcWordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
-
     //check if words are done
     console.log('checking for doneness', this.state);
     if(this.state.letterPosition >= this.state.wordarray.length){
