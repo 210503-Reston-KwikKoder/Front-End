@@ -74,20 +74,6 @@ export class CompFunctionsService {
     this.api.getTestContentByCatagoryId(this.category).then(
       (obj)=> {
         this.testmat = obj;
-        this.state.words = this.testmat.content;
-        this.state.wordarray = this.state.words.split('');
-        this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar);
-
-        let lineIndicies = [];
-        for(let i = 0; i < this.state.wordarray.length; i++) {
-          if(this.state.wordarray[i] === "\n") lineIndicies.push(i);
-        }
-        //limit to 30 new line chars
-        if(lineIndicies.length > 30) {
-          let maxNum = lineIndicies.length - 30;
-          let randomStart = this.getRandomInt(0, maxNum);
-          this.state.wordarray = this.state.wordarray.slice(lineIndicies[randomStart] + 1, lineIndicies[randomStart + 30]);
-        }
       })
   }
 
@@ -112,6 +98,24 @@ export class CompFunctionsService {
     console.log('starting test...');
     this.testStarted = true;
     this.startTimer();
+  }
+
+  formatTest(test: any): void {
+    console.log('formatting string..', test);
+    this.state.words = test.testString;
+    this.state.wordarray = this.state.words.split('');
+    this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar);
+
+    let lineIndicies = [];
+    for(let i = 0; i < this.state.wordarray.length; i++) {
+      if(this.state.wordarray[i] === "\n") lineIndicies.push(i);
+    }
+    //limit to 30 new line chars
+    if(lineIndicies.length > 30) {
+      let maxNum = lineIndicies.length - 30;
+      let randomStart = this.getRandomInt(0, maxNum);
+      this.state.wordarray = this.state.wordarray.slice(lineIndicies[randomStart] + 1, lineIndicies[randomStart + 30]);
+    }
   }
 
   ShowCaret(){

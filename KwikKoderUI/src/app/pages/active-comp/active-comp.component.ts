@@ -70,7 +70,8 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     .listenForNewTest()
     .subscribe((test) => {
       this.currrentTest = test
-      console.log('got new test', test)
+      console.log('got new test', test);
+      this.comp.formatTest(test);
       this.liveComp.emitStartTest();
     })
   }
