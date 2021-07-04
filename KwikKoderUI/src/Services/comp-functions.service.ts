@@ -71,7 +71,6 @@ export class CompFunctionsService {
     this.expectSpace = false
     this.skip = false
     //get content to type
-    console.log(this.category);
     this.api.getTestContentByCatagoryId(this.category).then(
       (obj)=> {
         if(obj) {

@@ -71,7 +71,6 @@
     border-color: var(--dark0_hard);
     border-width: 5px;
     border-radius: 5px;
-    font-size: medium;
     text-align: left;
     border-radius: 5px;
     margin-bottom: 1em;
@@ -122,6 +121,7 @@ pre {
     overflow-x: auto;
     white-space: pre-wrap;
     word-wrap: break-word;
+    font-size: medium;
 }
 
 

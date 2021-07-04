@@ -22,10 +22,8 @@ export class QueComponent implements OnInit {
   // gets and ordered list of [ { "userId” : 0, “userName”: “string”, “name”: “string”, “enterTime”: "2021-06-18T02:21:56.857Z" } ]
   //  in the queue and sets it to the local variable orderedNamesInQueue
   getQueParticipants(){
-    console.log('getting the queue');
     this.queue.getQueueUserNames(this.roomId)
     .then(users => {
-      console.log(users)
       this.orderedUsersInQueue = users
       this.currentWinner = this.orderedUsersInQueue[0]
       this.currentChallenger = this.orderedUsersInQueue[1]
@@ -39,10 +37,8 @@ export class QueComponent implements OnInit {
 
   // triggers from join btn; adds a user the the que in the db, then alerts the socket to check for changes
   addUserToQueue(){
-    console.log('addingUserToQueue', this);
     this.queue.addUserToQueue(this.roomId)
       .then(() => {
-        console.log('added user, now calling queue change');
         this.queue.alertQueueChangeToSocket(this.roomId);
       }) 
       .catch((err) => console.log(err))
@@ -53,7 +49,6 @@ export class QueComponent implements OnInit {
     this.queue
     .listenForQueueUpdates()
     .subscribe(() => {
-      console.log("heard that the queue has updated")
       this.getQueParticipants()
     })
   }
