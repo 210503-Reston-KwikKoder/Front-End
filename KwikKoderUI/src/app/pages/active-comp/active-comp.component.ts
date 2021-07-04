@@ -16,8 +16,12 @@ import { Language } from 'src/Models/LanguageEnum';
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
-  currentUserId: any;
-  currentUserName: any
+  //roles: winner, challenger, observer
+  currentUser = {
+    id: '',
+    name: '',
+    role: ''
+  };
   currrentTest: any
   currentWinner: any
   currentChallenger: any
@@ -42,6 +46,15 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   newWinnerAndChallenger(users){
     this.currentWinner = users.winner
     this.currentChallenger = users.challenger
+    this.assignRole()
+  }
+
+  assignRole() {
+    console.log('assigning role..', this.currentUser, this.currentChallenger, this.currentWinner)
+    if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
+    else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
+    else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
+    else this.currentUser.role = 'observer';
   }
 
   keyIntercept(event: KeyboardEvent): void{
@@ -81,14 +94,12 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.joinSocketRoom();
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
-      this.currentUserId = profile.sub;
-      this.currentUserName = profile.name
-    })
-
+      this.currentUser.id = profile.sub;
+      this.currentUser.name = profile.name;
+    });
     this.setListenForRoundStart()
     this.setListenForNewTest()
     this.comp.newTest();
-    console.log(this.comp);
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {

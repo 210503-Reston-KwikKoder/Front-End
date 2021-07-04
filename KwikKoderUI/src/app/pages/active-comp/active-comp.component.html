@@ -9,8 +9,8 @@
                     <div class="col-md-4">
                         <div class="info-box span-align">
                             <span class="info-text">Current Category</span>
-                            <app-lang-select class="info-box" *ngIf="currentChallenger?.userId === currentUserId" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
-                            <span class="info-value-author" *ngIf="currentChallenger?.userId !== currentUserId">{{comp.categoryName}}</span> 
+                            <app-lang-select class="info-box" *ngIf="currentChallenger?.userId === currentUser.id" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+                            <span class="info-value-author" *ngIf="currentChallenger?.userId !== currentUser.id">{{comp.categoryName}}</span> 
                         </div>
                     </div>
                     <div *ngIf="comp.testmat" class="col-md-4">
@@ -32,13 +32,13 @@
                         <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
                     </div>
                 </div>
-                <div class="btn-row" *ngIf="currentChallenger?.userId === currentUserId">
+                <div class="btn-row" *ngIf="currentUser.role == 'challenger'">
                     <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
                     <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
                 </div>
                 <div class="input-form" >
-                    <div *ngIf="comp.state.finished" class="result">
-                        <h1 id="result">Finished: {{comp.state.finished}}</h1>
+                    <div *ngIf="comp.state?.finished" class="result">
+                        <h1 id="result">Finished: {{comp.state?.finished}}</h1>
                     </div>
                     <div class="col-xs-6">
                         <h1>Challenger: {{this.currentChallenger?.name}}</h1>
@@ -80,7 +80,7 @@
                                 </div>
                             </div>
                             <div tabindex="0" id="winner-input-area" (keydown)="comp.keyIntercept($event)" class="entry-box p-4" >
-                                <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
+                                <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre>
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
             </div>
         </div>
         <div class="col-md-3" id="chat">
-            <app-chat [roomId]="roomId" [userName]="currentUserName"></app-chat>
+            <app-chat [roomId]="roomId" [userName]="currentUser.name"></app-chat>
             <app-que [roomId]="roomId" (alertNewWinnerAndChallenger)="newWinnerAndChallenger($event)"></app-que>
         </div>
     </div>
