@@ -61,14 +61,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
 import { QueComponent } from './components/que/que.component';
 
-//Localhost Chat server
-// const config: SocketIoConfig = { url: "localhost:3000",
-//   options: {
-//     withCredentials: false,
-//     path: "/chat-api/socket.io/",
-//   }
-// };
-
 //Cluster Chat server
 const config: SocketIoConfig = { url: "20.69.69.228",
   options: {
