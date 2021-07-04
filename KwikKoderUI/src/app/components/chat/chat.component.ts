@@ -21,7 +21,7 @@ export class ChatComponent implements OnInit {
   messageInputHandler(e){
     if(e.keyCode == 13){
       this.sendMessage()
-    }else if(e.key === " "){
+    } else if(e.key === " "){
       this.newMessage += e.key
     }
   }
