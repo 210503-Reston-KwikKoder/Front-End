@@ -61,7 +61,6 @@ export class CompFunctionsService {
       startTime: null,
       timeTaken: 0,
       letterPosition: 0,
-      //wordPosition: 0,
       finished: false,
       correctchars: 0
     }
@@ -93,13 +92,14 @@ export class CompFunctionsService {
       testString: this.testmat.snippet, 
       testAuthor: this.testmat.author
     }; 
-    this.liveSer.alertNewTest(roomId, test)
-    // this.liveSer.emitStartTest();
+    this.liveSer.alertNewTest(roomId, test);
   }
 
   startTest():void {
     console.log('starting test...');
     this.testStarted = true;
+    this.state.started = true;
+    this.state.startTime = new Date();
     this.startTimer();
   }
 
@@ -160,11 +160,6 @@ export class CompFunctionsService {
   onWordChange(event: KeyboardEvent): void {
     if(this.state.finished) { return }
     let e = event.key
-    if (!this.state.started) {
-      this.state.started= true
-      this.state.startTime = new Date()
-      this.startTimer()
-    }
     let expectedLetter = this.state.wordarray[this.state.letterPosition];
 
     
@@ -198,21 +193,24 @@ export class CompFunctionsService {
       if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
-
     if(this.checkIfFinished()){
       return;
     }
+
     if(this.state.wordarray[this.state.letterPosition]=="\n"){
       //display enter prompt
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
     }
   }
 
-  keyIntercept(event: KeyboardEvent): void{
+  keyIntercept(event: KeyboardEvent, user: any, elemType: string): void{
     //check for special keycodes if needed
-    console.log('intercepting key strokes', event);
     //has the test started?
     if(!this.testStarted) return;
+
+    //only allow users to type in their respective boxes
+    else if(user.role !== elemType) return;
+
     else this.onWordChange(event);
   }
 
@@ -222,6 +220,7 @@ export class CompFunctionsService {
     this.wpm = Math.floor(wpm);
     //check if words are done
     if(this.state.letterPosition >= this.state.wordarray.length){
+      console.log('words are done, finishing');
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
 
@@ -244,6 +243,7 @@ export class CompFunctionsService {
     }
     return false;
   }
+
   observeIfCompFinished(){
     const isFinished = of(this.state.finished)
     return isFinished
@@ -257,7 +257,8 @@ export class CompFunctionsService {
         this.timer.seconds = 59;
       }
       else this.timer.seconds -= 1;
-      if (this.timer.minutes === 0 && this.timer.seconds == 0) {
+      if (this.timer.minutes == 0 && this.timer.seconds == 0) {
+        console.log('ran out of time');
         this.timerFinished = true;
         clearInterval(this.intervalId);
         this.checkIfFinished();
