@@ -6,7 +6,7 @@ import { RestService } from 'src/Services/rest.service';
 import { UserNameModel } from 'src/Models/UserNameModel';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { LangSelectComponent } from 'src/app/components/lang-select/lang-select.component';
-import { SnackBarComponent } from '../components/snack-bar/snack-bar.component';
+import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -70,10 +70,6 @@ export class CreateCompetitionComponent implements OnInit {
     
     this.realEndDate = new Date(this.endDate);
     this.realStartDate = new Date(this.startDate);
-
-    console.log("after conv")
-    console.log( this.realStartDate)
-    console.log(this.realEndDate)
     
     this.UserName = new UserNameModel;
 
@@ -100,7 +96,7 @@ export class CreateCompetitionComponent implements OnInit {
         author: this.author,
         compId: 0
       };
-      //console.log(this.snippet);
+      console.log(newComp);
 
       this.compId = this.api.postCompetition(newComp);
       this.snackBar.displaySuccess("Competition Added!");

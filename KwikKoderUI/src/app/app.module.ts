@@ -15,6 +15,7 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
+import { LiveCompsComponent } from './pages/live-comps/live-comps.component';
 
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { TestComponent } from './pages/test/test.component';
@@ -23,7 +24,7 @@ import { ViewCompetitionsComponent } from './pages/view-competitions/view-compet
 
 import { LangSelectComponent } from './components/lang-select/lang-select.component';
 import { CompetitionTestComponent } from './pages/competition-test/competition-test.component';
-import { CreateCompetitionComponent } from './create-competition/create-competition.component';
+import { CreateCompetitionComponent } from './pages/create-competition/create-competition.component';
 import { DisplayPercentPipe } from './pipes/display-percent.pipe';
 import { DisplayDatePipe } from './pipes/display-date.pipe';
 
@@ -43,6 +44,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 //syntax highligher
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { ChatComponent } from './components/chat/chat.component';
+
 
 //Loader Material UI
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -83,6 +85,11 @@ const config: SocketIoConfig = { url: "20.69.69.228",
 
 @NgModule({
   declarations: [
+    ActiveCompComponent,
+    PlayerTestAreaComponent,
+    QueComponent,
+    ChatComponent,
+    LiveCompsComponent,
     AppComponent,
     LoadingComponent,
     LoginButtonComponent,
@@ -105,10 +112,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
     CompetitionResultComponent,
     DisplayTimePipe,
     ProgressGraphComponent,
-    ActiveCompComponent,
-    PlayerTestAreaComponent,
-    QueComponent,
-    ChatComponent,
+
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -146,6 +150,18 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}typetest/api/UserStat/tests/all`,
+              httpMethod: "GET",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}typetest/api/User/username`,
               tokenOptions: {
                 // The attached token should target this audience
@@ -156,6 +172,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
               }
             },
             {
+              // this works currentlly 7/2/21
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}competition/api/Competition`,
               httpMethod: "POST",
@@ -180,7 +197,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/CompetitonStats`,
+              uri: `${env.dev.serverUrl}competition/api/CompetitonTests`,
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -202,7 +219,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             // }
             ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/*`,
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
               httpMethod: "PUT",
               tokenOptions: {
                 // The attached token should target this audience
@@ -214,8 +231,20 @@ const config: SocketIoConfig = { url: "20.69.69.228",
             }
             ,{
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/*`,
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
               httpMethod: "DELETE",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            }
+            ,{
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition`,
+              httpMethod: "POST",
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,

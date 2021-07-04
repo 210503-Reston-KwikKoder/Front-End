@@ -7,6 +7,7 @@ import { CompFunctionsService } from 'src/Services/comp-functions.service';
 import { QueService } from 'src/Services/que.service';
 import { LiveCompService } from 'src/Services/live-comp.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { Language } from 'src/Models/LanguageEnum';
 
 @Component({
   selector: 'app-active-comp',
@@ -17,14 +18,16 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
   currentUserId: any;
   currentUserName: any
-  currentChallenger: boolean = false
-  wonLastRound: boolean = false
+  currrentTest: any
+  currentWinner: any
+  currentChallenger: any
+  wonLastRound: any
 
   constructor(
-    private chatService: ChatService, 
+    private chatService: ChatService,
     // private restService: RestService,
     private route: ActivatedRoute,
-    // private comp: CompFunctionsService,
+    public comp: CompFunctionsService,
     private queue: QueService,
     private liveComp: LiveCompService,
     public auth: AuthService
@@ -37,18 +40,9 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.chatService.joinSocketRoom(this.roomId)
   }
 
-
-  // subscribes to the next challenger event and checks if user is the next challenger
-  setNextChallengerWatch(){
-    this.liveComp.subscribableCheckIfUserIsNext().subscribe(challengerId => {
-      if(challengerId == this.currentUserId){
-        this.currentChallenger = true
-      }
-    })
-  }
-
-  addToQueue(){
-    //TO DO: add users to queue to be placed in competition
+  newWinnerAndChallenger(users){
+    this.currentWinner = users.winner
+    this.currentChallenger = users.challenger
   }
 
   keyIntercept(event: KeyboardEvent): void{
@@ -64,6 +58,23 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     document.getElementById("input-area").focus();
   }
 
+  setListenForRoundStart(){
+    this.liveComp
+    .listenForRoundStart()
+    .subscribe(() => this.comp.startTest())
+  }
+
+  setListenForNewTest(){
+    console.log('listened for new test')
+    this.liveComp
+    .listenForNewTest()
+    .subscribe((test) => {
+      this.currrentTest = test
+      console.log('got new test', test)
+      this.liveComp.emitStartTest();
+    })
+  }
+
   ngOnInit(): void {
     // enters user into the socket room
     this.joinSocketRoom();
@@ -73,20 +84,32 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentUserName = profile.name
     })
 
-    // this.comp.newTest();
+    this.setListenForRoundStart()
+    this.setListenForNewTest()
+    this.comp.newTest();
+    console.log(this.comp);
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
-      if ( ( e.key) == " ") {
-          e.preventDefault();
-      }
-    }, false);
+      if ( ( e.key) == " ") e.preventDefault();}, false);
   }
+
+  langSelected(event: number){
+    console.log('lang select event', event);
+    this.comp.category = event;
+    this.comp.categoryName = Language[event];
+    this.comp.newTest();
+  }
+
+
 
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
     this.queue.removeUserFromQueue(this.roomId)
+    .then(() => {
+      this.queue.alertQueueChangeToSocket(this.roomId)
+    })
     .catch(err => console.log(err))
   }
 

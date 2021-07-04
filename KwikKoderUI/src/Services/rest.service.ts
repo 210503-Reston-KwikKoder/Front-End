@@ -56,7 +56,7 @@ export class RestService {
   }
 
   postCompetitionResults(test: CompetitionTestResults){
-    let status =  this.http.post(`${env.dev.serverUrl}competition/api/CompetitonStats`, test)
+    let status =  this.http.post(`${env.dev.serverUrl}competition/api/CompetitonTests`, test)
     status.subscribe(
       (code) => {console.log("status code:", code);} 
     ) 
@@ -71,7 +71,7 @@ export class RestService {
   }
   // possible bug generation
   getCompetitionContent(id: number):Promise<CompetitionContent>{
-    return this.http.get<CompetitionContent>(`${env.dev.serverUrl}competition/api/CompetitonStats/${id}`).toPromise();    
+    return this.http.get<CompetitionContent>(`${env.dev.serverUrl}competition/api/CompetitonTests/${id}`).toPromise();    
   }
   getloggedInUser():Promise<UserNameModel>{
     return this.http.get<UserNameModel>(`${env.dev.serverUrl}typetest/api/User/username`).toPromise();
@@ -86,6 +86,6 @@ export class RestService {
     return this.http.get<CompStatModel[]>(`${env.dev.serverUrl}competition/api/Competition/${id}`).toPromise();    
   }
   getProgressResults(): Promise<ProgressGraphData[][]>{
-    return this.http.get<ProgressGraphData[][]>(`${env.dev.serverUrl}typetest/api/UserStat/tests`).toPromise();
+    return this.http.get<ProgressGraphData[][]>(`${env.dev.serverUrl}typetest/api/UserStat/tests/all`).toPromise();
   }
 }

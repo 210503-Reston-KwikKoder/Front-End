@@ -1,16 +1,111 @@
 
 <div class="container" id="comp-room">
+    <h1>Winner: {{this.currentWinner?.name}}</h1>
+    <h1>
+        Challenger: {{this.currentChallenger?.name}}
+    </h1>
     <div class="row">
-        <div class="col-md-9" id="comp-arena">
+        <div class="col-md-9" id="challenger-comp-arena" >
             <div id="prompt-box">
             </div>
             <div class="player-test-view">
-                <!-- <app-player-test-area></app-player-test-area> -->
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-1">
+                        <div class="info-box span-align">
+                            <span class="info-text">Current Category</span>
+                            <app-lang-select class="info-box" *ngIf="currentChallenger?.userId === currentUserId" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+                            <span class="info-value-author" *ngIf="currentChallenger?.userId !== currentUserId">{{comp.categoryName}}</span> 
+                        </div>
+                    </div>
+                    <div *ngIf="comp.testmat" class="col-md-2">
+                        <div class="info-box span-align">
+                            <span class="info-text">Author</span>
+                            <span class="info-value-author" id="author">{{comp.testmat?.author}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-box span-align">
+                            <span class="info-text">Errors</span>
+                            <span class="info-value" id="errors">{{comp.state.errors}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-box span-align">
+                            <span class="info-text">Wpm</span>
+                            <span class="info-value" id="wpm">{{comp.wpm}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-box span-align">
+                            <span class="info-text">Timer</span>
+                            <span class="info-value">{{comp.pad(comp.timer.minutes)}} : {{comp.pad(comp.timer.seconds)}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="comp.category != -1">
+                    <div tabindex="1" class="p-4">
+                        <pre><code [highlight]="comp.state.wordarray.join('')"></code></pre>    
+                    </div>
+                </div>
+                <div *ngIf="comp.category == -1">
+                    <div tabindex="0" id="winners-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                        <pre class="quote-box">{{comp.state.wordarray.join('')}}</pre>
+                    </div>
+                </div>
+                <div *ngIf="currentChallenger?.userId === currentUserId">
+                    <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
+                    <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
+                </div>
+                <div class="input-form" >
+                    <div *ngIf="comp.state.finished" class="result">
+                        <h1 id="result">Finished: {{comp.state.finished}}</h1>
+                    </div>
+                    <div>
+                        <h1>Challenger's</h1>
+                        <div *ngIf="comp.category != -1">
+                            <div class="col-xs-6">
+                                <div tabindex="0" id="challengers-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                                    <pre ><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div tabindex="1" class="p-4">
+                                    <pre><code [highlight]="comp.state.wordarray.join('')"></code></pre>    
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="comp.category == -1">
+                            <div tabindex="0" id="winners-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                                <pre class="quote-box"><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h1>Winners's</h1>
+                        <div *ngIf="comp.category != -1">
+                            <div class="col-xs-6">
+                                <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                                    <pre ><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div tabindex="1" class="p-4">
+                                    <pre><code [highlight]="comp.state.wordarray.join('')"></code></pre>    
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="comp.category == -1">
+                            <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                                <pre class="quote-box"><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-3" id="chat">
             <app-chat [roomId]="roomId" [userName]="currentUserName"></app-chat>
-            <app-que [roomId]="roomId"></app-que>
+            <app-que [roomId]="roomId" (alertNewWinnerAndChallenger)="newWinnerAndChallenger($event)"></app-que>
         </div>
     </div>
 </div>

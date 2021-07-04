@@ -15,6 +15,7 @@ spec:
       containers:
         - name: website
           image: kwikkoder/front-end:${IMAGE_TAG}
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: 100m
@@ -30,7 +31,7 @@ kind: Service
 metadata:
   name: website
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - targetPort: 80
       port: 4200
