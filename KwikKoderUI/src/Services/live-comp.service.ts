@@ -67,5 +67,22 @@ export class LiveCompService {
     });
   }
 
+  // used to emit when a competitor hits a key
+  public emitKeyPress(key, roomId, competitorId){
+    return this.socket.emit('comp-key', key, roomId, competitorId)
+  }
 
+  // returns an observable that triggers when a copetitor hits a key
+  // provides subscriber with {letter: letter, competitorId: competitorId}
+  public listenForCompKeyPress = () => {
+    return new Observable((observer) => {
+      this.socket.on('comp-key', (letter, competitorId) => {
+        let letterAndCompetitorId = {
+          letter: letter,
+          competitorId: competitorId
+        }
+        observer.next(letterAndCompetitorId)
+      })
+    })
+  }
 }
