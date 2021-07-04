@@ -50,7 +50,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   assignRole() {
-    console.log('assigning role..', this.currentUser, this.currentChallenger, this.currentWinner)
     if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
     else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
     else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
@@ -77,12 +76,10 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   setListenForNewTest(){
-    console.log('listened for new test')
     this.liveComp
     .listenForNewTest()
     .subscribe((test) => {
       this.currrentTest = test
-      console.log('got new test', test);
       this.comp.formatTest(test);
       this.liveComp.emitStartTest();
     })
@@ -107,7 +104,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   langSelected(event: number){
-    console.log('lang select event', event);
     this.comp.category = event;
     this.comp.categoryName = Language[event];
     this.comp.newTest();

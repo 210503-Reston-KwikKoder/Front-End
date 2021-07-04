@@ -74,7 +74,6 @@ export class CompFunctionsService {
     console.log(this.category);
     this.api.getTestContentByCatagoryId(this.category).then(
       (obj)=> {
-        console.log('got testmat', obj);
         if(obj) {
           this.testmat = obj;
           this.testmat.snippet = this.randomSnippet(obj.content, 10);
@@ -107,7 +106,6 @@ export class CompFunctionsService {
 
   //formats the test to be able to be typed
   formatTest(test: any): void {
-    console.log('formatting string..', test);
     this.state.words = test.testString;
     this.state.wordarray = this.state.words.split('');
     this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar);
@@ -224,12 +222,9 @@ export class CompFunctionsService {
     const wpm = this.calcWordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
     //check if words are done
-    console.log('checking for doneness', this.state);
     if(this.state.letterPosition >= this.state.wordarray.length){
-      console.log('tis done');
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
       this.timeTaken = timeMillis;
-      console.log("#errors", this.state.errors);
 
       //stop timer and flip the flag
       clearInterval(this.intervalId);
@@ -248,7 +243,6 @@ export class CompFunctionsService {
       // this.submitResults();
       return true;
     }
-    console.log('finished??', this.state);
     return false;
   }
   observeIfCompFinished(){
