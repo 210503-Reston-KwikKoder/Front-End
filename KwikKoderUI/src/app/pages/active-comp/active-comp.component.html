@@ -1,41 +1,25 @@
 
 <div class="container" id="comp-room">
-    <h1>Winner: {{this.currentWinner?.name}}</h1>
-    <h1>
-        Challenger: {{this.currentChallenger?.name}}
-    </h1>
     <div class="row">
         <div class="col-md-9" id="challenger-comp-arena" >
             <div id="prompt-box">
             </div>
             <div class="player-test-view">
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-1">
+                <div class="row info-row">
+                    <div class="col-md-4">
                         <div class="info-box span-align">
                             <span class="info-text">Current Category</span>
                             <app-lang-select class="info-box" *ngIf="currentChallenger?.userId === currentUserId" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
                             <span class="info-value-author" *ngIf="currentChallenger?.userId !== currentUserId">{{comp.categoryName}}</span> 
                         </div>
                     </div>
-                    <div *ngIf="comp.testmat" class="col-md-2">
+                    <div *ngIf="comp.testmat" class="col-md-4">
                         <div class="info-box span-align">
                             <span class="info-text">Author</span>
                             <span class="info-value-author" id="author">{{comp.testmat?.author}}</span>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        <div class="info-box span-align">
-                            <span class="info-text">Errors</span>
-                            <span class="info-value" id="errors">{{comp.state.errors}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="info-box span-align">
-                            <span class="info-text">Wpm</span>
-                            <span class="info-value" id="wpm">{{comp.wpm}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="info-box span-align">
                             <span class="info-text">Timer</span>
                             <span class="info-value">{{comp.pad(comp.timer.minutes)}} : {{comp.pad(comp.timer.seconds)}}</span>
@@ -48,7 +32,7 @@
                         <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
                     </div>
                 </div>
-                <div *ngIf="currentChallenger?.userId === currentUserId">
+                <div class="btn-row" *ngIf="currentChallenger?.userId === currentUserId">
                     <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
                     <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
                 </div>
@@ -57,14 +41,42 @@
                         <h1 id="result">Finished: {{comp.state.finished}}</h1>
                     </div>
                     <div class="col-xs-6">
-                        <h1>Challenger's</h1>
-                        <div tabindex="0" id="challenger-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                        <h1>Challenger: {{this.currentChallenger?.name}}</h1>
+                        <div class="row info-row">
+                            <div class="col-xs-6">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Errors</span>
+                                    <span class="info-value" id="errors">{{comp.state.errors}}</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Wpm</span>
+                                    <span class="info-value" id="wpm">{{comp.wpm}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div tabindex="0" id="challenger-input-area" (keydown)="comp.keyIntercept($event)" class="entry-box p-4" >
                             <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <h1>Winner's</h1>
-                        <div tabindex="0" id="winner-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                        <h1>Defending Champion: {{this.currentWinner?.name}}</h1>
+                        <div class="row info-row">
+                            <div class="col-xs-6">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Errors</span>
+                                    <span class="info-value" id="errors">{{comp.state.errors}}</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Wpm</span>
+                                    <span class="info-value" id="wpm">{{comp.wpm}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div tabindex="0" id="winner-input-area" (keydown)="comp.keyIntercept($event)" class="entry-box p-4" >
                             <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                         </div>
                     </div>
