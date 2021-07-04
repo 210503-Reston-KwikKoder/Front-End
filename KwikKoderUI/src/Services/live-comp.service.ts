@@ -44,14 +44,12 @@ export class LiveCompService {
   public listenForNewTest = () =>{
     return new Observable((observer) => {
       this.socket.on('new-test', ((test) => {
-        console.log('listened to new test');
         observer.next(test);
       }))
     })
   }
 
   public alertNewTest(roomId, test){
-    console.log('alerting new test', roomId, test)
     return this.socket.emit('new-test', roomId, test)
   }
 
