@@ -42,14 +42,10 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="comp.category != -1">
+                <div>
                     <div tabindex="1" class="p-4">
-                        <pre><code [highlight]="comp.testmat.content"></code></pre>    
-                    </div>
-                </div>
-                <div *ngIf="comp.category == -1">
-                    <div tabindex="0" id="winners-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
-                        <pre class="quote-box">{{comp.testmat?.content}}</pre>
+                        <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
+                        <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
                     </div>
                 </div>
                 <div *ngIf="currentChallenger?.userId === currentUserId">
@@ -60,44 +56,16 @@
                     <div *ngIf="comp.state.finished" class="result">
                         <h1 id="result">Finished: {{comp.state.finished}}</h1>
                     </div>
-                    <div>
+                    <div class="col-xs-6">
                         <h1>Challenger's</h1>
-                        <div *ngIf="comp.category != -1">
-                            <div class="col-xs-6">
-                                <div tabindex="0" id="challenger-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
-                                    <pre ><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div tabindex="1" class="p-4">
-                                    <pre><code [highlight]="comp.state.wordarray.join('')"></code></pre>    
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="comp.category == -1">
-                            <div tabindex="0" id="winners-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
-                                <pre class="quote-box"><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
-                            </div>
+                        <div tabindex="0" id="challenger-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                            <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                         </div>
                     </div>
-                    <div>
-                        <h1>Winners's</h1>
-                        <div *ngIf="comp.category != -1">
-                            <div class="col-xs-6">
-                                <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
-                                    <pre ><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
-                                </div>
-                            </div>
-                            <div class="col-xs-6">
-                                <div tabindex="1" class="p-4">
-                                    <pre><code [highlight]="comp.state.wordarray.join('')"></code></pre>    
-                                </div>
-                            </div>
-                        </div>
-                        <div *ngIf="comp.category == -1">
-                            <div tabindex="0" id="input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
-                                <pre class="quote-box"><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
-                            </div>
+                    <div class="col-xs-6">
+                        <h1>Winner's</h1>
+                        <div tabindex="0" id="winner-input-area" (click)= "focusInputArea()" (keydown)="comp.keyIntercept($event)" class="Entry-Box p-4" >
+                            <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                         </div>
                     </div>
                 </div>

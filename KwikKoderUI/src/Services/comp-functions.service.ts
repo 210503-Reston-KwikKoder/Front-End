@@ -50,6 +50,7 @@ export class CompFunctionsService {
   
   newTest(): void{
     this.wpm = 0;
+    this.testmat = undefined;
     this.state = {
       words: '',
       wordarray: new Array(),
@@ -73,7 +74,11 @@ export class CompFunctionsService {
     console.log(this.category);
     this.api.getTestContentByCatagoryId(this.category).then(
       (obj)=> {
-        this.testmat = obj;
+        console.log('got testmat', obj);
+        if(obj) {
+          this.testmat = obj;
+          this.testmat.snippet = this.randomSnippet(obj.content, 10);
+        }
       })
   }
 
@@ -87,7 +92,7 @@ export class CompFunctionsService {
     let test:any = { 
       compId: roomId, 
       category: this.category, 
-      testString: this.testmat.content, 
+      testString: this.testmat.snippet, 
       testAuthor: this.testmat.author
     }; 
     this.liveSer.alertNewTest(roomId, test)
@@ -100,22 +105,37 @@ export class CompFunctionsService {
     this.startTimer();
   }
 
+  //formats the test to be able to be typed
   formatTest(test: any): void {
     console.log('formatting string..', test);
     this.state.words = test.testString;
     this.state.wordarray = this.state.words.split('');
     this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar);
+  }
 
+  //takes in a test snippet and the max length and returns a random snippet from it.
+  randomSnippet(test: string, lineLength: number): string {
+    let returnSnippet: string = test;
+    //get random integer within a range
+    let getRandomInt = function(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    //loop through the string and count all the newline chars and store their index location in an array.
     let lineIndicies = [];
-    for(let i = 0; i < this.state.wordarray.length; i++) {
-      if(this.state.wordarray[i] === "\n") lineIndicies.push(i);
+    for(let i = 0; i < test.length; i++) {
+      if(test[i] === "\n") lineIndicies.push(i);
     }
-    //limit to 30 new line chars
-    if(lineIndicies.length > 30) {
-      let maxNum = lineIndicies.length - 30;
-      let randomStart = this.getRandomInt(0, maxNum);
-      this.state.wordarray = this.state.wordarray.slice(lineIndicies[randomStart] + 1, lineIndicies[randomStart + 30]);
+
+    //if the snippet given is longer than lineLength, get a random starting point and clip it
+    if(lineIndicies.length > lineLength) {
+      let maxNum: number = lineIndicies.length - lineLength;
+      let randomStart: number = getRandomInt(0, maxNum);
+      returnSnippet = test.slice(lineIndicies[randomStart] + 1, lineIndicies[randomStart + lineLength])
     }
+
+    return returnSnippet;
   }
 
   ShowCaret(){
@@ -126,17 +146,6 @@ export class CompFunctionsService {
   HideCaret(){
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "transparent";
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "transparent";
-  }
-
-  getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  pad(num: number) {
-    if(num < 10) return `0${num}`;
-    else return num;
   }
 
   checkIsBadChar(element: string, index: number, array: any) {
@@ -261,6 +270,12 @@ export class CompFunctionsService {
         this.checkIfFinished();
       }
       }, 1000);
+  }
+
+  //ToDo: Turn this into a custom pipe?
+  pad(num: number) {
+    if(num < 10) return `0${num}`;
+    else return num;
   }
   
 }

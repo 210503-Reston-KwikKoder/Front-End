@@ -102,9 +102,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.comp.newTest();
   }
 
-
-
-
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
     this.queue.removeUserFromQueue(this.roomId)
