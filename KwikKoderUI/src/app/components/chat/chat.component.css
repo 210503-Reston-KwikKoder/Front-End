@@ -15,3 +15,7 @@
 .chat-message-div p{
     padding-left: 1rem;
 }
+
+.msg-box {
+    margin-bottom: 0.5em;
+}

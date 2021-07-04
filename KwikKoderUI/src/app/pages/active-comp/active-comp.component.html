@@ -42,42 +42,46 @@
                     </div>
                     <div class="col-xs-6">
                         <h1>Challenger: {{this.currentChallenger?.name}}</h1>
-                        <div class="row info-row">
-                            <div class="col-xs-6">
-                                <div class="info-box span-align">
-                                    <span class="info-text">Errors</span>
-                                    <span class="info-value" id="errors">{{comp.state.errors}}</span>
+                        <div *ngIf="comp.testStarted">
+                            <div class="row info-row">
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Errors</span>
+                                        <span class="info-value" id="errors">{{comp.state.errors}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Wpm</span>
+                                        <span class="info-value" id="wpm">{{comp.wpm}}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-xs-6">
-                                <div class="info-box span-align">
-                                    <span class="info-text">Wpm</span>
-                                    <span class="info-value" id="wpm">{{comp.wpm}}</span>
-                                </div>
+                            <div tabindex="0" id="challenger-input-area" (keydown)="comp.keyIntercept($event)" class="entry-box p-4" >
+                                <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                             </div>
-                        </div>
-                        <div tabindex="0" id="challenger-input-area" (keydown)="comp.keyIntercept($event)" class="entry-box p-4" >
-                            <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <h1>Defending Champion: {{this.currentWinner?.name}}</h1>
-                        <div class="row info-row">
-                            <div class="col-xs-6">
-                                <div class="info-box span-align">
-                                    <span class="info-text">Errors</span>
-                                    <span class="info-value" id="errors">{{comp.state.errors}}</span>
+                        <div *ngIf="comp.testStarted">
+                            <div class="row info-row">
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Errors</span>
+                                        <span class="info-value" id="errors">{{comp.state.errors}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Wpm</span>
+                                        <span class="info-value" id="wpm">{{comp.wpm}}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-xs-6">
-                                <div class="info-box span-align">
-                                    <span class="info-text">Wpm</span>
-                                    <span class="info-value" id="wpm">{{comp.wpm}}</span>
-                                </div>
+                            <div tabindex="0" id="winner-input-area" (keydown)="comp.keyIntercept($event)" class="entry-box p-4" >
+                                <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                             </div>
-                        </div>
-                        <div tabindex="0" id="winner-input-area" (keydown)="comp.keyIntercept($event)" class="entry-box p-4" >
-                            <pre><span class="test_site" *ngFor="let t of comp.state.wordarray; index as i"[attr.id]="'char-'+i" >{{t}}</span></pre> 
                         </div>
                     </div>
                 </div>

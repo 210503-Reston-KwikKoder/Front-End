@@ -21,7 +21,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   currrentTest: any
   currentWinner: any
   currentChallenger: any
-  wonLastRound: any
 
   constructor(
     private chatService: ChatService,
@@ -78,7 +77,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     // enters user into the socket room
-    
+
     this.joinSocketRoom();
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
