@@ -53,6 +53,11 @@ export class LiveCompService {
     return this.socket.emit('new-test', roomId, test)
   }
 
+  //Used to emite the newly generated snippet to be displayed across all browsers
+  alertNewSnippet(roomId, test){
+    return this.socket.emit('new-test', roomId, test)
+  }
+
   public getCurrentTest(roomId){
     return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
   }

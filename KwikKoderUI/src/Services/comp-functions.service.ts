@@ -67,7 +67,7 @@ export class CompFunctionsService {
     };
   }
   
-  newTest(): void{
+  newTest(roomId): void{
     this.winnerWpm = 0;
     this.challengerWpm = 0;
     this.testmat = undefined;
@@ -87,6 +87,14 @@ export class CompFunctionsService {
           this.testmat.snippet = this.randomSnippet(obj.content, 10);
         }
       })
+
+      let test:any = { 
+        compId: roomId, 
+        category: this.category, 
+        testString: this.testmat.snippet, 
+        testAuthor: this.testmat.author
+      }; 
+      this.liveSer.alertNewSnippet(roomId, test);
   }
 
   startRound(roomId): void {

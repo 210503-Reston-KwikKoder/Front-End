@@ -26,16 +26,19 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div tabindex="1" class="p-4">
-                        <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
-                        <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
+                <div *ngIf="currentUser.role == 'challenger' else otherUsers">
+                    <div>
+                        <div tabindex="1" class="p-4">
+                            <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
+                            <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
+                        </div>
+                    </div>
+                    <div class="btn-row" >
+                        <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
+                        <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
                     </div>
                 </div>
-                <div class="btn-row" *ngIf="currentUser.role == 'challenger'">
-                    <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
-                    <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
-                </div>
+                <ng-template class="waiting" #otherUsers>Waiting For Challenger...</ng-template>
                 <div class="input-form" >
                     <div class="col-xs-6">
                         <h1>Challenger: {{this.currentChallenger?.name}}</h1>

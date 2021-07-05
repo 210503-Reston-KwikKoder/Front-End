@@ -98,7 +98,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     });
     this.setListenForRoundStart()
     this.setListenForNewTest()
-    this.comp.newTest();
+    this.comp.newTest(this.roomId);
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
@@ -108,7 +108,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   langSelected(event: number){
     this.comp.category = event;
     this.comp.categoryName = Language[event];
-    this.comp.newTest();
+    this.comp.newTest(this.roomId);
   }
 
   // if the user leaves the room they are removed from the que 
