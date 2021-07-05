@@ -85,18 +85,24 @@ export class CompFunctionsService {
         if(obj) {
           this.testmat = obj;
           this.testmat.snippet = this.randomSnippet(obj.content, 10);
+          console.log(this.testmat);
         }
       })
+
   }
 
+  //challenger presses start round btn to trigger this function
+  //takes room id and generated test material and emits it across the socket
   startRound(roomId): void {
     let test:any = { 
       compId: roomId, 
-      category: this.category, 
+      category: this.category,
+      categoryName: Language[this.category],
       testString: this.testmat.snippet, 
       testAuthor: this.testmat.author
-    }; 
-    this.liveSer.alertNewTest(roomId, test);
+    };
+    console.log('starting round', test)
+    this.liveSer.alertNewTest(test);
   }
 
   startTest():void {
@@ -150,7 +156,6 @@ export class CompFunctionsService {
     elem.style.borderLeftColor = "yellow";
   }
   HideCaret(elem: HTMLElement){
-    console.log('hiding caret', elem);
     elem.style.borderLeft = "none";
     elem.style.borderLeftColor = "transparent";
   }

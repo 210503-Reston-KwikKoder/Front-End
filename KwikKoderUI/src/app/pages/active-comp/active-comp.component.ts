@@ -22,7 +22,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     name: '',
     role: ''
   };
-  currrentTest: any
+  currentTest: any
   currentWinner: any
   currentChallenger: any
 
@@ -69,21 +69,18 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     document.getElementById("input-area").focus();
   }
 
-  setListenForRoundStart(){
-    this.liveComp
-    .listenForRoundStart()
-    .subscribe(() => this.comp.startTest())
-  }
-
   setListenForNewTest(){
     this.liveComp
     .listenForNewTest()
-    .subscribe((test) => {
+    .subscribe((test: any) => {
       console.log('active comp listened to new test')
-      this.currrentTest = test
-      this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
-      this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
-      this.comp.startTest();
+      //only set the test if the test room is the room the currentUser is currently in
+      if(test.compId == this.roomId) {
+        this.currentTest = test
+        this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
+        this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
+        this.comp.startTest();
+      }
     })
   }
 
@@ -96,7 +93,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentUser.id = profile.sub;
       this.currentUser.name = profile.name;
     });
-    this.setListenForRoundStart()
     this.setListenForNewTest()
     this.comp.newTest();
 

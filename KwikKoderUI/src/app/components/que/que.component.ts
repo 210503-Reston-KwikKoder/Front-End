@@ -1,6 +1,7 @@
 import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { QueService } from 'src/Services/que.service';
+import { ActiveCompComponent } from 'src/app/pages/active-comp/active-comp.component';
 
 @Component({
   selector: 'app-que',
@@ -16,7 +17,8 @@ export class QueComponent implements OnInit {
   @Output() alertNewWinnerAndChallenger = new EventEmitter<any>();
 
   constructor(
-    private queue: QueService
+    private queue: QueService,
+    private activeComp: ActiveCompComponent
   ) { }
 
   // gets and ordered list of [ { "userId” : 0, “userName”: “string”, “name”: “string”, “enterTime”: "2021-06-18T02:21:56.857Z" } ]
@@ -40,6 +42,16 @@ export class QueComponent implements OnInit {
     this.queue.addUserToQueue(this.roomId)
       .then(() => {
         this.queue.alertQueueChangeToSocket(this.roomId);
+        alert("Queue Joined");
+      }) 
+      .catch((err) => console.log(err))
+  }
+
+  removeUserFromQueue(){
+    this.queue.removeUserFromQueue(this.roomId)
+      .then(() => {
+        this.queue.alertQueueChangeToSocket(this.roomId);
+        alert("You are no longer in the Queue.");
       }) 
       .catch((err) => console.log(err))
   }

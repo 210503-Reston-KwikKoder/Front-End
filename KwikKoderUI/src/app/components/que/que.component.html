@@ -6,4 +6,5 @@
         <p class="que-user" *ngFor="let user of orderedUsersInQueue" >{{user?.name}}</p>
     </div>
     <button mat-raised-button color="primary" (click)="addUserToQueue()">Join</button>
+    <button mat-raised-button color="primary" (click)="removeUserFromQueue()">Leave</button>
 </div>
