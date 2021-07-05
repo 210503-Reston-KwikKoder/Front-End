@@ -26,6 +26,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   currentTest: any
   currentWinner: any
   currentChallenger: any
+  winnerName: string;
 
   constructor(
     private chatService: ChatService,
@@ -55,6 +56,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
     else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
     else this.currentUser.role = 'observer';
+    this.comp.currentUser = this.currentUser;
   }
 
   setListenForNewTest(){
@@ -85,6 +87,13 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     })
   }
 
+  setListenForWinnerFound(){
+    this.liveComp.listenForRoundWinner()
+    .subscribe((winnerName: any) => {
+      this.winnerName = winnerName;
+    })
+  }
+
   ngOnInit(): void {
     // tells the comp-functions it is live
     this.comp.live = true
@@ -99,6 +108,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     });
     this.setListenForNewTest()
     this.setListenForCompProgress()
+    this.setListenForWinnerFound();
     this.comp.newTest();
 
     // prevents page scroll when hitting the spacebar

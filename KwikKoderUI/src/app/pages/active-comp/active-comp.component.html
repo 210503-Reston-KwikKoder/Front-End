@@ -3,6 +3,7 @@
     <div class="row">
         <div class="col-md-9" id="challenger-comp-arena" >
             <div id="prompt-box">
+                <h1 *ngIf="this.winnerName">Winner: {{winnerName}}</h1>
             </div>
             <div class="player-test-view">
                 <div *ngIf="!comp.testStarted">

@@ -201,20 +201,7 @@ export class CompFunctionsService {
       role: userRole,
       wpm: this[userRole + 'Wpm']
     }
-    
-    // this.updateView(userState);
 
-    let finishCheck = this.checkIfFinished(state);
-    this[userRole+'Wpm'] = finishCheck.wpm;
-    this[userRole+'State'] = finishCheck.state;
-    if(finishCheck.state.finished){
-      if(this.live){
-        this.sendStateToViewers(userRole)
-        // Mykel did this might be hacky
-        // this.resetTimer()
-      }
-      return;
-    }
 
     if(this.live){
       this.sendStateToViewers(userRole)
@@ -266,6 +253,16 @@ export class CompFunctionsService {
         currElem.textContent = "⏎\n";
       }
     }
+    
+    let finishCheck = this.checkIfFinished(userState.state);
+    this[userState.role+'Wpm'] = finishCheck.wpm;
+    this[userState.role+'State'] = finishCheck.state;
+    if(finishCheck.state.finished){
+      if(this.live){
+        this.sendStateToViewers(userState.role)
+      }
+      return;
+    }
     this[userState.role + 'State'] = userState.state;
   }
 
@@ -304,15 +301,18 @@ export class CompFunctionsService {
       //flip this particular user's flag
       state.finished = true;
     }
-
+    console.log("winnerState = ", this.winnerState.finished)
+    console.log("challengerState = ", this.challengerState.finished)
+    // this[this.currentUser.role + 'State'] = state;
     //did both people finish?
     if(this.winnerState.finished && this.challengerState.finished)
     {
       //well, we both finished. Stop the timer and raise the flag
       this.testComplete = true;
+      
       if(this.currentUser.role === 'winner' || this.currentUser.role === 'challenger'){
+        console.log("calculating winner for: ", this.currentUser)
         this.calcWinner()
- 
       }
       clearInterval(this.intervalId);
     }
@@ -340,13 +340,15 @@ export class CompFunctionsService {
     {
       //I won
       //rub it in to everybody
-      this.liveSer.sendRoundWinner(this.roomID, this.currentUser.name)
+      console.log("You Won!")
+      this.liveSer.sendRoundWinner(this.compId, this.currentUser.name)
       //increase my streak
       this.currentWinStreak++
       //also tell the server ==
     }
     else {
       this.currentWinStreak = 0
+      console.log("You Lost!")
       //boot this person outta queue
       //losers go straight to jail
       this.queueService.removeUserFromQueue(this.compId)

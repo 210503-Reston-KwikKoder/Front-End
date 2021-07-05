@@ -61,12 +61,14 @@ export class LiveCompService {
   }
 
   public sendRoundWinner(roomId, winnerName){
-    return this.socket.emit('winner-found', roomId, winnerName )
+    console.log('live comp service emitting winner-found');
+    return this.socket.emit('winner-found', roomId, winnerName)
   }
 
   public listenForRoundWinner = () => {
     return new Observable((observer) => {
       this.socket.on('winner-found', (winnerName) => {
+        console.log('winner-found heard by live service')
         observer.next(winnerName)
       })
     })
