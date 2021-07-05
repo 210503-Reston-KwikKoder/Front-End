@@ -27,6 +27,10 @@ export class LiveCompsComponent implements OnInit {
     if(e.keyCode == 13){
       this.createNewComp()
     }
+    // if a space is entered then concat a space (hacky code)
+    else if(e.key === " "){
+      this.newCompName += e.key
+    }
   }
 
   // Sends a call to the database to create a new room and then navigates to that room on a successful call

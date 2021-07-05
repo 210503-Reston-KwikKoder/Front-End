@@ -7,6 +7,7 @@ import { CompFunctionsService } from 'src/Services/comp-functions.service';
 import { QueService } from 'src/Services/que.service';
 import { LiveCompService } from 'src/Services/live-comp.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { Language } from 'src/Models/LanguageEnum';
 
 @Component({
   selector: 'app-active-comp',
@@ -15,12 +16,15 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
-  currentUserId: any;
-  currentUserName: any
-  currentChallengerName: any
-  currentWinnerName: any
-  currentChallenger: boolean = false
-  wonLastRound: boolean = false
+  //roles: winner, challenger, observer
+  currentUser = {
+    id: '',
+    name: '',
+    role: ''
+  };
+  currrentTest: any
+  currentWinner: any
+  currentChallenger: any
 
   constructor(
     private chatService: ChatService,
@@ -39,22 +43,17 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.chatService.joinSocketRoom(this.roomId)
   }
 
-
-  // subscribes to the next challenger event and checks if user is the next challenger
-  setNextChallengerWatch(){
-    this.liveComp.subscribableCheckIfUserIsNext().subscribe((challengerAndWinner: any) => {
-      if(challengerAndWinner.challengerId == this.currentUserId){
-        this.currentChallenger = true
-      }
-
-      this.currentWinnerName = challengerAndWinner.winnerName
-    })
+  newWinnerAndChallenger(users){
+    this.currentWinner = users.winner
+    this.currentChallenger = users.challenger
+    this.assignRole()
   }
 
-  setChallengerName(){
-    this.liveComp.subscibableNewChallengeName().subscribe(challengerName => {
-      this.currentChallengerName = challengerName
-    })
+  assignRole() {
+    if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
+    else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
+    else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
+    else this.currentUser.role = 'observer';
   }
 
   keyIntercept(event: KeyboardEvent): void{
@@ -70,17 +69,36 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     document.getElementById("input-area").focus();
   }
 
+  setListenForRoundStart(){
+    this.liveComp
+    .listenForRoundStart()
+    .subscribe(() => this.comp.startTest())
+  }
+
+  setListenForNewTest(){
+    this.liveComp
+    .listenForNewTest()
+    .subscribe((test) => {
+      console.log('active comp listened to new test')
+      this.currrentTest = test
+      this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
+      this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
+      this.comp.startTest();
+    })
+  }
+
   ngOnInit(): void {
     // enters user into the socket room
+
     this.joinSocketRoom();
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
-      this.currentUserId = profile.sub;
-      this.currentUserName = profile.name
-    })
-
+      this.currentUser.id = profile.sub;
+      this.currentUser.name = profile.name;
+    });
+    this.setListenForRoundStart()
+    this.setListenForNewTest()
     this.comp.newTest();
-    console.log(this.comp);
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
@@ -88,15 +106,18 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   langSelected(event: number){
-    console.log('lang select event', event);
     this.comp.category = event;
+    this.comp.categoryName = Language[event];
     this.comp.newTest();
   }
 
-
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
-    this.queue.removeUserFromQueue(this.roomId).catch(err => console.log(err))
+    this.queue.removeUserFromQueue(this.roomId)
+    .then(() => {
+      this.queue.alertQueueChangeToSocket(this.roomId)
+    })
+    .catch(err => console.log(err))
   }
 
 }

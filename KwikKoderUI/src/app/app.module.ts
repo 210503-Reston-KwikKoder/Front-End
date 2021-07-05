@@ -24,7 +24,7 @@ import { ViewCompetitionsComponent } from './pages/view-competitions/view-compet
 
 import { LangSelectComponent } from './components/lang-select/lang-select.component';
 import { CompetitionTestComponent } from './pages/competition-test/competition-test.component';
-import { CreateCompetitionComponent } from './create-competition/create-competition.component';
+import { CreateCompetitionComponent } from './pages/create-competition/create-competition.component';
 import { DisplayPercentPipe } from './pipes/display-percent.pipe';
 import { DisplayDatePipe } from './pipes/display-date.pipe';
 
@@ -45,6 +45,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { ChatComponent } from './components/chat/chat.component';
 
+
 //Loader Material UI
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -60,13 +61,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
 import { QueComponent } from './components/que/que.component';
 
-
 //Cluster Chat server
 const config: SocketIoConfig = { url: "20.69.69.228",
- options: {
-  withCredentials: false,
-  path: "/chat-api/socket.io/",
- } };
+  options: {
+    withCredentials: false,
+    path: "/chat-api/socket.io/",
+  }
+};
 
 // Backup Chat Server:
 //  const config: SocketIoConfig = { url: "45.79.192.95:3000",
@@ -74,9 +75,13 @@ const config: SocketIoConfig = { url: "20.69.69.228",
 //   withCredentials: false
 //  } };
 
-
 @NgModule({
   declarations: [
+    ActiveCompComponent,
+    PlayerTestAreaComponent,
+    QueComponent,
+    ChatComponent,
+    LiveCompsComponent,
     AppComponent,
     LoadingComponent,
     LoginButtonComponent,
@@ -99,11 +104,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
     CompetitionResultComponent,
     DisplayTimePipe,
     ProgressGraphComponent,
-    ActiveCompComponent,
-    PlayerTestAreaComponent,
-    QueComponent,
-    ChatComponent,
-    LiveCompsComponent,
+
   ],
   imports: [
     MatProgressSpinnerModule,

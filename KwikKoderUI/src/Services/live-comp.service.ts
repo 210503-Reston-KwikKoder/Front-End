@@ -28,26 +28,59 @@ export class LiveCompService {
   }
 
   public subscribableCheckIfUserIsNext = () => {
-    return new Observable((observer) => {
-        this.socket.on('new-challenger', ((challengerId: any, winnerName: any) => {
-            let challengerAndWinner = {
-              challengerId: challengerId,
-              winnerName: winnerName
-            }
-            observer.next(challengerAndWinner)
-        }))
-    })
+
   }
 
-  public subscibableNewChallengeName = () => {
+  public emitStartTest(){
+    return this.socket.emit("start-round")
+  }
+
+  // put a test on the liveComp room
+  // expects test as a { "compId": 0, "category": 0, "testString": "string", "testAuthor": "string" }
+  public setNextLiveCompTest(test: any){
+    return this.http.put(`${env.dev.serverUrl}competition/api/LiveCompetition/nexttest`, test).toPromise()
+  }
+
+  public listenForNewTest = () =>{
     return new Observable((observer) => {
-      this.socket.on('challenge-accepted', ((challengerName: any) => {
-        observer.next(challengerName)
+      this.socket.on('new-test', ((test) => {
+        observer.next(test);
       }))
     })
   }
-  
-  public alertNextChallenger(challengerId){
-    return this.socket.emit('new-challenger', challengerId)
+
+  public alertNewTest(roomId, test){
+    return this.socket.emit('new-test', roomId, test)
+  }
+
+  public getCurrentTest(roomId){
+    return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
+  }
+
+  public listenForRoundStart = () => {
+    return new Observable((observer) => {
+            this.socket.on('round-start', (() => {
+                observer.next();
+            }));
+    });
+  }
+
+  // used to emit when a competitor hits a key
+  public emitKeyPress(key, roomId, competitorId){
+    return this.socket.emit('comp-key', key, roomId, competitorId)
+  }
+
+  // returns an observable that triggers when a copetitor hits a key
+  // provides subscriber with {letter: letter, competitorId: competitorId}
+  public listenForCompKeyPress = () => {
+    return new Observable((observer) => {
+      this.socket.on('comp-key', (letter, competitorId) => {
+        let letterAndCompetitorId = {
+          letter: letter,
+          competitorId: competitorId
+        }
+        observer.next(letterAndCompetitorId)
+      })
+    })
   }
 }
