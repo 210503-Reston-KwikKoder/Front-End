@@ -2,9 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ChatService } from 'src/Services/chat.service';
-import { RestService } from 'src/Services/rest.service';
+// import { RestService } from 'src/Services/rest.service';
 import { CompFunctionsService } from 'src/Services/comp-functions.service';
 import { QueService } from 'src/Services/que.service';
+import { LiveCompService } from 'src/Services/live-comp.service';
+import { AuthService } from '@auth0/auth0-angular';
+import { Language } from 'src/Models/LanguageEnum';
 
 @Component({
   selector: 'app-active-comp',
@@ -13,81 +16,103 @@ import { QueService } from 'src/Services/que.service';
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
-  newMessage: string;
-  messageList:  string[] = [];
+  //roles: winner, challenger, observer
+  currentUser = {
+    id: '',
+    name: '',
+    role: ''
+  };
+  currentTest: any
+  currentWinner: any
+  currentChallenger: any
 
   constructor(
-    private chatService: ChatService, 
-    private restService: RestService,
+    private chatService: ChatService,
+    // private restService: RestService,
     private route: ActivatedRoute,
-    private comp: CompFunctionsService,
-    private queue: QueService
+    public comp: CompFunctionsService,
+    private queue: QueService,
+    private liveComp: LiveCompService,
+    public auth: AuthService
     ) {
       this.roomId = this.route.snapshot.paramMap.get('compId')
     }
 
+  // enters the user into the correct room in the socket
   joinSocketRoom(){
-    console.log(this.roomId)
     this.chatService.joinSocketRoom(this.roomId)
   }
 
-  log(e){
-    console.log(e)
-    console.log(this.newMessage)
+  newWinnerAndChallenger(users){
+    this.currentWinner = users.winner
+    this.currentChallenger = users.challenger
+    this.assignRole()
   }
 
-  messageInputHandler(e){
-    if(e.keyCode == 13){
-      this.sendMessage()
-    }else if(e.key === " "){
-      this.newMessage += e.key
-    }
-  }
-
-  sendMessage(){
-    this.chatService.sendMessage(this.newMessage, this.roomId);
-    this.newMessage = '';
-  }
-
-  SetMessageWatch(){
-    this.chatService
-    .getMessages()
-    .subscribe((message: any) => {
-      this.messageList.push(message);
-    });
-  }
-
-  
-  addToQueue(){
-    //TO DO: add users to queue to be placed in competition
+  assignRole() {
+    if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
+    else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
+    else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
+    else this.currentUser.role = 'observer';
   }
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
     if (event){
-      this.comp.onWordChange(event)
+      // this.comp.onWordChange(event)
     } else {
       console.log("check event: " + event);
     }
   }
 
   focusInputArea(): void{
-    document.getElementById("input-area").focus()
+    document.getElementById("input-area").focus();
+  }
+
+  setListenForNewTest(){
+    this.liveComp
+    .listenForNewTest()
+    .subscribe((test: any) => {
+      console.log('active comp listened to new test')
+      //only set the test if the test room is the room the currentUser is currently in
+      if(test.compId == this.roomId) {
+        this.currentTest = test
+        this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
+        this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
+        this.comp.startTest();
+      }
+    })
   }
 
   ngOnInit(): void {
-    this.joinSocketRoom()
-    this.SetMessageWatch()
+    // enters user into the socket room
+
+    this.joinSocketRoom();
+    // sets the user Id
+    this.auth.user$.subscribe((profile) => {
+      this.currentUser.id = profile.sub;
+      this.currentUser.name = profile.name;
+    });
+    this.setListenForNewTest()
+    this.comp.newTest();
+
+    // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
-      if ( ( e.key) == " ") {
-          e.preventDefault();
-      }
-    }, false);
+      if ( ( e.key) == " ") e.preventDefault();}, false);
+  }
+
+  langSelected(event: number){
+    this.comp.category = event;
+    this.comp.categoryName = Language[event];
+    this.comp.newTest();
   }
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
     this.queue.removeUserFromQueue(this.roomId)
+    .then(() => {
+      this.queue.alertQueueChangeToSocket(this.roomId)
+    })
     .catch(err => console.log(err))
   }
 

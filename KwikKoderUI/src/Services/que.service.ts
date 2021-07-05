@@ -14,20 +14,24 @@ export class QueService {
     private socket: Socket
   ) { }
 
+  // nothing returned
   addUserToQueue(roomId){
-    return this.http.post(`${env.dev.serverUrl}api/TypeTest`, roomId).toPromise()
+    return this.http.put(`${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/${roomId}`, roomId).toPromise()
   }
 
+  // nothing returned
   removeUserFromQueue(roomId){
-    return this.http.delete(`${env.dev.serverUrl}api/`, roomId).toPromise()
+    return this.http.delete(`${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/${roomId}`).toPromise()
   }
 
+  // returns an ordered array of user objects
   getQueueUserNames(roomId){
-    return this.http.get(`${env.dev.serverUrl}api/`).toPromise()
+    return this.http.get(`${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/${roomId}`).toPromise()
   }
 
+  // returns the next user object
   getnextInLine(roomId){
-    return this.http.get(`${env.dev.serverUrl}`)
+    return this.http.delete(`${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/${roomId}/LCQ/NextUser` ).toPromise()
   }
 
   alertQueueChangeToSocket(roomId){

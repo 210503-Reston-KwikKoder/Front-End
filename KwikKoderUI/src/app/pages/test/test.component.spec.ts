@@ -230,26 +230,26 @@ describe('TestComponent', () => {
     expect(test).toBeTrue();
   });
 
-  it('checkIfFinished should set state', () =>{
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    component.state = {
-      words: '',
-      wordarray: new Array(),
-      typedarray: new Array(),
-      enteredText: '',
-      errors: 0,
-      started: false,
-      startTime: null,
-      timeTaken: 0,
-      letterPosition: 0,
-      finished: false,
-      correctchars: 0
-    }
-    component.state.startTime = new Date();
-    component.checkIfFinished();
-    expect(component.state.finished).toBe(true);
-  });
+  // it('checkIfFinished should set state', () =>{
+  //   fixture = TestBed.createComponent(TestComponent);
+  //   component = fixture.componentInstance;
+  //   component.state = {
+  //     words: '',
+  //     wordarray: new Array(),
+  //     typedarray: new Array(),
+  //     enteredText: '',
+  //     errors: 0,
+  //     started: false,
+  //     startTime: null,
+  //     timeTaken: 0,
+  //     letterPosition: 0,
+  //     finished: false,
+  //     correctchars: 0
+  //   }
+  //   component.state.startTime = new Date();
+  //   component.checkIfFinished();
+  //   expect(component.state.finished).toBe(true);
+  // });
 
   it('pad should return digit more than 10', () => {
     fixture = TestBed.createComponent(TestComponent);

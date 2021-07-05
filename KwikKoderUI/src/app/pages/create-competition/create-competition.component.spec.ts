@@ -8,10 +8,10 @@ import { RestService } from 'src/Services/rest.service';
 import { UserNameModel } from 'src/Models/UserNameModel';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { LangSelectComponent } from 'src/app/components/lang-select/lang-select.component';
-import { SnackBarComponent } from '../components/snack-bar/snack-bar.component';
+import { SnackBarComponent } from '../../components/snack-bar/snack-bar.component';
 import { DatePipe } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DisplayDatePipe } from '../pipes/display-date.pipe';
+import { DisplayDatePipe } from '../../pipes/display-date.pipe';
 import { Router } from '@angular/router';
 
 describe('CreateCompetitionComponent', () => {
@@ -40,30 +40,30 @@ describe('CreateCompetitionComponent', () => {
     }
     getloggedInUser(){};
     postCompetition(){};
-    
+
   }
-  
+
   beforeEach(async () => {
-  
+
     await TestBed.configureTestingModule({
       imports:[RouterTestingModule],
       declarations: [ CreateCompetitionComponent ],
       providers: [
         {provide: SnackBarComponent, useClass: MockSnackBar},
-        {provide: RestService, useClass: MockRestService}, 
+        {provide: RestService, useClass: MockRestService},
         {provide: AuthService, useClass: MockAuthService},
         {provide: DatePipe, useClass: MockPipe},
       ],
     })
     .compileComponents();
-    
+
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateCompetitionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    
+
   });
 
   it('should create', () => {
@@ -77,7 +77,7 @@ describe('CreateCompetitionComponent', () => {
   it('should get new snippet', ()=>{
     let spy = spyOn(component, 'newSnippet')
     component.langSelected(-1)
-    expect(spy).toHaveBeenCalled()    
+    expect(spy).toHaveBeenCalled()
   });
 
   // it('should call thing', ()=>{
@@ -86,11 +86,18 @@ describe('CreateCompetitionComponent', () => {
   //  component.CreateCompetition();
   //   expect(spy).toHaveBeenCalledTimes(0)
   // });
-  
-  
-  // test comp model creation 
+
+
+  // test comp model creation
   // it('should create model', () => {
   //   expect(newComp).toBeTruthy();
   // })
   //newComp properties should be set properly
+
+  // it('should get new snippet', ()=>{
+  //   let spy = spyOn(component, 'newSnippet')
+  //   component.langSelected(-1)
+  //   expect(spy).toHaveBeenCalled()
+  // });
+
 });

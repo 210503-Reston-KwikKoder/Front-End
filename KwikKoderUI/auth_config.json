@@ -2,6 +2,10 @@
     "domain": "kwikkoder.us.auth0.com",
     "clientId": "iBxsoqRqsle5xBb11I9SGOtUtNvBCX6s",
     "audience": "http://kwickkoderrest.azurewebsites.net/",
+<<<<<<< HEAD
     "serverUrl": "https://20.69.69.228/",
     "forumApi" : "https://20.69.69.228/discussion/api/"
+=======
+    "serverUrl": "http://20.69.69.228/"
+>>>>>>> 0878a50623416c5f794dfd640de11863c1d7d35c
 }

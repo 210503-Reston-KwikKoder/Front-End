@@ -1,31 +1,124 @@
 
 <div class="container" id="comp-room">
     <div class="row">
-        <div class="col-md-3" id="que">
-            <app-que [roomId]="roomId"></app-que>
-        </div>
-        <div class="col-md-6" id="comp-arena">
+        <div class="col-md-9" id="challenger-comp-arena" >
             <div id="prompt-box">
-
             </div>
             <div class="player-test-view">
-                <app-player-test-area></app-player-test-area>
+                <div *ngIf="!comp.testStarted">
+                    <div *ngIf="currentUser.role == 'challenger'">
+                        <div class="row info-row">
+                            <div class="col-md-4">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Current Category</span>
+                                    <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+                                </div>
+                            </div>
+                            <div *ngIf="comp.testmat" class="col-md-4">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Author</span>
+                                    <span class="info-value-author" id="author">{{comp.testmat?.author}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Timer</span>
+                                    <span class="info-value">{{comp.pad(comp.timer.minutes)}} : {{comp.pad(comp.timer.seconds)}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div tabindex="1" class="p-4">
+                                <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
+                                <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
+                            </div>
+                        </div>
+                        <div class="btn-row" >
+                            <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
+                            <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
+                        </div>
+                    </div>
+                    <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test...</div>
+                </div>
+                <div *ngIf="comp.testStarted">
+                    <div class="row info-row">
+                        <div class="col-md-4">
+                            <div class="info-box span-align">
+                                <span class="info-text">Current Category</span>
+                                <span class="info-value-author">{{currentTest.categoryName}}</span>
+                            </div>
+                        </div>
+                        <div *ngIf="comp.testmat" class="col-md-4">
+                            <div class="info-box span-align">
+                                <span class="info-text">Author</span>
+                                <span class="info-value-author" id="author">{{currentTest.testAuthor}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box span-align">
+                                <span class="info-text">Timer</span>
+                                <span class="info-value">{{comp.pad(comp.timer.minutes)}} : {{comp.pad(comp.timer.seconds)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div tabindex="1" class="p-4">
+                            <pre *ngIf="comp.category != -1"><code [highlight]="currentTest.testString"></code></pre>
+                            <pre *ngIf="comp.category == -1"><code class="hljs">{{currentTest.testString}} </code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-form" >
+                    <div class="col-xs-6">
+                        <h1>Challenger: {{this.currentChallenger?.name}}</h1>
+                        <div *ngIf="comp.testStarted">
+                            <div class="row info-row">
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Errors</span>
+                                        <span class="info-value" id="errors">{{comp.challengerState.errors}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Wpm</span>
+                                        <span class="info-value" id="wpm">{{comp.challengerWpm}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div tabindex="0" id="challenger-input-area" (keydown)="comp.keyIntercept($event, currentUser, 'challenger')" class="entry-box p-4" >
+                                <pre><span class="test_site" *ngFor="let t of comp.challengerState.wordarray; index as i" [attr.id]="'challenger-char-'+i" >{{t}}</span></pre> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <h1>Defending Champion: {{this.currentWinner?.name}}</h1>
+                        <div *ngIf="comp.testStarted">
+                            <div class="row info-row">
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Errors</span>
+                                        <span class="info-value" id="errors">{{comp.winnerState.errors}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="info-box span-align">
+                                        <span class="info-text">Wpm</span>
+                                        <span class="info-value" id="wpm">{{comp.winnerWpm}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div tabindex="0" id="winner-input-area" (keydown)="comp.keyIntercept($event, currentUser, 'winner')" class="entry-box p-4" >
+                                <pre><span class="test_site" *ngFor="let t of comp.winnerState.wordarray; index as i"[attr.id]="'winner-char-'+i" >{{t}}</span></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-3" id="chat">
-            <div id="chat-box">
-                <div *ngFor="let message of messageList" class="chat-message-div">
-                    <p >{{message}}</p>
-                </div>
-            </div>
-            <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" (keydown)="log($event)" />
-            <!-- <mat-form-field appearance="outline">
-                <mat-label>Outline form field</mat-label>
-                <input matInput placeholder="message" (ngModel)="newMessage" (keyup)="$event.keyCode == 13 && sendMessage()">
-                <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                <mat-hint>Join the conversation</mat-hint>
-            </mat-form-field> -->
-            <button (click)="sendMessage()" mat-raised-button color="primary">Send Message</button>
+            <app-chat [roomId]="roomId" [userName]="currentUser.name"></app-chat>
+            <app-que [roomId]="roomId" (alertNewWinnerAndChallenger)="newWinnerAndChallenger($event)"></app-que>
         </div>
     </div>
 </div>

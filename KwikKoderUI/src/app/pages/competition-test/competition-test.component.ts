@@ -35,30 +35,20 @@ export class CompetitionTestComponent implements OnInit {
       if (params) {
         this.compId = +params['id'];
         this.newTest();
-      } else {
-        console.log("check params: " + params)
       }
     });
     document.documentElement.addEventListener('keydown', function (e) {
-      if ((e.key) == " ") {
-          e.preventDefault();
-      } else {
-        console.log("check event: " + e);
-      }
+      if ((e.key) == " ") { e.preventDefault();}
   }, false);
 
   }
 
   // does this do anything?
   langSelected(event: number){
-    if (event) {
-      this.category = event;
-      this.newTest()
-    } else {
-      console.log("check event: " + event);
-    }
+    this.category = event;
+    this.newTest()
   }
-  // 
+  //
 
   ngOnDestroy() {
     if (this.sub.closed == false) this.sub.unsubscribe();
@@ -109,30 +99,20 @@ export class CompetitionTestComponent implements OnInit {
   }
 
   wordsPerMinute (charsTyped: number, ms: number): number {
-    let result: number;
-    if (charsTyped || ms) {
-      result = (charsTyped / 5) / (ms / 60000);
-    } else {
-      console.log("check input ");
-    }
-    return result;
+    return ((charsTyped / 5) / (ms / 60000))
   }
 
   onWordChange(event: KeyboardEvent): void {
-    if(this.state.finished){
-      return
-    }
+    if(this.state.finished){ return }
     let e = event.key
-    
+
     if (!this.state.started) {
       this.state.started= true
       this.state.startTime = new Date()
     }
     let expectedLetter = this.state.wordarray[this.state.letterPosition]
 
-    if(e == "Enter"){
-      e="\n"
-    }
+    if(e == "Enter"){e="\n"}
 
     if(e == expectedLetter){
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "green";
@@ -140,28 +120,18 @@ export class CompetitionTestComponent implements OnInit {
       this.state.letterPosition+=1;
     }else{
       var inp = String.fromCharCode(event.keyCode);
-      if (/[a-zA-Z0-9-_ ]/.test(inp)){
-        this.state.errors+=1;
-      }
+      if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
     }
 
-    if(this.checkIfFinished()){
-      return
-    }
-    if(this.state.wordarray[this.state.letterPosition]=="\n"){
-      //display enter prompt
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
+    if(this.checkIfFinished()){ return }
+    if(this.state.wordarray[this.state.letterPosition]=="\n"){ (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
     }
     (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "blue";
   }
 
   keyIntercept(event: KeyboardEvent): void{
     //check for special keycodes if needed
-    if (event){
-      this.onWordChange(event)
-    } else {
-      console.log("check event: " + event);
-    }
+    if (event){ this.onWordChange(event) }
   }
 
   focusInputArea(): void{
@@ -171,10 +141,8 @@ export class CompetitionTestComponent implements OnInit {
 
   checkIfFinished(): boolean {
     let numletters = this.state.wordarray.length-1
-
     const wpm = this.wordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
     this.wpm = Math.floor(wpm);
-
     //check if words are done
     if(this.state.letterPosition >= this.state.wordarray.length){
       const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
@@ -200,11 +168,7 @@ export class CompetitionTestComponent implements OnInit {
       date: new Date()
     }
     console.log(model)
-    if (model){
-      this.api.postCompetitionResults(model);
-    } else {
-      console.log("check model: " + model);
-    }
+    if (model){ this.api.postCompetitionResults(model); }
     this.router.navigate(['./CompetitionResult/',this.compId]).then();
   }
 

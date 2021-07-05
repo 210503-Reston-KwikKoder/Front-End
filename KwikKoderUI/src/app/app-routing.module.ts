@@ -9,11 +9,12 @@ import { AuthGuard } from '@auth0/auth0-angular';
 import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
 import { ViewCompetitionsComponent } from './pages/view-competitions/view-competitions.component';
 import { CompetitionTestComponent } from './pages/competition-test/competition-test.component';
-import { CreateCompetitionComponent } from './create-competition/create-competition.component';
+import { CreateCompetitionComponent } from './pages/create-competition/create-competition.component';
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component'; 
 import { ForumComponent } from './pages/forum/forum.component';
 import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
+import { LiveCompsComponent } from './pages/live-comps/live-comps.component';
 
 /*
 //Routes to out page components
@@ -69,6 +70,11 @@ const routes: Routes = [
   {
     path: 'forumPosts/:id',
     component: ForumpostsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'LiveCompetitions',
+    component: LiveCompsComponent,
     canActivate: [AuthGuard]
   }
 ];
