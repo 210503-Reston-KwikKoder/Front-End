@@ -27,47 +27,30 @@ export class LiveCompService {
     return this.http.get(`${env.dev.serverUrl}competition/api/LiveCompetition`).toPromise()
   }
 
-  public subscribableCheckIfUserIsNext = () => {
-
-  }
-
-  public emitStartTest(){
-    return this.socket.emit("start-round")
-  }
-
   // put a test on the liveComp room
   // expects test as a { "compId": 0, "category": 0, "testString": "string", "testAuthor": "string" }
   public setNextLiveCompTest(test: any){
     return this.http.put(`${env.dev.serverUrl}competition/api/LiveCompetition/nexttest`, test).toPromise()
   }
 
+  //listens for new tests from socket
   public listenForNewTest = () =>{
     return new Observable((observer) => {
       this.socket.on('new-test', ((test) => {
+        console.log('heard new test', test);
         observer.next(test);
       }))
     })
   }
 
-  public alertNewTest(roomId, test){
-    return this.socket.emit('new-test', roomId, test)
-  }
-
-  //Used to emite the newly generated snippet to be displayed across all browsers
-  alertNewSnippet(roomId, test){
-    return this.socket.emit('new-test', roomId, test)
+  //sends the test material across the socket
+  public alertNewTest(test){
+    console.log('alerting new test');
+    return this.socket.emit('new-test', test.compId, test)
   }
 
   public getCurrentTest(roomId){
     return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
-  }
-
-  public listenForRoundStart = () => {
-    return new Observable((observer) => {
-            this.socket.on('round-start', (() => {
-                observer.next();
-            }));
-    });
   }
 
   // used to emit when a competitor hits a key

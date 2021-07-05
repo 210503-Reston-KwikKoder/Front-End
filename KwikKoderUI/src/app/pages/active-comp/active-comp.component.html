@@ -5,40 +5,69 @@
             <div id="prompt-box">
             </div>
             <div class="player-test-view">
-                <div class="row info-row">
-                    <div class="col-md-4">
-                        <div class="info-box span-align">
-                            <span class="info-text">Current Category</span>
-                            <app-lang-select class="info-box" *ngIf="currentChallenger?.userId === currentUser.id" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
-                            <span class="info-value-author" *ngIf="currentChallenger?.userId !== currentUser.id">{{comp.categoryName}}</span> 
+                <div *ngIf="!comp.testStarted">
+                    <div *ngIf="currentUser.role == 'challenger'">
+                        <div class="row info-row">
+                            <div class="col-md-4">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Current Category</span>
+                                    <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+                                </div>
+                            </div>
+                            <div *ngIf="comp.testmat" class="col-md-4">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Author</span>
+                                    <span class="info-value-author" id="author">{{comp.testmat?.author}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="info-box span-align">
+                                    <span class="info-text">Timer</span>
+                                    <span class="info-value">{{comp.pad(comp.timer.minutes)}} : {{comp.pad(comp.timer.seconds)}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div tabindex="1" class="p-4">
+                                <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
+                                <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
+                            </div>
+                        </div>
+                        <div class="btn-row" >
+                            <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
+                            <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
                         </div>
                     </div>
-                    <div *ngIf="comp.testmat" class="col-md-4">
-                        <div class="info-box span-align">
-                            <span class="info-text">Author</span>
-                            <span class="info-value-author" id="author">{{comp.testmat?.author}}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="info-box span-align">
-                            <span class="info-text">Timer</span>
-                            <span class="info-value">{{comp.pad(comp.timer.minutes)}} : {{comp.pad(comp.timer.seconds)}}</span>
-                        </div>
-                    </div>
+                    <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test...</div>
                 </div>
-                <div *ngIf="currentUser.role == 'challenger' else otherUsers">
+                <div *ngIf="comp.testStarted">
+                    <div class="row info-row">
+                        <div class="col-md-4">
+                            <div class="info-box span-align">
+                                <span class="info-text">Current Category</span>
+                                <span class="info-value-author">{{currentTest.categoryName}}</span>
+                            </div>
+                        </div>
+                        <div *ngIf="comp.testmat" class="col-md-4">
+                            <div class="info-box span-align">
+                                <span class="info-text">Author</span>
+                                <span class="info-value-author" id="author">{{currentTest.testAuthor}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="info-box span-align">
+                                <span class="info-text">Timer</span>
+                                <span class="info-value">{{comp.pad(comp.timer.minutes)}} : {{comp.pad(comp.timer.seconds)}}</span>
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <div tabindex="1" class="p-4">
-                            <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
-                            <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
+                            <pre *ngIf="comp.category != -1"><code [highlight]="currentTest.testString"></code></pre>
+                            <pre *ngIf="comp.category == -1"><code class="hljs">{{currentTest.testString}} </code></pre>
                         </div>
                     </div>
-                    <div class="btn-row" >
-                        <button class="btn kwik-btn" *ngIf="comp.testmat"  (click)="comp.newTest()" >Get New Snippet</button>
-                        <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
-                    </div>
                 </div>
-                <ng-template class="waiting" #otherUsers>Waiting For Challenger...</ng-template>
                 <div class="input-form" >
                     <div class="col-xs-6">
                         <h1>Challenger: {{this.currentChallenger?.name}}</h1>
