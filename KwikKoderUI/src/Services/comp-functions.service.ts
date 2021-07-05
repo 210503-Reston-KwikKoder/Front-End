@@ -33,6 +33,7 @@ export class CompFunctionsService {
   skip: boolean;
   category: number = -1;
   categoryName: string = Language[this.category];
+  testComplete: boolean = false;
   sub: Subscription;
   compId: number;
   author: string;
