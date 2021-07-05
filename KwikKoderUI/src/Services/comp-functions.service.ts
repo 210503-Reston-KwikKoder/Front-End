@@ -10,6 +10,7 @@ import { CompetitionTestResults } from '../Models/CompetitionTestResults';
 import { ResultModel } from 'src/Models/ResultModel';
 import { LiveCompService } from './live-comp.service';
 import { Language } from 'src/Models/LanguageEnum';
+import { Statement } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,11 @@ export class CompFunctionsService {
 
   testmat: any = null;
   testStarted: boolean = false;
-  state: State;
+  challengerState: State;
+  winnerState: State;
   timeTaken: number;
-  wpm: number;
+  challengerWpm: number;
+  winnerWpm: number;
   expectSpace: boolean;
   skip: boolean;
   category: number = -1;
@@ -47,11 +50,9 @@ export class CompFunctionsService {
       seconds: 0
     };
   };
-  
-  newTest(): void{
-    this.wpm = 0;
-    this.testmat = undefined;
-    this.state = {
+
+  resetState(): State {
+    return {
       words: '',
       wordarray: new Array(),
       typedarray: new Array(),
@@ -63,12 +64,21 @@ export class CompFunctionsService {
       letterPosition: 0,
       finished: false,
       correctchars: 0
-    }
+    };
+  }
+  
+  newTest(): void{
+    this.winnerWpm = 0;
+    this.challengerWpm = 0;
+    this.testmat = undefined;
+    this.challengerState = this.resetState();
+    this.winnerState = this.resetState();
     this.resetTimer();
     this.testStarted = false;
     
     this.expectSpace = false
     this.skip = false
+
     //get content to type
     this.api.getTestContentByCatagoryId(this.category).then(
       (obj)=> {
@@ -79,13 +89,7 @@ export class CompFunctionsService {
       })
   }
 
-  focusInputArea(): void{
-    document.getElementById("input-area").focus();
-    this.ShowCaret();    
-  }
-
   startRound(roomId): void {
-    console.log('starting round...');
     let test:any = { 
       compId: roomId, 
       category: this.category, 
@@ -97,17 +101,22 @@ export class CompFunctionsService {
 
   startTest():void {
     console.log('starting test...');
+    const testStartTime = new Date();
     this.testStarted = true;
-    this.state.started = true;
-    this.state.startTime = new Date();
+    this.winnerState.started = true;
+    this.challengerState.started = true;
+    this.winnerState.startTime = testStartTime;
+    this.challengerState.startTime = testStartTime;
     this.startTimer();
   }
 
   //formats the test to be able to be typed
-  formatTest(test: any): void {
-    this.state.words = test.testString;
-    this.state.wordarray = this.state.words.split('');
-    this.state.wordarray= this.state.wordarray.filter(this.checkIsBadChar);
+  formatTest(test: any, state: State): State {
+    state.words = test.testString;
+    state.wordarray = state.words.split('');
+    state.wordarray= state.wordarray.filter(this.checkIsBadChar);
+
+    return state;
   }
 
   //takes in a test snippet and the max length and returns a random snippet from it.
@@ -135,14 +144,15 @@ export class CompFunctionsService {
     return returnSnippet;
   }
 
-  ShowCaret(){
-    if(document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement == null) return;
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "solid 0.1em gold";
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "yellow";
+  ShowCaret(elem: HTMLElement){
+    if(elem == null) return;
+    elem.style.borderLeft = "solid 0.1em gold";
+    elem.style.borderLeftColor = "yellow";
   }
-  HideCaret(){
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeft = "transparent";
-    (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.borderLeftColor = "transparent";
+  HideCaret(elem: HTMLElement){
+    console.log('hiding caret', elem);
+    elem.style.borderLeft = "none";
+    elem.style.borderLeftColor = "transparent";
   }
 
   checkIsBadChar(element: string, index: number, array: any) {
@@ -157,49 +167,52 @@ export class CompFunctionsService {
     return (charsTyped / 5) / (ms / 60000);
   }
 
-  onWordChange(event: KeyboardEvent): void {
-    if(this.state.finished) { return }
+  onWordChange(event: KeyboardEvent, elemType: string): void {
+    let state = this[elemType + 'State'];
+    let currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
+    if(state.finished) return;
     let e = event.key
-    let expectedLetter = this.state.wordarray[this.state.letterPosition];
-
+    let expectedLetter = state.wordarray[state.letterPosition];
     
     if(e == "Enter"){
       e="\n"
     }
 
     if(e == expectedLetter){
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "0.3";
-      this.HideCaret();
-      this.state.correctchars +=1;
-      this.state.letterPosition+=1;
-      this.ShowCaret();
+      currElem.style.opacity = "0.3";
+      this.HideCaret(currElem);
+      state.correctchars +=1;
+      state.letterPosition+=1;
+      currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
+      this.ShowCaret(currElem);
     }
     else if(e == "Backspace"){
-      //e="";
-      this.HideCaret();
-      this.state.letterPosition-=1; 
-      this.ShowCaret();
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";
+      this.HideCaret(currElem);
+      state.letterPosition-=1;
+      currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
+      this.ShowCaret(currElem);
+      currElem.style.opacity = "1.0";
+      currElem.style.backgroundColor = "#32302f";
     }
     else if(e == "Shift"){
     }
     else{
-      this.HideCaret();
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "red";
-      this.state.letterPosition+=1;
-      this.ShowCaret();
+      this.HideCaret(currElem);
+      currElem.style.backgroundColor = "red";
+      state.letterPosition+=1;
+      currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
+      this.ShowCaret(currElem);
       var inp = String.fromCharCode(event.keyCode);
-      if (/[a-zA-Z0-9-_ ]/.test(inp)){ this.state.errors+=1; }
+      if (/[a-zA-Z0-9-_ ]/.test(inp)){ state.errors+=1; }
     }
 
-    if(this.checkIfFinished()){
+    if(this.checkIfFinished(state).finished){
       return;
     }
 
-    if(this.state.wordarray[this.state.letterPosition]=="\n"){
+    if(state.wordarray[state.letterPosition]=="\n"){
       //display enter prompt
-      (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).textContent = "⏎\n";
+      currElem.textContent = "⏎\n";
     }
   }
 
@@ -211,43 +224,53 @@ export class CompFunctionsService {
     //only allow users to type in their respective boxes
     else if(user.role !== elemType) return;
 
-    else this.onWordChange(event);
+    else this.onWordChange(event, elemType);
   }
 
-  checkIfFinished(): boolean {
-    let numletters = this.state.wordarray.length-1
-    const wpm = this.calcWordsPerMinute(this.state.correctchars, new Date().getTime() - this.state.startTime.getTime() )
-    this.wpm = Math.floor(wpm);
+  checkIfFinished(state: State): any {
+    let numletters = state.wordarray.length-1
+    const wpm = Math.floor(this.calcWordsPerMinute(state.correctchars, new Date().getTime() - state.startTime.getTime()));
     //check if words are done
-    if(this.state.letterPosition >= this.state.wordarray.length){
+    if(state.letterPosition >= state.wordarray.length){
       console.log('words are done, finishing');
-      const timeMillis: number = new Date().getTime() - this.state.startTime.getTime()
+      const timeMillis: number = new Date().getTime() - state.startTime.getTime()
       this.timeTaken = timeMillis;
 
       //stop timer and flip the flag
       clearInterval(this.intervalId);
-      this.state.finished = true;
+      state.finished = true;
       //submit result to the server
       console.log("Test Complete Submitting Results", this.result);
       // this.submitResults();
-      return true;
-
+      return {
+        finished: true,
+        state: state,
+        wpm: wpm
+      };
     }
     //did we run out of time instead?
     if(this.timerFinished){
-      const timeMillis: number = new Date().getTime() - this.state.startTime.getTime();
+      const timeMillis: number = new Date().getTime() - state.startTime.getTime();
       this.timeTaken = timeMillis;
-      this.state.finished = true;
+      state.finished = true;
       // this.submitResults();
-      return true;
+      return {
+        finished: true,
+        state: state,
+        wpm: wpm
+      };
     }
-    return false;
+    return {
+      finished: false,
+      state: state,
+      wpm: wpm
+    };
   }
 
-  observeIfCompFinished(){
-    const isFinished = of(this.state.finished)
-    return isFinished
-  }
+  // observeIfCompFinished(){
+  //   const isFinished = of(this.state.finished)
+  //   return isFinished
+  // }
 
   startTimer() {
     this.resetTimer();
@@ -261,7 +284,7 @@ export class CompFunctionsService {
         console.log('ran out of time');
         this.timerFinished = true;
         clearInterval(this.intervalId);
-        this.checkIfFinished();
+        this.checkIfFinished(this.challengerState);
       }
       }, 1000);
   }
