@@ -206,7 +206,10 @@ export class CompFunctionsService {
       if (/[a-zA-Z0-9-_ ]/.test(inp)){ state.errors+=1; }
     }
 
-    if(this.checkIfFinished(state).finished){
+    let finishCheck = this.checkIfFinished(state);
+    this[elemType+'Wpm'] = finishCheck.wpm;
+    this[elemType+'State'] = finishCheck.state;
+    if(finishCheck.finished){
       return;
     }
 
