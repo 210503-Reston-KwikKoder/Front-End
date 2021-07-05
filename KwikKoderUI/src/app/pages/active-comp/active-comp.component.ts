@@ -16,12 +16,15 @@ import { Language } from 'src/Models/LanguageEnum';
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
   roomId: any
-  currentUserId: any;
-  currentUserName: any
+  //roles: winner, challenger, observer
+  currentUser = {
+    id: '',
+    name: '',
+    role: ''
+  };
   currrentTest: any
   currentWinner: any
   currentChallenger: any
-  wonLastRound: any
 
   constructor(
     private chatService: ChatService,
@@ -43,6 +46,14 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   newWinnerAndChallenger(users){
     this.currentWinner = users.winner
     this.currentChallenger = users.challenger
+    this.assignRole()
+  }
+
+  assignRole() {
+    if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
+    else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
+    else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
+    else this.currentUser.role = 'observer';
   }
 
   keyIntercept(event: KeyboardEvent): void{
@@ -65,29 +76,29 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   setListenForNewTest(){
-    console.log('listened for new test')
     this.liveComp
     .listenForNewTest()
     .subscribe((test) => {
+      console.log('active comp listened to new test')
       this.currrentTest = test
-      console.log('got new test', test)
-      this.liveComp.emitStartTest();
+      this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
+      this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
+      this.comp.startTest();
     })
   }
 
   ngOnInit(): void {
     // enters user into the socket room
+
     this.joinSocketRoom();
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
-      this.currentUserId = profile.sub;
-      this.currentUserName = profile.name
-    })
-
+      this.currentUser.id = profile.sub;
+      this.currentUser.name = profile.name;
+    });
     this.setListenForRoundStart()
     this.setListenForNewTest()
     this.comp.newTest();
-    console.log(this.comp);
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {
@@ -95,14 +106,10 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   langSelected(event: number){
-    console.log('lang select event', event);
     this.comp.category = event;
     this.comp.categoryName = Language[event];
     this.comp.newTest();
   }
-
-
-
 
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){

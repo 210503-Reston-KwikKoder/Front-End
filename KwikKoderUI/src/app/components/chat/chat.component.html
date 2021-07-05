@@ -4,6 +4,6 @@
             <p >{{mesName.senderName}}:      {{mesName.message}}</p>
         </div>
     </div>
-    <input [(ngModel)]="newMessage" (keyup)="messageInputHandler($event)" />
+    <input type="text" class="form-control msg-box" (keydown)="messageInputHandler($event)" [(ngModel)]="newMessage"/>
     <button (click)="sendMessage()" mat-raised-button color="primary">Send Message</button>
 </div>
