@@ -11,6 +11,7 @@ import { ResultModel } from 'src/Models/ResultModel';
 import { LiveCompService } from './live-comp.service';
 import { Language } from 'src/Models/LanguageEnum';
 import { Statement } from '@angular/compiler';
+import { faThList } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,15 @@ export class CompFunctionsService {
       finished: false,
       correctchars: 0
     };
+  }
+
+  resetTest(): void{
+    this.testComplete = false;
+    this.newTest();
+  }
+
+  finishTest(): void {
+    this.testComplete = true;
   }
   
   newTest(): void{
@@ -215,7 +225,7 @@ export class CompFunctionsService {
     let finishCheck = this.checkIfFinished(state);
     this[elemType+'Wpm'] = finishCheck.wpm;
     this[elemType+'State'] = finishCheck.state;
-    if(finishCheck.finished){
+    if(finishCheck.state.finished){
       return;
     }
 
@@ -244,33 +254,27 @@ export class CompFunctionsService {
       console.log('words are done, finishing');
       const timeMillis: number = new Date().getTime() - state.startTime.getTime()
       this.timeTaken = timeMillis;
-
-      //stop timer and flip the flag
-      clearInterval(this.intervalId);
+      //flip this particular user's flag
       state.finished = true;
-      //submit result to the server
-      console.log("Test Complete Submitting Results", this.result);
-      // this.submitResults();
-      return {
-        finished: true,
-        state: state,
-        wpm: wpm
-      };
     }
+
+    //did both people finish?
+    if(this.winnerState.finished && this.challengerState.finished)
+    {
+      //well, we both finished. Stop the timer and raise the flag
+      this.testComplete = true;
+      clearInterval(this.intervalId);
+    }
+
     //did we run out of time instead?
     if(this.timerFinished){
       const timeMillis: number = new Date().getTime() - state.startTime.getTime();
       this.timeTaken = timeMillis;
       state.finished = true;
-      // this.submitResults();
-      return {
-        finished: true,
-        state: state,
-        wpm: wpm
-      };
+      this.testComplete = true;
     }
+
     return {
-      finished: false,
       state: state,
       wpm: wpm
     };
