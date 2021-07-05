@@ -4,6 +4,7 @@ import { Socket } from 'ngx-socket-io';
 import { environment as env } from '../environments/environment';;
 import { observable, Observable } from 'rxjs';
 import { State } from 'src/Models/state';
+import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,18 @@ export class LiveCompService {
   public sendCompetitionProgress(userState: any){
     console.log('emitting comp-progress userState: ', userState);
     return this.socket.emit('comp-progress', userState)
+  }
+
+  public sendRoundWinner(roomId, winnerName){
+    return this.socket.emit('winner-found', roomId, winnerName )
+  }
+
+  public listenForRoundWinner = () => {
+    return new Observable((observer) => {
+      this.socket.on('winner-found', (winnerName) => {
+        observer.next(winnerName)
+      })
+    })
   }
 
   public listenForCompProgress = () => {

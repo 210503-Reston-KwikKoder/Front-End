@@ -28,7 +28,7 @@ export class QueComponent implements OnInit {
     .then(users => {
       this.orderedUsersInQueue = users
       this.currentWinner = this.orderedUsersInQueue[0]
-      this.currentChallenger = this.orderedUsersInQueue[1]
+      this.currentChallenger = this.orderedUsersInQueue[1]?? undefined
       this.alertNewWinnerAndChallenger.emit({
           winner: this.currentWinner,
           challenger: this.currentChallenger

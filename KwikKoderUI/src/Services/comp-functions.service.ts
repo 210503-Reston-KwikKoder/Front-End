@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
-import { ActivatedRoute, Router } from '@angular/router';
-import { State } from '../Models/state';
-import { RestService } from '../Services/rest.service';
-import { of, Subscription } from 'rxjs';
-import { CompetitionContent } from '../Models/CompetitionContentModel';
-import { CompetitionTestResults } from '../Models/CompetitionTestResults';
-import { ResultModel } from 'src/Models/ResultModel';
-import { LiveCompService } from './live-comp.service';
-import { Language } from 'src/Models/LanguageEnum';
-import { Statement } from '@angular/compiler';
-import { faThList } from '@fortawesome/free-solid-svg-icons';
+import { Injectable } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
+import { AuthService } from '@auth0/auth0-angular'
+import { ActivatedRoute, Router } from '@angular/router'
+import { State } from '../Models/state'
+import { RestService } from '../Services/rest.service'
+import { of, Subscription } from 'rxjs'
+import { CompetitionContent } from '../Models/CompetitionContentModel'
+import { CompetitionTestResults } from '../Models/CompetitionTestResults'
+import { ResultModel } from 'src/Models/ResultModel'
+import { LiveCompService } from './live-comp.service'
+import { QueService } from './que.service'
+import { Language } from 'src/Models/LanguageEnum'
+import { Statement } from '@angular/compiler'
+import { faThList } from '@fortawesome/free-solid-svg-icons'
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class CompFunctionsService {
   constructor(
     private api: RestService,
     public liveSer: LiveCompService,
+    private queueService: QueService
     ) { }
     
     
@@ -29,6 +31,7 @@ export class CompFunctionsService {
   testmat: any = null;
   testStarted: boolean = false;
   challengerState: State;
+  currentUser: any;
   winnerState: State;
   timeTaken: number;
   challengerWpm: number;
@@ -37,18 +40,20 @@ export class CompFunctionsService {
   skip: boolean;
   category: number = -1;
   categoryName: string = Language[this.category];
-  testComplete: boolean = false;
-  sub: Subscription;
-  compId: number;
-  author: string;
-  result : ResultModel;
+  testComplete: boolean = false
+  sub: Subscription
+  compId: number
+  author: string
+  result : ResultModel
   timer = {
     minutes: 1,
     seconds: 0
-  };
-  intervalId: any;
-  timerFinished: boolean;
-
+  }
+  intervalId: any
+  timerFinished: boolean
+  currentWinStreak: number
+  userWon: boolean
+  
   resetTimer(): void {
     this.timer = {
       minutes: 1,
@@ -80,6 +85,7 @@ export class CompFunctionsService {
   finishTest(): void {
     this.testComplete = true;
     clearInterval(this.intervalId);
+    alert("Test Finished")
   }
   
   newTest(): void{
@@ -103,7 +109,6 @@ export class CompFunctionsService {
           console.log(this.testmat);
         }
       })
-
   }
 
   //challenger presses start round btn to trigger this function
@@ -206,7 +211,7 @@ export class CompFunctionsService {
       if(this.live){
         this.sendStateToViewers(userRole)
         // Mykel did this might be hacky
-        this.resetTimer()
+        // this.resetTimer()
       }
       return;
     }
@@ -305,6 +310,10 @@ export class CompFunctionsService {
     {
       //well, we both finished. Stop the timer and raise the flag
       this.testComplete = true;
+      if(this.currentUser.role === 'winner' || this.currentUser.role === 'challenger'){
+        this.calcWinner()
+ 
+      }
       clearInterval(this.intervalId);
     }
 
@@ -320,6 +329,28 @@ export class CompFunctionsService {
       state: state,
       wpm: wpm
     };
+  }
+
+  calcWinner(){
+    let winnerNetWpm = this.winnerWpm - this.winnerState.errors / (this.winnerState.timeTaken / 60000)
+    let challengerNetWpm = this.challengerWpm - this.challengerState.errors/ (this.challengerState.timeTaken/ 60000)
+
+    if((this.currentUser.role === 'winner' && winnerNetWpm > challengerNetWpm) || 
+    (this.currentUser.role === 'challenger' && challengerNetWpm > winnerNetWpm))
+    {
+      //I won
+      //rub it in to everybody
+      this.liveSer.sendRoundWinner(this.roomID, this.currentUser.name)
+      //increase my streak
+      this.currentWinStreak++
+      //also tell the server ==
+    }
+    else {
+      this.currentWinStreak = 0
+      //boot this person outta queue
+      //losers go straight to jail
+      this.queueService.removeUserFromQueue(this.compId)
+    }
   }
 
   // observeIfCompFinished(){

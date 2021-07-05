@@ -32,10 +32,6 @@ export class ChatComponent implements OnInit {
       this.chatService.sendMessage(this.newMessage, this.userName, this.roomId);
       this.newMessage = '';
     }
-    else{
-      this.newMessage = "Robbie is not cool";
-      this.chatService.sendMessage(this.newMessage, this.userName, this.roomId);
-    }
   }
 
   // subscribes to new messages from socket room

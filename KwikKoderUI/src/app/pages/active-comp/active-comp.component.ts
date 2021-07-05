@@ -95,6 +95,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.auth.user$.subscribe((profile) => {
       this.currentUser.id = profile.sub;
       this.currentUser.name = profile.name;
+      this.comp.currentUser = this.currentUser;
     });
     this.setListenForNewTest()
     this.setListenForCompProgress()
