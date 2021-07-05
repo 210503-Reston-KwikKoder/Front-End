@@ -1,16 +1,12 @@
-<div class="container forum-wrapper">
-    <div class="col-md-9 col-md-offset-1">
-        <img
-        *ngIf="auth.user$ | async as user"
-        [src]="user.picture"
-        alt="User's profile picture"
-        class="rounded-circle"
-      />
-        <editor [init]="{branding:false}" apiKey="v6pc3reg3q4t5poggf3lxc6a5ojr348sbov3kr7d06ydkj4e" [(ngModel)]="message"></editor>
-        <button class="kwik-btn" type="button" value="create" (click)="CreateCompetition()">Post Comment</button>
-    </div>
-
-    <div class="col-md-8 col-md-offset-2 comments-wrapper">
-        <pre>{{message}}</pre>
+<div class="container">
+    <div class="col-md-9 col-md-offset-2">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let forum of newForum;">
+              <span>{{forum.topic}}</span>
+              <button class="kwik-btn" [routerLink]="['/forumPosts', forum.forumID]">Start Discussion</button>
+            </li>
+          </ul>
     </div>
 </div>
+
+<!-- (click)="routeToForumPosts(forum.forumID)" -->

@@ -1,0 +1,64 @@
+<div class="container forum-wrapper">
+    <div class="col-md-9 col-md-offset-1">
+        <img
+            *ngIf="auth.user$ | async as user"
+            [src]="user.picture"
+            alt="User's profile picture"
+            class="rounded-circle"
+        />
+        <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
+            <editor 
+            [init]="{
+                    branding:false,
+                    skin: 'borderless',
+                    plugins: 'wordcount',
+                    menubar: false,
+                    min_height: 150
+                }"
+                apiKey="v6pc3reg3q4t5poggf3lxc6a5ojr348sbov3kr7d06ydkj4e" [(ngModel)]="newPost.description" #name="ngModel" name="description">
+            </editor>
+            <button class="kwik-btn" type="submit" value="Post">Post</button>
+        </form>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2 comments-wrapper">
+        <h2>Write Something about {{newPost.topic}} ?</h2>
+        <div class="post-wrapper" *ngFor="let post of posts; let i = index">
+            <div>
+            <div class="user_wrapper pull-left">
+                <img
+                    src="../../../assets/images/user-dummy-image.png"
+                    alt="User's profile picture"
+                    class="rounded-circle"
+                />
+                <strong>Sehar Malik</strong>
+            </div>
+            <p class="pull-right">{{post.dateCreated | date}}</p>
+            <div class="clear-fix"></div>
+            </div>
+            <div class="text-wrapper">
+                <p [innerHTML]="post.description"></p>
+            </div>
+            <div class="reply-btn-wrapper">
+                <button class="kwik-btn comment-btn" (click)="getComments(post.postID, i)"><fa-icon [icon]="faCommentDots"></fa-icon></button>
+                <button class="kwik-btn" (click)="deletePost(post.isUser, post.postID)"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
+            </div>
+            <div class="comments-wrapper" *ngIf="isShow[i]">
+                <form (ngSubmit)="onSubmitComment(post.postID)" #activityForm="ngForm">
+                    <textarea #name="ngModel" [(ngModel)]="newComment.message" name="comment" class="form-control"></textarea>
+                    <button class="kwik-btn" type="submit" value="Post">comment</button>
+                </form>
+                <div class="clear-fix"></div>
+                <div class="commentBox-wrapper" *ngFor="let comment of comments">
+                    <p style="display: flex; justify-content: space-between;"><span><strong>Commented By: </strong>{{comment.userName}}Sehar Malik</span><span>{{comment.created | date}}</span></p>
+                    <div class="comments">
+                        <p class="comment-text">
+                            {{comment.message}}
+                        </p>
+                        <fa-icon [icon]="faTrashAlt" style="color: #9024b4; cursor: pointer;" (click)="deleteComment(comment.isLoggedUser, comment.commentID, post.postID)"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

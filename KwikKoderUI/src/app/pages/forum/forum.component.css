@@ -1,20 +1,21 @@
-.forum-wrapper{
-    background-color: rgba(235, 233, 233, 0.2);
-    border: 1px solid #333;
-    box-shadow: 0em 0 .6em #333;
-    padding: 7px;
-}
-.forum-wrapper img{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    float: left;
-    margin-right: 8px;
-}
-.forum-wrapper button{
-    float: right;
-}
-.comments-wrapper{
-    padding: 7px;
+.list-group-item{
     background-color: #fff;
+    color: #9024b4;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.list-group-item span{
+    font-size: 20px;
+}
+.list-group-item:hover{
+    background-image: linear-gradient(#9024b4,#f360a2);
+    color: #fff;
+}
+.list-group{
+    box-shadow: 0em 0 .6em #333;
+    border-color: #fff;
+}
+.list-group-item > .kwik-btn{
+    font-size: 10px;
 }

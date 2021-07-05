@@ -13,6 +13,7 @@ import { CreateCompetitionComponent } from './create-competition/create-competit
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component'; 
 import { ForumComponent } from './pages/forum/forum.component';
+import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
 
 /*
 //Routes to out page components
@@ -62,7 +63,13 @@ const routes: Routes = [
   },
   {
     path: 'forum',
-    component: ForumComponent
+    component: ForumComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'forumPosts/:id',
+    component: ForumpostsComponent,
+    canActivate: [AuthGuard]
   }
 ];
 
