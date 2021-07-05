@@ -21,8 +21,11 @@ export class CompFunctionsService {
   constructor(
     private api: RestService,
     public liveSer: LiveCompService,
-  ) { }
-
+    ) { }
+    
+    
+  
+  live: boolean
   testmat: any = null;
   testStarted: boolean = false;
   challengerState: State;
@@ -76,6 +79,7 @@ export class CompFunctionsService {
 
   finishTest(): void {
     this.testComplete = true;
+    clearInterval(this.intervalId);
   }
   
   newTest(): void{
@@ -132,7 +136,6 @@ export class CompFunctionsService {
     state.words = test.testString;
     state.wordarray = state.words.split('');
     state.wordarray= state.wordarray.filter(this.checkIsBadChar);
-
     return state;
   }
 
@@ -183,12 +186,42 @@ export class CompFunctionsService {
     return (charsTyped / 5) / (ms / 60000);
   }
 
-  onWordChange(event: KeyboardEvent, elemType: string): void {
-    let state = this[elemType + 'State'];
-    let currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
-    if(state.finished) return;
-    let e = event.key
-    let expectedLetter = state.wordarray[state.letterPosition];
+  onWordChange(event: KeyboardEvent, userRole: string): void {
+    let state = this[userRole + 'State'];
+    state.enteredText = event.key;
+
+    let userState = {
+      roomId: this.compId,
+      state: state,
+      role: userRole,
+      wpm: this[userRole + 'Wpm']
+    }
+    
+    // this.updateView(userState);
+
+    let finishCheck = this.checkIfFinished(state);
+    this[userRole+'Wpm'] = finishCheck.wpm;
+    this[userRole+'State'] = finishCheck.state;
+    if(finishCheck.state.finished){
+      if(this.live){
+        this.sendStateToViewers(userRole)
+        // Mykel did this might be hacky
+        this.resetTimer()
+      }
+      return;
+    }
+
+    if(this.live){
+      this.sendStateToViewers(userRole)
+    }
+  }
+
+  updateView(userState: any) {
+    console.log('updating the view', userState);
+    let currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
+    if(userState.state.finished) return
+    let e = userState.state.enteredText;
+    let expectedLetter = userState.state.wordarray[userState.state.letterPosition];
     
     if(e == "Enter"){
       e="\n"
@@ -197,15 +230,17 @@ export class CompFunctionsService {
     if(e == expectedLetter){
       currElem.style.opacity = "0.3";
       this.HideCaret(currElem);
-      state.correctchars +=1;
-      state.letterPosition+=1;
-      currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
+      userState.state.correctchars +=1;
+      userState.state.letterPosition+=1;
+      currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
       this.ShowCaret(currElem);
     }
     else if(e == "Backspace"){
       this.HideCaret(currElem);
-      state.letterPosition-=1;
-      currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
+      if(userState.state.letterPosition > 0){
+        userState.state.letterPosition-=1;
+      }
+      currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
       this.ShowCaret(currElem);
       currElem.style.opacity = "1.0";
       currElem.style.backgroundColor = "#32302f";
@@ -215,44 +250,51 @@ export class CompFunctionsService {
     else{
       this.HideCaret(currElem);
       currElem.style.backgroundColor = "red";
-      state.letterPosition+=1;
-      currElem = document.getElementById(`${elemType}-char-${state.letterPosition}`) as HTMLElement;
+      userState.state.letterPosition+=1;
+      currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
       this.ShowCaret(currElem);
-      var inp = String.fromCharCode(event.keyCode);
-      if (/[a-zA-Z0-9-_ ]/.test(inp)){ state.errors+=1; }
+      if (/[a-zA-Z0-9-_ ]/.test(e)){ 
+        userState.state.errors+=1; 
+      }
+      if(userState.state.wordarray[userState.state.letterPosition]=="\n"){
+        //display enter prompt
+        currElem.textContent = "⏎\n";
+      }
     }
-
-    let finishCheck = this.checkIfFinished(state);
-    this[elemType+'Wpm'] = finishCheck.wpm;
-    this[elemType+'State'] = finishCheck.state;
-    if(finishCheck.state.finished){
-      return;
-    }
-
-    if(state.wordarray[state.letterPosition]=="\n"){
-      //display enter prompt
-      currElem.textContent = "⏎\n";
-    }
+    this[userState.role + 'State'] = userState.state;
   }
 
-  keyIntercept(event: KeyboardEvent, user: any, elemType: string): void{
+  sendStateToViewers(userRole: string){
+    console.log('sending it to everybody')
+    //sends stuff to socket
+    //roomId, userRole: string, state: State, wpm: number
+    let userState = {
+      roomId: this.compId,
+      role: userRole,
+      state: this[userRole + 'State'],
+      wpm: this[userRole + 'Wpm']
+    };
+    this.liveSer.sendCompetitionProgress(userState)
+  }
+
+  keyIntercept(event: KeyboardEvent, user: any, userRole: string): void{
     //check for special keycodes if needed
     //has the test started?
     if(!this.testStarted) return;
 
     //only allow users to type in their respective boxes
-    else if(user.role !== elemType) return;
+    else if(user.role !== userRole) return;
 
-    else this.onWordChange(event, elemType);
+    else this.onWordChange(event, userRole);
   }
 
-  checkIfFinished(state: State): any {
+  checkIfFinished(state: any): any {
     let numletters = state.wordarray.length-1
-    const wpm = Math.floor(this.calcWordsPerMinute(state.correctchars, new Date().getTime() - state.startTime.getTime()));
+    const wpm = Math.floor(this.calcWordsPerMinute(state.correctchars, new Date().getTime() - Date.parse(state.startTime)));
     //check if words are done
     if(state.letterPosition >= state.wordarray.length){
       console.log('words are done, finishing');
-      const timeMillis: number = new Date().getTime() - state.startTime.getTime()
+      const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
       this.timeTaken = timeMillis;
       //flip this particular user's flag
       state.finished = true;
@@ -268,7 +310,7 @@ export class CompFunctionsService {
 
     //did we run out of time instead?
     if(this.timerFinished){
-      const timeMillis: number = new Date().getTime() - state.startTime.getTime();
+      const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
       this.timeTaken = timeMillis;
       state.finished = true;
       this.testComplete = true;

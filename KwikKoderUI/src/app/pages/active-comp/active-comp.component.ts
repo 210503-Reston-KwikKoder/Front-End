@@ -8,6 +8,7 @@ import { QueService } from 'src/Services/que.service';
 import { LiveCompService } from 'src/Services/live-comp.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Language } from 'src/Models/LanguageEnum';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-active-comp',
@@ -56,26 +57,15 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     else this.currentUser.role = 'observer';
   }
 
-  keyIntercept(event: KeyboardEvent): void{
-    //check for special keycodes if needed
-    if (event){
-      // this.comp.onWordChange(event)
-    } else {
-      console.log("check event: " + event);
-    }
-  }
-
-  focusInputArea(): void{
-    document.getElementById("input-area").focus();
-  }
-
   setListenForNewTest(){
     this.liveComp
     .listenForNewTest()
     .subscribe((test: any) => {
-      console.log('active comp listened to new test')
+      console.log("Reciving test", test)
       //only set the test if the test room is the room the currentUser is currently in
       if(test.compId == this.roomId) {
+        this.comp.winnerState = this.comp.resetState();
+        this.comp.challengerState = this.comp.resetState();
         this.currentTest = test
         this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
         this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
@@ -84,9 +74,22 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     })
   }
 
-  ngOnInit(): void {
-    // enters user into the socket room
+  setListenForCompProgress(){
+    this.liveComp.listenForCompProgress()
+    .subscribe((userState: any) => {
+      console.log('active comp listened comp-progress', userState);
+//state, role, roomId, wordwpm
+      this.comp[userState.role + 'Wpm'] = userState.wpm;
+      this.comp[userState.role + 'State'] = userState.state;
+      this.comp.updateView(userState);
+    })
+  }
 
+  ngOnInit(): void {
+    // tells the comp-functions it is live
+    this.comp.live = true
+    this.comp.compId = this.roomId;
+    // enters user into the socket room
     this.joinSocketRoom();
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
@@ -94,6 +97,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentUser.name = profile.name;
     });
     this.setListenForNewTest()
+    this.setListenForCompProgress()
     this.comp.newTest();
 
     // prevents page scroll when hitting the spacebar

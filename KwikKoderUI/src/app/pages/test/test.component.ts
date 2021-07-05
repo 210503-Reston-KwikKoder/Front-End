@@ -141,7 +141,9 @@ export class TestComponent implements OnInit {
     else if(e == "Backspace"){
       //e="";
       this.HideCaret();
-      this.state.letterPosition-=1; 
+      if(this.state.letterPosition > 0){
+        this.state.letterPosition-=1; 
+      }
       this.ShowCaret();
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.opacity = "1.0";
       (document.getElementById(`char-${this.state.letterPosition}`) as HTMLElement).style.backgroundColor = "#32302f";

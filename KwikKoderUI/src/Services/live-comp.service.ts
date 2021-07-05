@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { environment as env } from '../environments/environment';;
 import { observable, Observable } from 'rxjs';
+import { State } from 'src/Models/state';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,20 @@ export class LiveCompService {
 
   public getCurrentTest(roomId){
     return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
+  }
+
+  public sendCompetitionProgress(userState: any){
+    console.log('emitting comp-progress userState: ', userState);
+    return this.socket.emit('comp-progress', userState)
+  }
+
+  public listenForCompProgress = () => {
+    return new Observable((observer) => {
+      this.socket.on('comp-progress', (userState) => {
+        console.log('listened to comp-progress');
+        observer.next(userState)
+      })
+    })
   }
 
   // used to emit when a competitor hits a key
