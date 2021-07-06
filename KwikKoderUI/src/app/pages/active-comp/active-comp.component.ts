@@ -64,15 +64,17 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     .listenForNewTest()
     .subscribe((test: any) => {
       console.log("Reciving test", test)
-      //only set the test if the test room is the room the currentUser is currently in
-      if(test.compId == this.roomId) {
-        this.comp.winnerState = this.comp.resetState();
-        this.comp.challengerState = this.comp.resetState();
-        this.currentTest = test
-        this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
-        this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
-        this.comp.startTest();
-      }
+      this.comp.winnerState = this.comp.resetState();
+      this.comp.challengerState = this.comp.resetState();
+      this.currentTest = undefined;
+      this.comp.winnerState.wordarray = undefined;
+      this.comp.challengerState.wordarray = undefined;
+      this.comp.testStarted = false;
+      this.comp.testComplete = false;
+      this.currentTest = test
+      this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
+      this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
+      this.comp.startTest();
     })
   }
 
@@ -90,6 +92,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   setListenForWinnerFound(){
     this.liveComp.listenForRoundWinner()
     .subscribe((winnerName: any) => {
+      console.log('active comp has listened to the new winner')
       this.winnerName = winnerName;
     })
   }
