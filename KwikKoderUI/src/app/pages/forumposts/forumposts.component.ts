@@ -21,9 +21,9 @@ export class ForumpostsComponent implements OnInit {
   //app variables
   profileJson: string = null;
   id: number;
+  message: any[] = [];
   isShow: boolean[] = [];
   posts: ForumPost[] = [];
-  comments: ForumComment[] = [];
   newPost: ForumPost = {
     postID: 0,
     topic: '',
@@ -32,7 +32,8 @@ export class ForumpostsComponent implements OnInit {
     dateCreated: new Date,
     isUser: false,
     description: '',
-    forumID: 0
+    forumID: 0,
+    comments:[]
   };
   newComment: ForumComment = {
     commentID: 0,
@@ -65,19 +66,20 @@ export class ForumpostsComponent implements OnInit {
     this.forumService.GetForumPostsById(this.id).then(
       res => {
         this.posts = res;
+        console.log(this.posts);
+        this.posts.forEach(element => {
+          this.forumService.GetForumCommentsById(element.postID).then(
+            res => { 
+              console.log(res);
+              element.comments = res;
+            }
+          )
+        });
       }
     )
   }
-  getComments(postId, i): void{
+  getComments(i): void{
     this.isShow[i] = !this.isShow[i];
-    if(this.isShow[i]){
-      this.forumService.GetForumCommentsById(postId).then(
-        res => {
-          console.log('comments received*******',res);
-          this.comments = res;
-        }
-      );
-    }
   }
   onSubmit():void{
     this.newPost.forumID = this.id;
@@ -94,18 +96,24 @@ export class ForumpostsComponent implements OnInit {
   }
   onSubmitComment(postId): void{
     this.newComment.postID = postId;
+    this.message.forEach(element => {
+      console.log('input message is ********',element);
+      this.newComment.message = element;
+    });
     this.forumService.ForumComment(this.newComment).then(
       res => {
         console.log('submitted');
-        this.newComment.message = '';
-        this.forumService.GetForumCommentsById(postId).then(
-          res => {
-            console.log(res);
-            this.comments = res;
-          }
-        );
-      }
-    )
+      this.newComment.message = '';
+      this.posts.forEach(element => {
+      this.forumService.GetForumCommentsById(element.postID).then(
+        res =>{ 
+          console.log(res);
+          element.comments = res;
+          this.message = [];
+        }
+      )
+    });
+  })
   }
   deletePost(deletePost, postId): void{
     if(deletePost == true){
@@ -122,17 +130,18 @@ export class ForumpostsComponent implements OnInit {
     }
   }
   deleteComment(isUser, commentId, postId): void{
-    console.log(isUser);
     if(isUser == true){
       this.forumService.deletePostComment(commentId).then(
         () => {
           console.log('deleted');
-          this.forumService.GetForumCommentsById(postId).then(
-            res => {
-              console.log(res);
-              this.comments = res;
-            }
-          );
+          this.posts.forEach(element => {
+            this.forumService.GetForumCommentsById(element.postID).then(
+              res =>{ 
+                console.log(res);
+                element.comments = res;
+              }
+            )
+          });
         }
       )
     }

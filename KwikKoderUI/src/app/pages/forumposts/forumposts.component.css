@@ -22,10 +22,10 @@
     clear: both;
 }
 .text-wrapper{
-    background: #eee;
     padding: 20px;
 }
 .post-wrapper{
+    background: #eee;
     margin-bottom: 10px;
 }
 .user_wrapper{

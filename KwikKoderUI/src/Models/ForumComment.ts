@@ -3,7 +3,7 @@ export interface ForumComment{
     postID: number;
     userName: string;
     ImgURL: string;
-    created: Date;
+    created: Date | any;
     message: string;
     isLoggedUser: boolean;
 }

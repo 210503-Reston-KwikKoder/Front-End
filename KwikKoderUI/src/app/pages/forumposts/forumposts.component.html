@@ -6,7 +6,7 @@
             alt="User's profile picture"
             class="rounded-circle"
         />
-        <form (ngSubmit)="onSubmit()" #activityForm="ngForm">
+        <form (ngSubmit)="onSubmit()" #postsForm="ngForm">
             <editor 
             [init]="{
                     branding:false,
@@ -33,24 +33,24 @@
                 />
                 <strong>Sehar Malik</strong>
             </div>
-            <p class="pull-right">{{post.dateCreated | date}}</p>
+            <p class="pull-right">{{post.dateCreated | displayDate}}</p>
             <div class="clear-fix"></div>
             </div>
             <div class="text-wrapper">
                 <p [innerHTML]="post.description"></p>
             </div>
             <div class="reply-btn-wrapper">
-                <button class="kwik-btn comment-btn" (click)="getComments(post.postID, i)"><fa-icon [icon]="faCommentDots"></fa-icon></button>
+                <button class="kwik-btn comment-btn" (click)="getComments(i)"><fa-icon [icon]="faCommentDots"></fa-icon></button>
                 <button class="kwik-btn" (click)="deletePost(post.isUser, post.postID)"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
             </div>
             <div class="comments-wrapper" *ngIf="isShow[i]">
-                <form (ngSubmit)="onSubmitComment(post.postID)" #activityForm="ngForm">
-                    <textarea #name="ngModel" [(ngModel)]="newComment.message" name="comment" class="form-control"></textarea>
+                <form (ngSubmit)="onSubmitComment(post.postID)" #commentForm="ngForm">
+                    <textarea #name="ngModel" [(ngModel)]="message[i]" name="message[i]" class="form-control"></textarea>
                     <button class="kwik-btn" type="submit" value="Post">comment</button>
                 </form>
                 <div class="clear-fix"></div>
-                <div class="commentBox-wrapper" *ngFor="let comment of comments">
-                    <p style="display: flex; justify-content: space-between;"><span><strong>Commented By: </strong>{{comment.userName}}Sehar Malik</span><span>{{comment.created | date}}</span></p>
+                <div class="commentBox-wrapper" *ngFor="let comment of post.comments">
+                    <p style="display: flex; justify-content: space-between;"><span><strong>Commented By: </strong>{{comment.userName}}Sehar Malik</span><span>{{comment.created | displayDate}}</span></p>
                     <div class="comments">
                         <p class="comment-text">
                             {{comment.message}}

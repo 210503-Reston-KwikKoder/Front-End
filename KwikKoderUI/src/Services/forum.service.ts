@@ -11,7 +11,6 @@ import {environment as env} from "../environments/environment";
 export class ForumService {
 
   constructor(private http: HttpClient) { }
-
   AddPost(forumPost): Promise<ForumPost>{
     return this.http.post<ForumPost>(`${env.dev.forumApi}ForumPost`, forumPost).toPromise();
   }
