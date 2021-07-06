@@ -28,13 +28,25 @@ export class QueComponent implements OnInit {
     .then(users => {
       this.orderedUsersInQueue = users
       this.currentWinner = this.orderedUsersInQueue[0]
-      this.currentChallenger = this.orderedUsersInQueue[1]
+      this.currentChallenger = this.orderedUsersInQueue[1] ?? undefined
       this.alertNewWinnerAndChallenger.emit({
           winner: this.currentWinner,
           challenger: this.currentChallenger
       })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err);
+      if(err.status == 404) {
+        //queue empty
+        this.orderedUsersInQueue = [];
+        this.currentChallenger = undefined;
+        this.currentWinner = undefined;
+        this.alertNewWinnerAndChallenger.emit({
+          winner: this.currentWinner,
+          challenger: this.currentChallenger
+        })
+      }
+    })
   }
 
   // triggers from join btn; adds a user the the que in the db, then alerts the socket to check for changes
@@ -61,6 +73,7 @@ export class QueComponent implements OnInit {
     this.queue
     .listenForQueueUpdates()
     .subscribe(() => {
+      console.log('updating queue')
       this.getQueParticipants()
     })
   }

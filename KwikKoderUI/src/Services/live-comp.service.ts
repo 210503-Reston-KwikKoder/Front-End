@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { environment as env } from '../environments/environment';;
 import { observable, Observable } from 'rxjs';
+import { State } from 'src/Models/state';
+import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +51,50 @@ export class LiveCompService {
     return this.socket.emit('new-test', test.compId, test)
   }
 
+  public alertReset(roomId){
+    console.log('alerting reset', roomId)
+    return this.socket.emit('reset-test', roomId)
+  }
+  public listenForReset(){
+    console.log('live serv listen for reset');
+    return new Observable((observer) => {
+      this.socket.on('reset-test', (() => {
+        console.log('heard resetting test');
+        observer.next();
+      }))
+    })
+  }
+
   public getCurrentTest(roomId){
     return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
+  }
+
+  public sendCompetitionProgress(userState: any){
+    console.log('emitting comp-progress userState: ', userState);
+    return this.socket.emit('comp-progress', userState)
+  }
+
+  public sendRoundWinner(roomId, winnerName){
+    console.log('live comp service emitting winner-found');
+    return this.socket.emit('winner-found', roomId, winnerName)
+  }
+
+  public listenForRoundWinner = () => {
+    return new Observable((observer) => {
+      this.socket.on('winner-found', (winnerName) => {
+        console.log('winner-found heard by live service')
+        observer.next(winnerName)
+      })
+    })
+  }
+
+  public listenForCompProgress = () => {
+    return new Observable((observer) => {
+      this.socket.on('comp-progress', (userState) => {
+        console.log('listened to comp-progress');
+        observer.next(userState)
+      })
+    })
   }
 
   // used to emit when a competitor hits a key
