@@ -77,8 +77,15 @@ export class CompFunctionsService {
   }
 
   resetTest(): void{
+    console.log("resetting")
     this.testComplete = false;
     this.newTest();
+  }
+  
+  callReset(): void {
+    console.log('calling to reset test')
+    //also reset everyone else's
+    this.liveSer.alertReset(this.compId);  
   }
 
   finishTest(): void {

@@ -64,13 +64,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     .listenForNewTest()
     .subscribe((test: any) => {
       console.log("Reciving test", test)
-      this.comp.winnerState = this.comp.resetState();
-      this.comp.challengerState = this.comp.resetState();
-      this.currentTest = undefined;
-      this.comp.winnerState.wordarray = undefined;
-      this.comp.challengerState.wordarray = undefined;
-      this.comp.testStarted = false;
-      this.comp.testComplete = false;
+      this.comp.resetTest();
       this.currentTest = test
       this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
       this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
@@ -97,6 +91,14 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     })
   }
 
+  setListenForTestReset() {
+    this.liveComp.listenForReset()
+    .subscribe(() => {
+      console.log('active comp listened to the reset test');
+      this.comp.resetTest();
+    })
+  }
+
   ngOnInit(): void {
     // tells the comp-functions it is live
     this.comp.live = true
@@ -112,6 +114,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.setListenForNewTest()
     this.setListenForCompProgress()
     this.setListenForWinnerFound();
+    this.setListenForTestReset();
     this.comp.newTest();
 
     // prevents page scroll when hitting the spacebar

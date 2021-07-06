@@ -51,6 +51,20 @@ export class LiveCompService {
     return this.socket.emit('new-test', test.compId, test)
   }
 
+  public alertReset(roomId){
+    console.log('alerting reset', roomId)
+    return this.socket.emit('reset-test', roomId)
+  }
+  public listenForReset(){
+    console.log('live serv listen for reset');
+    return new Observable((observer) => {
+      this.socket.on('reset-test', (() => {
+        console.log('heard resetting test');
+        observer.next();
+      }))
+    })
+  }
+
   public getCurrentTest(roomId){
     return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
   }
