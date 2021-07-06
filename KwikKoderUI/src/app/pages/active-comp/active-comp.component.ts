@@ -46,15 +46,15 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   newWinnerAndChallenger(users){
-    this.currentWinner = users.winner
-    this.currentChallenger = users.challenger
+    this.currentWinner = users.winner ?? undefined; 
+    this.currentChallenger = users.challenger ?? undefined;
     this.assignRole()
   }
 
   assignRole() {
-    if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
-    else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
-    else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
+    // if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
+    if(this.currentUser?.id == this.currentWinner?.userId) this.currentUser.role = 'winner';
+    else if(this.currentUser?.id == this.currentChallenger?.userId) this.currentUser.role = 'challenger';
     else this.currentUser.role = 'observer';
     this.comp.currentUser = this.currentUser;
   }

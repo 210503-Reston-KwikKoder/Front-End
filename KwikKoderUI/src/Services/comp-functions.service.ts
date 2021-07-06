@@ -30,9 +30,9 @@ export class CompFunctionsService {
   live: boolean
   testmat: any = null;
   testStarted: boolean = false;
-  challengerState: State;
+  challengerState: any;
   currentUser: any;
-  winnerState: State;
+  winnerState: any;
   challengerWpm: number;
   winnerWpm: number;
   expectSpace: boolean;
@@ -78,9 +78,9 @@ export class CompFunctionsService {
 
   resetTest(): void{
     console.log("resetting")
-    clearInterval(this.intervalId);
-    this.testComplete = false;
-    this.newTest();
+    //clearInterval(this.intervalId)
+    this.testComplete = false
+    this.newTest()
   }
   
   callReset(): void {
@@ -286,15 +286,15 @@ export class CompFunctionsService {
       }
     }
     
-    // let finishCheck = this.checkIfFinished(userState.state);
-    // this[userState.role+'Wpm'] = finishCheck.wpm;
-    // this[userState.role+'State'] = finishCheck.state;
-    // if(finishCheck.state.finished){
-    //   if(this.live){
-    //     this.sendStateToViewers(userState.role)
-    //   }
-    //   return;
-    // }
+    let finishCheck = this.checkIfFinished(userState.state);
+    this[userState.role+'Wpm'] = finishCheck.wpm;
+    this[userState.role+'State'] = finishCheck.state;
+    if(finishCheck.state.finished){
+      if(this.live){
+        this.sendStateToViewers(userState.role)
+      }
+      return;
+    }
     this[userState.role + 'State'] = userState.state;
   }
 
@@ -322,51 +322,51 @@ export class CompFunctionsService {
     else this.onWordChange(event, userRole);
   }
 
-  // checkIfFinished(state: any): any {
-  //   let numletters = state.wordarray.length-1
-  //   const wpm = Math.floor(this.calcWordsPerMinute(state.correctchars, new Date().getTime() - Date.parse(state.startTime)));
-  //   //check if words are done
-  //   if(state.letterPosition >= state.wordarray.length){
-  //     console.log('words are done, finishing');
-  //     const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
-  //     state.timeTaken = timeMillis;
-  //     //flip this particular user's flag
-  //     state.finished = true;
-  //   }
-  //   console.log("winnerState = ", this.winnerState.finished)
-  //   console.log("challengerState = ", this.challengerState.finished)
-  //   // this[this.currentUser.role + 'State'] = state;
+  checkIfFinished(state: any): any {
+    let numletters = state.wordarray.length-1
+    const wpm = Math.floor(this.calcWordsPerMinute(state.correctchars, new Date().getTime() - Date.parse(state.startTime)));
+    //check if words are done
+    if(state.letterPosition >= state.wordarray.length){
+      console.log('words are done, finishing');
+      const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
+      state.timeTaken = timeMillis;
+      //flip this particular user's flag
+      state.finished = true;
+    }
+    // console.log("winnerState = ", this.winnerState.finished)
+    // console.log("challengerState = ", this.challengerState.finished)
+    this[this.currentUser.role + 'State'] = state;
 
-  //   //did we run out of time instead?
-  //   if(this.timerFinished){
-  //     const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
-  //     state.timeTaken = timeMillis;
-  //     state.finished = true;
-  //     this.testComplete = true;
+    //did we run out of time instead?
+    if(this.timerFinished){
+      const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
+      state.timeTaken = timeMillis;
+      state.finished = true;
+      this.testComplete = true;
 
-  //     if(this.currentUser.role == 'winner' || this.currentUser.role == 'challenger'){
-  //       console.log("calculating winner for: ", this.currentUser)
-  //       this.calcWinner()
-  //     }
-  //   }
-  //   //did both people finish?
-  //   else if(this.winnerState.finished && this.challengerState.finished)
-  //   {
-  //     //well, we both finished. Stop the timer and raise the flag
-  //     this.testComplete = true;
+      if(this.currentUser.role == 'winner' || this.currentUser.role == 'challenger'){
+        console.log("calculating winner for: ", this.currentUser)
+        this.calcWinner()
+      }
+    }
+    //did both people finish?
+    else if(this.winnerState.finished && this.challengerState.finished)
+    {
+      //well, we both finished. Stop the timer and raise the flag
+      this.testComplete = true;
       
-  //     if(this.currentUser.role == 'winner' || this.currentUser.role == 'challenger'){
-  //       console.log("calculating winner for: ", this.currentUser)
-  //       this.calcWinner()
-  //     }
-  //     clearInterval(this.intervalId);
-  //   }
+      if(this.currentUser.role == 'winner' || this.currentUser.role == 'challenger'){
+        console.log("calculating winner for: ", this.currentUser)
+        this.calcWinner()
+      }
+      clearInterval(this.intervalId);
+    }
 
-  //   return {
-  //     state: state,
-  //     wpm: wpm
-  //   };
-  // }
+    return {
+      state: state,
+      wpm: wpm
+    };
+  }
 
   calcWinner(){
     console.log("Calculating Winner")
