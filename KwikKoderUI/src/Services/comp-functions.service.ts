@@ -340,10 +340,10 @@ export class CompFunctionsService {
     {
       //I won
       //rub it in to everybody
-      this.liveSer.sendRoundWinner(this.roomID, this.currentUser.name)
+      this.liveSer.sendRoundWinner(this.compId, this.currentUser.name)
       //increase my streak
       this.currentWinStreak++
-      //also tell the server ==
+      //also tell the server ==> Chris?
     }
     else {
       this.currentWinStreak = 0
