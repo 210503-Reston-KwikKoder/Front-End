@@ -65,8 +65,9 @@ export class LiveCompService {
     })
   }
 
+  // does not get used YET (ever)
   public getCurrentTest(roomId){
-    return this.http.get(`${env.dev.serverUrl}/competition/api/LiveCompetion/latest/${roomId}`)
+    return this.http.get(`${env.dev.serverUrl}competition/api/LiveCompetion/latest/${roomId}`)
   }
 
   public sendCompetitionProgress(userState: any){
@@ -91,7 +92,7 @@ export class LiveCompService {
   public listenForCompProgress = () => {
     return new Observable((observer) => {
       this.socket.on('comp-progress', (userState) => {
-        console.log('listened to comp-progress');
+        console.log('listened to comp-progress', userState);
         observer.next(userState)
       })
     })
@@ -114,5 +115,10 @@ export class LiveCompService {
         observer.next(letterAndCompetitorId)
       })
     })
+  }
+
+  public sendRoundResults(roomId, results){
+    console.log('round result sending', roomId, results)
+    return this.http.put(`${env.dev.serverUrl}competition/api/LiveCompetition/LCS/${roomId}`, results).toPromise();
   }
 }
