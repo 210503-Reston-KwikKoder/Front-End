@@ -2,5 +2,5 @@
     "domain": "kwikkoder.us.auth0.com",
     "clientId": "iBxsoqRqsle5xBb11I9SGOtUtNvBCX6s",
     "audience": "http://kwickkoderrest.azurewebsites.net/",
-    "serverUrl": "http://20.69.69.228/"
+    "serverUrl": "https://20.69.69.228/"
 }
