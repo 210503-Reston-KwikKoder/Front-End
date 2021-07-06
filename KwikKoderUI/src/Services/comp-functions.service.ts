@@ -295,7 +295,6 @@ export class CompFunctionsService {
       }
       return;
     }
-    this[userState.role + 'State'] = userState.state;
   }
 
   sendStateToViewers(userRole: string){
@@ -333,10 +332,6 @@ export class CompFunctionsService {
       //flip this particular user's flag
       state.finished = true;
     }
-    // console.log("winnerState = ", this.winnerState.finished)
-    // console.log("challengerState = ", this.challengerState.finished)
-    this[this.currentUser.role + 'State'] = state;
-
     //did we run out of time instead?
     if(this.timerFinished){
       const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
