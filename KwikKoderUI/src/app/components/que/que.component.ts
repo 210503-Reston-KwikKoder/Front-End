@@ -1,6 +1,7 @@
 import { EventEmitter, Output } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { QueService } from 'src/Services/que.service';
+import { ActiveCompComponent } from 'src/app/pages/active-comp/active-comp.component';
 
 @Component({
   selector: 'app-que',
@@ -16,7 +17,8 @@ export class QueComponent implements OnInit {
   @Output() alertNewWinnerAndChallenger = new EventEmitter<any>();
 
   constructor(
-    private queue: QueService
+    private queue: QueService,
+    private activeComp: ActiveCompComponent
   ) { }
 
   // gets and ordered list of [ { "userId” : 0, “userName”: “string”, “name”: “string”, “enterTime”: "2021-06-18T02:21:56.857Z" } ]
@@ -26,13 +28,25 @@ export class QueComponent implements OnInit {
     .then(users => {
       this.orderedUsersInQueue = users
       this.currentWinner = this.orderedUsersInQueue[0]
-      this.currentChallenger = this.orderedUsersInQueue[1]
+      this.currentChallenger = this.orderedUsersInQueue[1] ?? undefined
       this.alertNewWinnerAndChallenger.emit({
           winner: this.currentWinner,
           challenger: this.currentChallenger
       })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err);
+      if(err.status == 404) {
+        //queue empty
+        this.orderedUsersInQueue = [];
+        this.currentChallenger = undefined;
+        this.currentWinner = undefined;
+        this.alertNewWinnerAndChallenger.emit({
+          winner: this.currentWinner,
+          challenger: this.currentChallenger
+        })
+      }
+    })
   }
 
   // triggers from join btn; adds a user the the que in the db, then alerts the socket to check for changes
@@ -40,6 +54,16 @@ export class QueComponent implements OnInit {
     this.queue.addUserToQueue(this.roomId)
       .then(() => {
         this.queue.alertQueueChangeToSocket(this.roomId);
+        alert("Queue Joined");
+      }) 
+      .catch((err) => console.log(err))
+  }
+
+  removeUserFromQueue(){
+    this.queue.removeUserFromQueue(this.roomId)
+      .then(() => {
+        this.queue.alertQueueChangeToSocket(this.roomId);
+        alert("You are no longer in the Queue.");
       }) 
       .catch((err) => console.log(err))
   }
@@ -49,6 +73,7 @@ export class QueComponent implements OnInit {
     this.queue
     .listenForQueueUpdates()
     .subscribe(() => {
+      console.log('updating queue')
       this.getQueParticipants()
     })
   }

@@ -68,6 +68,12 @@ const config: SocketIoConfig = { url: "20.69.69.228",
     path: "/chat-api/socket.io/",
   }
 };
+// const config: SocketIoConfig = { url: "localhost:3000",
+//   options: {
+//     withCredentials: false,
+//     path: "/chat-api/socket.io/",
+//   }
+// };
 
 // Backup Chat Server:
 //  const config: SocketIoConfig = { url: "45.79.192.95:3000",

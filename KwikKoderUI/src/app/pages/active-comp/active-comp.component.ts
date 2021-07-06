@@ -8,6 +8,7 @@ import { QueService } from 'src/Services/que.service';
 import { LiveCompService } from 'src/Services/live-comp.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Language } from 'src/Models/LanguageEnum';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-active-comp',
@@ -22,9 +23,10 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     name: '',
     role: ''
   };
-  currrentTest: any
+  currentTest: any
   currentWinner: any
   currentChallenger: any
+  winnerName: string;
 
   constructor(
     private chatService: ChatService,
@@ -54,50 +56,65 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
     else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
     else this.currentUser.role = 'observer';
-  }
-
-  keyIntercept(event: KeyboardEvent): void{
-    //check for special keycodes if needed
-    if (event){
-      // this.comp.onWordChange(event)
-    } else {
-      console.log("check event: " + event);
-    }
-  }
-
-  focusInputArea(): void{
-    document.getElementById("input-area").focus();
-  }
-
-  setListenForRoundStart(){
-    this.liveComp
-    .listenForRoundStart()
-    .subscribe(() => this.comp.startTest())
+    this.comp.currentUser = this.currentUser;
   }
 
   setListenForNewTest(){
     this.liveComp
     .listenForNewTest()
-    .subscribe((test) => {
-      console.log('active comp listened to new test')
-      this.currrentTest = test
+    .subscribe((test: any) => {
+      console.log("Reciving test", test)
+      this.comp.resetTest();
+      this.currentTest = test
       this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
       this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
       this.comp.startTest();
     })
   }
 
-  ngOnInit(): void {
-    // enters user into the socket room
+  setListenForCompProgress(){
+    this.liveComp.listenForCompProgress()
+    .subscribe((userState: any) => {
+      console.log('active comp listened comp-progress', userState);
+//state, role, roomId, wordwpm
+      this.comp[userState.role + 'Wpm'] = userState.wpm;
+      this.comp[userState.role + 'State'] = userState.state;
+      this.comp.updateView(userState);
+    })
+  }
 
+  setListenForWinnerFound(){
+    this.liveComp.listenForRoundWinner()
+    .subscribe((winnerName: any) => {
+      console.log('active comp has listened to the new winner')
+      this.winnerName = winnerName;
+    })
+  }
+
+  setListenForTestReset() {
+    this.liveComp.listenForReset()
+    .subscribe(() => {
+      console.log('active comp listened to the reset test');
+      this.comp.resetTest();
+    })
+  }
+
+  ngOnInit(): void {
+    // tells the comp-functions it is live
+    this.comp.live = true
+    this.comp.compId = this.roomId;
+    // enters user into the socket room
     this.joinSocketRoom();
     // sets the user Id
     this.auth.user$.subscribe((profile) => {
       this.currentUser.id = profile.sub;
       this.currentUser.name = profile.name;
+      this.comp.currentUser = this.currentUser;
     });
-    this.setListenForRoundStart()
     this.setListenForNewTest()
+    this.setListenForCompProgress()
+    this.setListenForWinnerFound();
+    this.setListenForTestReset();
     this.comp.newTest();
 
     // prevents page scroll when hitting the spacebar
