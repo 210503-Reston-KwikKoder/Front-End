@@ -48,7 +48,7 @@
           </table>
         </mat-tab>
         <mat-tab label="Stats">
-          <table class="table-borderless">
+          <table class="table table-borderless">
             <thead>
               <tr>
                 <th>Category</th>
@@ -67,6 +67,27 @@
                 <td>{{statMod.totaltesttime | displayTime}}</td>
               </tr>
             </tbody>
+          </table>
+        </mat-tab>
+        <mat-tab label="Competitions">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>Wins</th>
+                <th>Losses/tr></th>
+                <th>W/L Ratio</th>
+                <th>Longest Win Streak</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{overallStatOb.wins}}</td>
+                <td>{{overallStatOb.losses}}</td>
+                <td>{{overallStatOb.wlRatio}}</td>
+                <td>{{overallStatOb.winStreak}}</td>
+              </tr>
+            </tbody> 
           </table>
         </mat-tab>
         <mat-tab label="Progress">

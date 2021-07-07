@@ -193,6 +193,9 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+<<<<<<< HEAD
+              uri: `${env.dev.serverUrl}typetest/api/UserStat`,
+=======
               uri: `${env.dev.forumApi}comment/*`,
               tokenOptions: {
                 // The attached token should target this audience
@@ -229,6 +232,7 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.forumApi}ForumPost`,
               httpMethod: "POST",
+>>>>>>> 7f0e282ca3d464b4cad1feeca016c54875fc9936
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -306,6 +310,18 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
                 //Authorization: `Bearer ${ this.userToken }`
               }
             }
+            ,{
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCS/*`,
+              httpMethod: "PUT",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            }
 
         ]
       }
@@ -324,7 +340,8 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
         useValue: {
           fullLibraryLoader: () => import('highlight.js'),
         }
-      }
+      },
+      { provide: Window, useValue: window }
     ],
   bootstrap: [AppComponent]
 })

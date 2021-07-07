@@ -35,26 +35,27 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     public comp: CompFunctionsService,
     private queue: QueService,
     private liveComp: LiveCompService,
-    public auth: AuthService
+    public auth: AuthService,
+    private window: Window
     ) {
       this.roomId = this.route.snapshot.paramMap.get('compId')
     }
 
   // enters the user into the correct room in the socket
   joinSocketRoom(){
+    console.log('joining socket room..')
     this.chatService.joinSocketRoom(this.roomId)
   }
 
   newWinnerAndChallenger(users){
-    this.currentWinner = users.winner
-    this.currentChallenger = users.challenger
+    this.currentWinner = users.winner ?? undefined; 
+    this.currentChallenger = users.challenger ?? undefined;
     this.assignRole()
   }
 
   assignRole() {
-    if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
-    else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
-    else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
+    if(this.currentUser?.id == this.currentWinner?.userId) this.currentUser.role = 'winner';
+    else if(this.currentUser?.id == this.currentChallenger?.userId) this.currentUser.role = 'challenger';
     else this.currentUser.role = 'observer';
     this.comp.currentUser = this.currentUser;
   }
@@ -63,7 +64,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.liveComp
     .listenForNewTest()
     .subscribe((test: any) => {
-      console.log("Reciving test", test)
+      console.log("Receiving test", test)
       this.comp.resetTest();
       this.currentTest = test
       this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
@@ -75,8 +76,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   setListenForCompProgress(){
     this.liveComp.listenForCompProgress()
     .subscribe((userState: any) => {
-      console.log('active comp listened comp-progress', userState);
-//state, role, roomId, wordwpm
+      // console.log('active comp listened comp-progress', userState);
       this.comp[userState.role + 'Wpm'] = userState.wpm;
       this.comp[userState.role + 'State'] = userState.state;
       this.comp.updateView(userState);
@@ -95,6 +95,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.liveComp.listenForReset()
     .subscribe(() => {
       console.log('active comp listened to the reset test');
+      this.winnerName = null;
       this.comp.resetTest();
     })
   }
@@ -116,6 +117,22 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.setListenForWinnerFound();
     this.setListenForTestReset();
     this.comp.newTest();
+
+    this.window.addEventListener("beforeunload", () => {
+      alert('unloading');
+      this.queue.removeUserFromQueue(this.roomId)
+      .then(() => {
+        this.queue.alertQueueChangeToSocket(this.roomId)
+      })
+    })
+
+    this.window.onunload = () => {
+      this.queue.removeUserFromQueue(this.roomId)
+      .then(() => {
+        this.queue.alertQueueChangeToSocket(this.roomId)
+      })
+    }
+    console.log(this.window)
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {

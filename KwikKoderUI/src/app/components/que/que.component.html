@@ -1,10 +1,17 @@
 <div class="queDiv">
-    <div>Current Winner {{currentWinner?.name}}</div>
-    <div>Current Challenger {{currentChallenger?.name}}</div>
+    <div class="vs-div">
+        <div class="vs-div-competitor">Current Winner {{currentWinner?.name}}</div>
+        <div class="vs-div-competitor">Current Challenger {{currentChallenger?.name}}</div>
+    </div>
     
     <div id="queue-name-display" *ngIf="orderedUsersInQueue">
-        <p class="que-user" *ngFor="let user of orderedUsersInQueue" >{{user?.name}}</p>
+        <ol>
+            <li class="que-user"*ngFor="let user of orderedUsersInQueue" >{{user?.name}}</li>
+        </ol>
     </div>
-    <button mat-raised-button color="primary" (click)="addUserToQueue()">Join</button>
-    <button mat-raised-button color="primary" (click)="removeUserFromQueue()">Leave</button>
+
+    <div id="queue-btn-div">
+        <button mat-raised-button color="primary" (click)="addUserToQueue()">Join</button>
+        <button mat-raised-button color="primary" (click)="removeUserFromQueue()">Leave</button>
+    </div>
 </div>
