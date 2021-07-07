@@ -54,7 +54,7 @@ export class QueComponent implements OnInit {
     this.queue.addUserToQueue(this.roomId)
       .then(() => {
         this.queue.alertQueueChangeToSocket(this.roomId);
-        alert("Queue Joined");
+        console.log('queue joined');
       }) 
       .catch((err) => console.log(err))
   }
@@ -63,7 +63,7 @@ export class QueComponent implements OnInit {
     this.queue.removeUserFromQueue(this.roomId)
       .then(() => {
         this.queue.alertQueueChangeToSocket(this.roomId);
-        alert("You are no longer in the Queue.");
+        console.log('queue left')
       }) 
       .catch((err) => console.log(err))
   }

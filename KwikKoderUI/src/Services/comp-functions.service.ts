@@ -334,7 +334,6 @@ export class CompFunctionsService {
     const wpm = Math.floor(this.calcWordsPerMinute(state.correctchars, new Date().getTime() - Date.parse(state.startTime)));
     //check if words are done
     if(state.letterPosition >= state.wordarray.length){
-      console.log('words are done, finishing');
       const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
       state.timeTaken = timeMillis;
       //flip this particular user's flag
@@ -407,6 +406,7 @@ export class CompFunctionsService {
         result = assembleResults(this.winnerState, winnerNetWpm, true, this.currentWinStreak);
         //also tell the server ==
         this.liveSer.sendRoundResults(this.compId, result)
+        this.liveSer.sendRoundWinner(this.compId, this.currentUser.name)
       }
       else {
         this.currentWinStreak = 0
@@ -431,6 +431,8 @@ export class CompFunctionsService {
         //increase my streak
         //also tell the server ==
         this.liveSer.sendRoundResults(this.compId, result)
+        this.liveSer.sendRoundWinner(this.compId, this.currentUser.name)
+
       }
       else {
         this.currentWinStreak = 0
@@ -459,7 +461,6 @@ export class CompFunctionsService {
       }
       else this.timer.seconds -= 1;
       if (this.timer.minutes == 0 && this.timer.seconds == 0) {
-        console.log('ran out of time');
         this.timerFinished = true;
         clearInterval(this.intervalId);
         this.checkIfFinished(this.challengerState);
