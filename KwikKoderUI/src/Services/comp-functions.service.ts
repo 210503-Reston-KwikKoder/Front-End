@@ -54,6 +54,7 @@ export class CompFunctionsService {
   userWon: boolean
   
   resetTimer(): void {
+    this.timerFinished = false;
     this.timer = {
       minutes: 0,
       seconds: 30
@@ -241,6 +242,9 @@ export class CompFunctionsService {
 
   updateView(userState: any) {
     console.log('updating the view', userState);
+    if(userState.state.letterPosition >= userState.state.wordarray.length){
+      return;
+    }
     let currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
     // if(userState.state.finished) return
     let e = userState.state.enteredText;
@@ -286,6 +290,7 @@ export class CompFunctionsService {
       }
     }
     
+    
     let finishCheck = this.checkIfFinished(userState.state);
     this[userState.role+'Wpm'] = finishCheck.wpm;
     this[userState.role+'State'] = finishCheck.state;
@@ -295,6 +300,7 @@ export class CompFunctionsService {
       }
       return;
     }
+  
   }
 
   sendStateToViewers(userRole: string){
@@ -313,10 +319,12 @@ export class CompFunctionsService {
   keyIntercept(event: KeyboardEvent, user: any, userRole: string): void{
     //check for special keycodes if needed
     //has the test started?
-    if(!this.testStarted) return;
+    console.log('intercepting key stroke', this.timerFinished, user.role, userRole)
+    if(this.winnerState.finished && this.challengerState.finished) return;
+    if(this.timerFinished) return;
 
     //only allow users to type in their respective boxes
-    else if(user.role !== userRole) return;
+    if(user.role !== userRole) return;
 
     else this.onWordChange(event, userRole);
   }
@@ -334,18 +342,16 @@ export class CompFunctionsService {
     }
     //did we run out of time instead?
     if(this.timerFinished){
+      console.log('is finished timer ranout')
       const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
       state.timeTaken = timeMillis;
       state.finished = true;
       this.testComplete = true;
-
-      if(this.currentUser.role == 'winner' || this.currentUser.role == 'challenger'){
-        console.log("calculating winner for: ", this.currentUser)
-        this.calcWinner()
-      }
+      this.winnerState.finished = true;
+      this.challengerState.finished = true;
     }
     //did both people finish?
-    else if(this.winnerState.finished && this.challengerState.finished)
+    if(this.winnerState.finished && this.challengerState.finished)
     {
       //well, we both finished. Stop the timer and raise the flag
       this.testComplete = true;
@@ -365,8 +371,18 @@ export class CompFunctionsService {
 
   calcWinner(){
     console.log("Calculating Winner")
+
     let winnerNetWpm = Math.round(this.winnerWpm - this.winnerState.errors / (this.winnerState.timeTaken / 60000))
     let challengerNetWpm = Math.round(this.challengerWpm - this.challengerState.errors/ (this.challengerState.timeTaken/ 60000))
+    
+    if(this.winnerWpm === 0){
+      winnerNetWpm = 0;
+    }
+
+    if(this.challengerWpm === 0){
+      challengerNetWpm = 0;
+    }
+    
     let result;
     let assembleResults = (state: State, wpm: number, won: boolean, winStreak: number) => {
       return {
@@ -446,7 +462,10 @@ export class CompFunctionsService {
         console.log('ran out of time');
         this.timerFinished = true;
         clearInterval(this.intervalId);
-        // this.checkIfFinished(this.challengerState);
+        this.checkIfFinished(this.challengerState);
+        this.winnerState.finished = true
+        this.challengerState.finished = true
+        this.calcWinner()
       }
       }, 1000);
   }

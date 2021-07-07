@@ -5,6 +5,7 @@
             <div id="prompt-box">
                 <h1 *ngIf="winnerName">Winner: {{winnerName}}</h1>
             </div>
+            {{currentUser | json}}
             <div class="player-test-view">
                 <div *ngIf="!comp.testStarted">
                     <div *ngIf="currentUser.role == 'challenger'">
@@ -73,9 +74,9 @@
                     </div>
                 </div>
                 <div class="input-form" >
-                    <h1>Both finish? {{this.comp.testComplete}}</h1>
+                    <h1>Started? {{this.comp.testStarted}} Both finish? {{this.comp.testComplete}}</h1>
                     <div class="col-xs-6">
-                        <h1>Challenger: {{this.currentChallenger?.name}} finished: {{this.comp.challengerState.finished}}</h1>
+                        <h1>Challenger: {{this.currentChallenger | json}} finished: {{this.comp.challengerState.finished}}</h1>
                         <div *ngIf="comp.testStarted">
                             <div class="row info-row">
                                 <div class="col-xs-6">
@@ -97,7 +98,7 @@
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <h1>Defending Champion: {{this.currentWinner?.name}} finished: {{this.comp.winnerState.finished}}</h1>
+                        <h1>Defending Champion: {{this.currentWinner | json}} finished: {{this.comp.winnerState.finished}}</h1>
                         <div *ngIf="comp.testStarted">
                             <div class="row info-row">
                                 <div class="col-xs-6">

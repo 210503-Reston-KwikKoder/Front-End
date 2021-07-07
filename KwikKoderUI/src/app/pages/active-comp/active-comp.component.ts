@@ -52,7 +52,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   assignRole() {
-    // if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
     if(this.currentUser?.id == this.currentWinner?.userId) this.currentUser.role = 'winner';
     else if(this.currentUser?.id == this.currentChallenger?.userId) this.currentUser.role = 'challenger';
     else this.currentUser.role = 'observer';
@@ -76,7 +75,6 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.liveComp.listenForCompProgress()
     .subscribe((userState: any) => {
       console.log('active comp listened comp-progress', userState);
-//state, role, roomId, wordwpm
       this.comp[userState.role + 'Wpm'] = userState.wpm;
       this.comp[userState.role + 'State'] = userState.state;
       this.comp.updateView(userState);
