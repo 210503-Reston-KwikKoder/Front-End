@@ -3,7 +3,6 @@
     <div class="row">
         <div class="col-md-9" id="challenger-comp-arena" >
             <div id="prompt-box">
-                <h1 *ngIf="winnerName">Winner: {{winnerName}}</h1>
             </div>
             <div class="player-test-view">
                 <div *ngIf="!comp.testStarted">
@@ -30,8 +29,8 @@
                         </div>
                         <div>
                             <div tabindex="1" class="p-4">
-                                <pre *ngIf="comp.category != -1" contenteditable="true"><code [highlight]="comp.testmat?.snippet"></code></pre>
-                                <pre *ngIf="comp.category == -1" contenteditable="true"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
+                                <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
+                                <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
                             </div>
                         </div>
                         <div class="btn-row" >
@@ -41,9 +40,8 @@
                     </div>
                     <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test...</div>
                 </div>
-                <div>
-                    <button class="btn kwik-btn" (click)="comp.callReset()">Reset Test</button>
-                    <button (click)="comp.finishTest()" class="btn kwik-btn">Admin: Finish Test</button>
+                <div *ngIf="currentUser.role == 'challenger'">
+                    <button class="btn kwik-btn" (click)="comp.callReset()">Next Round</button>
                 </div>
                 <div *ngIf="comp.testStarted">
                     <div class="row info-row">
@@ -74,9 +72,9 @@
                     </div>
                 </div>
                 <div class="input-form" >
-                    <h1>Both finish? {{this.comp.testComplete}}</h1>
+                    <h1 *ngIf="winnerName">Winner: {{winnerName}}</h1>
                     <div class="col-xs-6">
-                        <h1>Challenger: {{this.currentChallenger?.name}} finished: {{this.comp.challengerState.finished}}</h1>
+                        <h1>Player 2: <span *ngIf="this.currentChallenger">{{this.currentChallenger.name}}</span><span *ngIf="!this.currentChallenger">Empty</span></h1>
                         <div *ngIf="comp.testStarted">
                             <div class="row info-row">
                                 <div class="col-xs-6">
@@ -98,7 +96,7 @@
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <h1>Defending Champion: {{this.currentWinner?.name}} finished: {{this.comp.winnerState.finished}}</h1>
+                        <h1>Player 1: <span *ngIf="this.currentWinner">{{this.currentWinner.name}}</span><span *ngIf="!this.currentWinner">Empty</span></h1>
                         <div *ngIf="comp.testStarted">
                             <div class="row info-row">
                                 <div class="col-xs-6">

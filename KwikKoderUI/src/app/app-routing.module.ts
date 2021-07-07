@@ -12,6 +12,8 @@ import { CompetitionTestComponent } from './pages/competition-test/competition-t
 import { CreateCompetitionComponent } from './pages/create-competition/create-competition.component';
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component'; 
+import { ForumComponent } from './pages/forum/forum.component';
+import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
 import { LiveCompsComponent } from './pages/live-comps/live-comps.component';
 
 /*
@@ -58,7 +60,16 @@ const routes: Routes = [
   },
   {
     path: 'ActiveCompetition/:compId',
-    component: ActiveCompComponent,
+    component: ActiveCompComponent
+  },
+  {
+    path: 'forum',
+    component: ForumComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'forumPosts/:id',
+    component: ForumpostsComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -66,8 +77,6 @@ const routes: Routes = [
     component: LiveCompsComponent,
     canActivate: [AuthGuard]
   }
-  
-
 ];
 
 @NgModule({
