@@ -19,6 +19,7 @@ describe('ActiveCompComponent', () => {
   let route: ActivatedRoute;
   let chatService: ChatService;
   let auth: AuthService;
+  let window: Window;
 
   class MockQueService {}
   class MockHttp{
@@ -35,6 +36,7 @@ describe('ActiveCompComponent', () => {
 
   class MockCompFuncService {}
   class MockAuth {}
+  class MockWindow {}
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -48,7 +50,8 @@ describe('ActiveCompComponent', () => {
         {provide: Socket, useClass: MockSocket},
         {provide: ChatService, useClass: MockChatService},
         {provide: CompFunctionsService, useClass: MockCompFuncService},
-        {provide: AuthService, useClass: MockAuth}
+        {provide: AuthService, useClass: MockAuth},
+        {provide: Window, useClass: MockWindow}
       ]
     })
     .compileComponents();
@@ -59,6 +62,8 @@ describe('ActiveCompComponent', () => {
     chatService = TestBed.inject(ChatService);
     comp = TestBed.inject(CompFunctionsService);
     auth = TestBed.inject(AuthService);
+    window = TestBed.inject(Window);
+
   });
 
   it('should create', () => {
