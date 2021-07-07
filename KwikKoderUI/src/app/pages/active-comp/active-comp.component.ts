@@ -42,6 +42,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
 
   // enters the user into the correct room in the socket
   joinSocketRoom(){
+    console.log('joining socket room..')
     this.chatService.joinSocketRoom(this.roomId)
   }
 
@@ -74,7 +75,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   setListenForCompProgress(){
     this.liveComp.listenForCompProgress()
     .subscribe((userState: any) => {
-      console.log('active comp listened comp-progress', userState);
+      // console.log('active comp listened comp-progress', userState);
       this.comp[userState.role + 'Wpm'] = userState.wpm;
       this.comp[userState.role + 'State'] = userState.state;
       this.comp.updateView(userState);
@@ -114,6 +115,13 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.setListenForWinnerFound();
     this.setListenForTestReset();
     this.comp.newTest();
+
+    window.addEventListener("onunload", () => {
+      this.queue.removeUserFromQueue(this.roomId)
+      .then(() => {
+        this.queue.alertQueueChangeToSocket(this.roomId)
+      })
+    } )
 
     // prevents page scroll when hitting the spacebar
     document.documentElement.addEventListener('keydown', function (e) {

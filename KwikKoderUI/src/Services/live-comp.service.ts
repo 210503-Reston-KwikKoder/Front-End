@@ -71,7 +71,7 @@ export class LiveCompService {
   }
 
   public sendCompetitionProgress(userState: any){
-    console.log('emitting comp-progress userState: ', userState);
+    // console.log('emitting comp-progress userState: ', userState);
     return this.socket.emit('comp-progress', userState)
   }
 
@@ -92,7 +92,7 @@ export class LiveCompService {
   public listenForCompProgress = () => {
     return new Observable((observer) => {
       this.socket.on('comp-progress', (userState) => {
-        console.log('listened to comp-progress', userState);
+        // console.log('listened to comp-progress', userState);
         observer.next(userState)
       })
     })

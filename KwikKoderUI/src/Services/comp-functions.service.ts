@@ -158,14 +158,16 @@ export class CompFunctionsService {
   }
 
   startTest():void {
-    console.log('starting test...');
-    const testStartTime = new Date();
-    this.testStarted = true;
-    this.winnerState.started = true;
-    this.challengerState.started = true;
-    this.winnerState.startTime = testStartTime;
-    this.challengerState.startTime = testStartTime;
-    this.startTimer();
+    if(!this.testStarted){
+      console.log('starting test...');
+      const testStartTime = new Date();
+      this.testStarted = true;
+      this.winnerState.started = true;
+      this.challengerState.started = true;
+      this.winnerState.startTime = testStartTime;
+      this.challengerState.startTime = testStartTime;
+      this.startTimer();
+    }
   }
 
   //formats the test to be able to be typed
@@ -241,7 +243,6 @@ export class CompFunctionsService {
   }
 
   updateView(userState: any) {
-    console.log('updating the view', userState);
     if(userState.state.letterPosition >= userState.state.wordarray.length){
       return;
     }
@@ -319,7 +320,7 @@ export class CompFunctionsService {
   keyIntercept(event: KeyboardEvent, user: any, userRole: string): void{
     //check for special keycodes if needed
     //has the test started?
-    console.log('intercepting key stroke', this.timerFinished, user.role, userRole)
+    // console.log('intercepting key stroke', this.timerFinished, user.role, userRole)
     if(this.winnerState.finished && this.challengerState.finished) return;
     if(this.timerFinished) return;
 
@@ -369,18 +370,21 @@ export class CompFunctionsService {
   }
 
   calcWinner(){
-    console.log("Calculating Winner")
+    console.log("pre math numbers wpm: ", this.winnerWpm, this.challengerWpm)
+    if(this.winnerState.timeTaken === 0) this.winnerState.timeTaken = 30000;
+    if(this.challengerState.timeTaken === 0) this.challengerState.timeTaken = 30000;
 
-    let winnerNetWpm = Math.round(this.winnerWpm - this.winnerState.errors / (this.winnerState.timeTaken / 60000))
-    let challengerNetWpm = Math.round(this.challengerWpm - this.challengerState.errors/ (this.challengerState.timeTaken/ 60000))
-    
+    let winnerNetWpm = Math.round(this.winnerWpm - (this.winnerState.errors / (this.winnerState.timeTaken / 60000)))
+    let challengerNetWpm = Math.round(this.challengerWpm - (this.challengerState.errors/ (this.challengerState.timeTaken/ 60000)))
+    console.log('states: ', this.winnerState, this.challengerState);
     if(this.winnerWpm === 0){
       winnerNetWpm = 0;
     }
-
+    
     if(this.challengerWpm === 0){
       challengerNetWpm = 0;
     }
+    console.log("Calculating Winner", winnerNetWpm, challengerNetWpm)
     
     let result;
     let assembleResults = (state: State, wpm: number, won: boolean, winStreak: number) => {
@@ -463,7 +467,7 @@ export class CompFunctionsService {
       if (this.timer.minutes == 0 && this.timer.seconds == 0) {
         this.timerFinished = true;
         clearInterval(this.intervalId);
-        this.checkIfFinished(this.challengerState);
+        // this.checkIfFinished(this.challengerState);
         this.winnerState.finished = true
         this.challengerState.finished = true
         this.calcWinner()
