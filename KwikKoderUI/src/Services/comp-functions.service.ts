@@ -129,7 +129,7 @@ export class CompFunctionsService {
     };
     this.resetTimer();
     this.testStarted = false;
-    
+    this.testComplete = false;
     this.expectSpace = false
     this.skip = false
 
@@ -238,7 +238,7 @@ export class CompFunctionsService {
     }
 
 
-    if(this.live){
+    if(this.live && this.currentUser.role !== 'observer'){
       this.sendStateToViewers(userRole)
     }
   }
@@ -297,7 +297,7 @@ export class CompFunctionsService {
     this[userState.role+'Wpm'] = finishCheck.wpm;
     this[userState.role+'State'] = finishCheck.state;
     if(finishCheck.state.finished){
-      if(this.live){
+      if(this.live && this.currentUser.role !== 'observer'){
         this.sendStateToViewers(userState.role)
       }
       return;
@@ -402,12 +402,12 @@ export class CompFunctionsService {
         winStreak: winStreak
       };
     };
-    //it's a tie
+    // it's a tie
     if(this.testComplete && winnerNetWpm === challengerNetWpm) {
       console.log('you tied')
       this.liveSer.sendRoundWinner(this.compId, "Tied")
     }
-    else if(this.currentUser.role === 'winner')
+    if(this.currentUser.role === 'winner')
     {
       if(winnerNetWpm > challengerNetWpm){
         //I won
