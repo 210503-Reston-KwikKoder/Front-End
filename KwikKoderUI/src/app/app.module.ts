@@ -281,7 +281,8 @@ const config: SocketIoConfig = { url: "20.69.69.228",
         useValue: {
           fullLibraryLoader: () => import('highlight.js'),
         }
-      }
+      },
+      { provide: Window, useValue: window }
     ],
   bootstrap: [AppComponent]
 })

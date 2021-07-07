@@ -69,6 +69,27 @@
             </tbody>
           </table>
         </mat-tab>
+        <mat-tab label="Competitions">
+          <table class="table-borderless">
+            <thead>
+              <tr>
+                <th>Wins</th>
+                <th>Losses/tr></th>
+                <th>W/L Ratio</th>
+                <th>Longest Win Streak</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let statMod of overallStatOb;">
+                <td>{{statMod.wins}}</td>
+                <td>{{statMod.loses}}</td>
+                <td>{{statMod.wlRatio}}</td>
+                <td>{{statMod.winStreak}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-tab>
         <mat-tab label="Progress">
           <ng-template matTabContent>
           <app-progress-graph></app-progress-graph>

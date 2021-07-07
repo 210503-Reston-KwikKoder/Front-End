@@ -79,6 +79,9 @@ export class RestService {
   getUserStats(): Promise<StatModel[]>{
     return this.http.get<StatModel[]>(`${env.dev.serverUrl}typetest/api/UserStat/all`).toPromise();
   }
+  getOverallStats(): Promise<StatModel>{
+    return this.http.get<StatModel>(`${env.dev.serverUrl}typetest/api/UserStat`).toPromise();
+  }
   getUserName(): Promise<Usermodel>{
     return this.http.get<Usermodel>(`${env.dev.serverUrl}typetest/api/User/username`).toPromise();
   }

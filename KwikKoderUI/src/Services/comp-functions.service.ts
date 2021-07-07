@@ -321,13 +321,15 @@ export class CompFunctionsService {
     //check for special keycodes if needed
     //has the test started?
     // console.log('intercepting key stroke', this.timerFinished, user.role, userRole)
-    if(this.winnerState.finished && this.challengerState.finished) return;
-    if(this.timerFinished) return;
+    //if(this.winnerState.finished && this.challengerState.finished) return;
+    //if(this.timerFinished) return;
 
     //only allow users to type in their respective boxes
-    if(user.role !== userRole) return;
-
-    else this.onWordChange(event, userRole);
+    // if(user.role !== userRole) return;
+    if(this.testStarted == true && !this.timerFinished && userRole == user.role) {
+      this.onWordChange(event, userRole);
+    } 
+    // else{} return;
   }
 
   checkIfFinished(state: any): any {
@@ -377,11 +379,11 @@ export class CompFunctionsService {
     let winnerNetWpm = Math.round(this.winnerWpm - (this.winnerState.errors / (this.winnerState.timeTaken / 60000)))
     let challengerNetWpm = Math.round(this.challengerWpm - (this.challengerState.errors/ (this.challengerState.timeTaken/ 60000)))
     console.log('states: ', this.winnerState, this.challengerState);
-    if(this.winnerWpm === 0){
+    if(this.winnerWpm <= 0 || winnerNetWpm <= 0){
       winnerNetWpm = 0;
     }
     
-    if(this.challengerWpm === 0){
+    if(this.challengerWpm <= 0 || challengerNetWpm <= 0){
       challengerNetWpm = 0;
     }
     console.log("Calculating Winner", winnerNetWpm, challengerNetWpm)

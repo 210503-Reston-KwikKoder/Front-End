@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
     );
     this.getStats();
     this.getUser();
+    this.getOverallStats();
   }
 
   updateUserName():void {
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
 
   UserInfo: Usermodel = new Usermodel();
   statOb: StatModel[] = [];
+  overallStatOb: StatModel;
   
   getUser():void{
     this.api.getUserName().then(
@@ -47,4 +49,9 @@ export class ProfileComponent implements OnInit {
     this.api.getUserStats().then(
       (obj)=> {this.statOb = obj;})
     }
+  getOverallStats():void{
+    this.api.getOverallStats().then(
+      (obj)=> {this.overallStatOb = obj;})
+  }
+  
 }
