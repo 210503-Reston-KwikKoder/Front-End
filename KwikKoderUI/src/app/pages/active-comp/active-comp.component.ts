@@ -26,6 +26,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   currentTest: any
   currentWinner: any
   currentChallenger: any
+  winnerName: string;
 
   constructor(
     private chatService: ChatService,
@@ -45,16 +46,16 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   }
 
   newWinnerAndChallenger(users){
-    this.currentWinner = users.winner
-    this.currentChallenger = users.challenger
+    this.currentWinner = users.winner ?? undefined; 
+    this.currentChallenger = users.challenger ?? undefined;
     this.assignRole()
   }
 
   assignRole() {
-    if(!this.currentUser || !this.currentWinner || !this.currentChallenger) return;
-    else if(this.currentUser.id == this.currentWinner.userId) this.currentUser.role = 'winner';
-    else if(this.currentUser.id == this.currentChallenger.userId) this.currentUser.role = 'challenger';
+    if(this.currentUser?.id == this.currentWinner?.userId) this.currentUser.role = 'winner';
+    else if(this.currentUser?.id == this.currentChallenger?.userId) this.currentUser.role = 'challenger';
     else this.currentUser.role = 'observer';
+    this.comp.currentUser = this.currentUser;
   }
 
   setListenForNewTest(){
@@ -62,15 +63,11 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     .listenForNewTest()
     .subscribe((test: any) => {
       console.log("Reciving test", test)
-      //only set the test if the test room is the room the currentUser is currently in
-      if(test.compId == this.roomId) {
-        this.comp.winnerState = this.comp.resetState();
-        this.comp.challengerState = this.comp.resetState();
-        this.currentTest = test
-        this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
-        this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
-        this.comp.startTest();
-      }
+      this.comp.resetTest();
+      this.currentTest = test
+      this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
+      this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
+      this.comp.startTest();
     })
   }
 
@@ -78,10 +75,25 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.liveComp.listenForCompProgress()
     .subscribe((userState: any) => {
       console.log('active comp listened comp-progress', userState);
-//state, role, roomId, wordwpm
       this.comp[userState.role + 'Wpm'] = userState.wpm;
       this.comp[userState.role + 'State'] = userState.state;
       this.comp.updateView(userState);
+    })
+  }
+
+  setListenForWinnerFound(){
+    this.liveComp.listenForRoundWinner()
+    .subscribe((winnerName: any) => {
+      console.log('active comp has listened to the new winner')
+      this.winnerName = winnerName;
+    })
+  }
+
+  setListenForTestReset() {
+    this.liveComp.listenForReset()
+    .subscribe(() => {
+      console.log('active comp listened to the reset test');
+      this.comp.resetTest();
     })
   }
 
@@ -99,6 +111,8 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     });
     this.setListenForNewTest()
     this.setListenForCompProgress()
+    this.setListenForWinnerFound();
+    this.setListenForTestReset();
     this.comp.newTest();
 
     // prevents page scroll when hitting the spacebar

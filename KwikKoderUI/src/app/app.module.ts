@@ -251,6 +251,18 @@ const config: SocketIoConfig = { url: "20.69.69.228",
                 //Authorization: `Bearer ${ this.userToken }`
               }
             }
+            ,{
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCS/*`,
+              httpMethod: "PUT",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            }
 
         ]
       }

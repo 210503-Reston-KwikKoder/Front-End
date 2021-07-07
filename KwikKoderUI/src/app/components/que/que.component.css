@@ -1,0 +1,28 @@
+.queDiv{
+
+}
+
+.vs-div{
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+}
+
+.vs-div-competitor{
+    color: white;
+    display: inline-block;
+}
+
+#queue-name-display{
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#queue-btn-div{
+    display: flex;
+    justify-content: space-around;
+}
