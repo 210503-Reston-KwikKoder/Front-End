@@ -75,6 +75,10 @@ const config: SocketIoConfig = { url: "20.69.69.228",
 //   }
 // };
 
+//syntax highligher
+import { ForumComponent } from './pages/forum/forum.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
 // Backup Chat Server:
 //  const config: SocketIoConfig = { url: "45.79.192.95:3000",
 //  options: {
@@ -110,7 +114,11 @@ const config: SocketIoConfig = { url: "20.69.69.228",
     CompetitionResultComponent,
     DisplayTimePipe,
     ProgressGraphComponent,
-
+    ActiveCompComponent,
+    PlayerTestAreaComponent,
+    QueComponent,
+    ForumComponent,
+    ForumpostsComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -127,6 +135,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
     AppRoutingModule,
     FontAwesomeModule,
     HighlightModule,
+    EditorModule,
     AuthModule.forRoot({
       domain: env.auth.domain,
       clientId: env.auth.clientId,
@@ -173,6 +182,52 @@ const config: SocketIoConfig = { url: "20.69.69.228",
               // this works currentlly 7/2/21
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}competition/api/Competition`,
+              httpMethod: "POST",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.forumApi}comment/*`,
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.forumApi}comment`,
+              httpMethod: "POST",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.forumApi}ForumPost/*`,
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.forumApi}ForumPost`,
               httpMethod: "POST",
               tokenOptions: {
                 // The attached token should target this audience
