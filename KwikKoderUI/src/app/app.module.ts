@@ -193,9 +193,6 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-<<<<<<< HEAD
-              uri: `${env.dev.serverUrl}typetest/api/UserStat`,
-=======
               uri: `${env.dev.forumApi}comment/*`,
               tokenOptions: {
                 // The attached token should target this audience
@@ -232,7 +229,6 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.forumApi}ForumPost`,
               httpMethod: "POST",
->>>>>>> 7f0e282ca3d464b4cad1feeca016c54875fc9936
               tokenOptions: {
                 // The attached token should target this audience
                 audience: env.auth.audience,
@@ -254,6 +250,18 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
             },
             {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
+              uri: `${env.dev.serverUrl}typetest/api/UserStat`,
+              httpMethod: "GET",
+              tokenOptions: {
+                // The attached token should target this audience
+                audience: env.auth.audience,
+                // The attached token should have these scopes
+                scope: 'read:current_user',
+                //Authorization: `Bearer ${ this.userToken }`
+              }
+            },
+            {
+              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}competition/api/CompetitonTests`,
               tokenOptions: {
                 // The attached token should target this audience
@@ -262,19 +270,8 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
                 scope: 'read:current_user',
                 //Authorization: `Bearer ${ this.userToken }`
               }
-            }
-            //,{
-            //   uri: `${env.dev.serverUrl}api/Competition/bet`,
-            //   httpMethod: "PUT",
-            //   tokenOptions: {
-            //     // The attached token should target this audience
-            //     audience: env.auth.audience,
-            //     // The attached token should have these scopes
-            //     scope: 'read:current_user',
-            //     //Authorization: `Bearer ${ this.userToken }`
-            //   }
-            // }
-            ,{
+            },
+            {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
               httpMethod: "PUT",
@@ -285,8 +282,8 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
                 scope: 'read:current_user',
                 //Authorization: `Bearer ${ this.userToken }`
               }
-            }
-            ,{
+            },
+            {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
               httpMethod: "DELETE",
@@ -297,8 +294,8 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
                 scope: 'read:current_user',
                 //Authorization: `Bearer ${ this.userToken }`
               }
-            }
-            ,{
+            },
+            {
               // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
               uri: `${env.dev.serverUrl}competition/api/LiveCompetition`,
               httpMethod: "POST",
@@ -322,7 +319,6 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
                 //Authorization: `Bearer ${ this.userToken }`
               }
             }
-
         ]
       }
     }),
