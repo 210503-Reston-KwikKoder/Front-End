@@ -1,0 +1,78 @@
+<div class="container forum-wrapper">
+    <div class="col-md-9 col-md-offset-1">
+        <img
+            *ngIf="auth.user$ | async as user"
+            [src]="user.picture"
+            alt="User's profile picture"
+            class="rounded-circle"
+        />
+        <form (ngSubmit)="onSubmit()" #postsForm="ngForm">
+            <editor 
+            [init]="{
+                    branding:false,
+                    skin: 'borderless',
+                    plugins: 'wordcount',
+                    menubar: false,
+                    min_height: 150
+                }"
+                apiKey="v6pc3reg3q4t5poggf3lxc6a5ojr348sbov3kr7d06ydkj4e" [(ngModel)]="newPost.description" #name="ngModel" name="description">
+            </editor>
+            <button class="kwik-btn" type="submit" value="Post">Post</button>
+        </form>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2 comments-wrapper">
+        <h2>Write Something about {{newPost.topic}} ?</h2>
+        <div class="post-wrapper" *ngFor="let post of posts; let i = index">
+            <div>
+            <div class="user_wrapper pull-left">
+                <img
+                    *ngIf="post.isUser == true && auth.user$ | async as user"
+                    [src]="user.picture"
+                    alt="User's profile picture"
+                    class="rounded-circle"
+                />
+                <img
+                    *ngIf="post.isUser == false"
+                    src="../../../assets/images/user-dummy-image.png"
+                    alt="User's profile picture"
+                    class="rounded-circle"
+                />
+                <strong *ngIf="post.isUser == true && auth.user$ | async as user">{{user.nickname}}</strong>
+                <strong *ngIf="post.isUser == false">Anonymous</strong>
+            </div>
+            <p class="pull-right">{{post.dateCreated | displayDate}}</p>
+            <div class="clear-fix"></div>
+            </div>
+            <div class="text-wrapper">
+                <p [innerHTML]="post.description"></p>
+            </div>
+            <div class="reply-btn-wrapper">
+                <button class="kwik-btn comment-btn" (click)="getComments(i)"><fa-icon [icon]="faCommentDots"></fa-icon></button>
+                <button class="kwik-btn" *ngIf="post.isUser" (click)="deletePost(post.isUser, post.postID)"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
+            </div>
+            <div class="comments-wrapper" *ngIf="isShow[i]">
+                <form (ngSubmit)="onSubmitComment(post.postID)" #commentForm="ngForm">
+                    <textarea #name="ngModel" [(ngModel)]="message[i]" name="message[i]" class="form-control"></textarea>
+                    <button class="kwik-btn" type="submit" value="Post">comment</button>
+                </form>
+                <div class="clear-fix"></div>
+                <div class="commentBox-wrapper" *ngFor="let comment of post.comments">
+                    <p style="display: flex; justify-content: space-between;">
+                        <span *ngIf="comment.isLoggedUser == true && auth.user$ | async as user">
+                        <strong >Commented By: </strong>{{user.nickname}}</span>
+                        <span *ngIf="comment.isLoggedUser == false">
+                            <strong >Commented By: </strong>Anonymous</span>
+                        <span>{{comment.created | displayDate}}</span>
+                    </p>
+                    <div class="comments">
+                        <p class="comment-text">
+                            {{comment.message}}
+                        </p>
+                        <fa-icon [icon]="faTrashAlt" *ngIf="comment.isLoggedUser" style="color: #9024b4; cursor: pointer;" (click)="deleteComment(comment.isLoggedUser, comment.commentID, post.postID)"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
