@@ -40,6 +40,7 @@
 }
 #input-area {
     font-size: medium;
+    color: #9024b4;
 }
 #input-area:focus {
     border-color: rgba(69, 233, 118, 0.8);
