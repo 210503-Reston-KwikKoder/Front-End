@@ -8,7 +8,8 @@ export const environment = {
     audience: authSettings.audience
   },
   dev: {
-    serverUrl: authSettings.serverUrl
+    serverUrl: authSettings.serverUrl,
+    forumApi: authSettings.forumApi
   }
   
 };
