@@ -63,11 +63,11 @@ describe('CompFunctionsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('resetTimer should reset', () => {
-    service.resetTimer();
-    expect(service.timer.minutes).toBe(0);
-    expect(service.timer.seconds).toBe(30);
-  });
+  // it('resetTimer should reset', () => {
+  //   service.resetTimer();
+  //   expect(service.timer.minutes).toBe(0);
+  //   expect(service.timer.seconds).toBe(30);
+  // });
 
   it('resetState should reset', () => {
     let test = service.resetState();
