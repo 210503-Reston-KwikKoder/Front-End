@@ -79,8 +79,9 @@ export class CompFunctionsService {
 
   resetTest(): void{
     console.log("resetting")
-    //clearInterval(this.intervalId)
+    clearInterval(this.intervalId)
     this.testComplete = false
+    this.testStarted = false
     this.newTest()
   }
   
@@ -402,7 +403,7 @@ export class CompFunctionsService {
       };
     };
     //it's a tie
-    if(winnerNetWpm === challengerNetWpm) {
+    if(this.testComplete && winnerNetWpm === challengerNetWpm) {
       console.log('you tied')
       this.liveSer.sendRoundWinner(this.compId, "Tied")
     }
