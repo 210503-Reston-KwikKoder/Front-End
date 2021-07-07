@@ -27,19 +27,11 @@
             <div>
             <div class="user_wrapper pull-left">
                 <img
-                    *ngIf="post.isUser == true && auth.user$ | async as user"
-                    [src]="user.picture"
+                    [src]="post.imgURL"
                     alt="User's profile picture"
                     class="rounded-circle"
                 />
-                <img
-                    *ngIf="post.isUser == false"
-                    src="../../../assets/images/user-dummy-image.png"
-                    alt="User's profile picture"
-                    class="rounded-circle"
-                />
-                <strong *ngIf="post.isUser == true && auth.user$ | async as user">{{user.nickname}}</strong>
-                <strong *ngIf="post.isUser == false">Anonymous</strong>
+                <strong>{{post.userName}}</strong>
             </div>
             <p class="pull-right">{{post.dateCreated | displayDate}}</p>
             <div class="clear-fix"></div>
@@ -59,10 +51,8 @@
                 <div class="clear-fix"></div>
                 <div class="commentBox-wrapper" *ngFor="let comment of post.comments">
                     <p style="display: flex; justify-content: space-between;">
-                        <span *ngIf="comment.isLoggedUser == true && auth.user$ | async as user">
-                        <strong >Commented By: </strong>{{user.nickname}}</span>
-                        <span *ngIf="comment.isLoggedUser == false">
-                            <strong >Commented By: </strong>Anonymous</span>
+                        <span>
+                        <strong >Commented By: </strong>{{comment.userName}}</span>
                         <span>{{comment.created | displayDate}}</span>
                     </p>
                     <div class="comments">
