@@ -11,13 +11,15 @@ import { DisplayPercentPipe } from 'src/app/pipes/display-percent.pipe';
 })
 export class LeaderboardComponent implements OnInit {
 
-  LBModels: LBModel[]
-  FilteredLBModels: LBModel []
+  LBModels: LBModel[] = []
+  FilteredLBModels: LBModel [] = []
   catId : number
   text: string;
 
   langSelected(event: number){
     this.catId = event;
+    console.log('category event****',event);
+    console.log(this.catId);
     this.GetBestUsers(this.catId)    
   }
   constructor(private api: RestService) { 
@@ -25,12 +27,17 @@ export class LeaderboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.catId = 0;
+    this.catId = -2;
     this.GetBestUsers(this.catId);    
   }
   GetBestUsers(id:number): void{
     this.catId = id;
-    this.api.getLeaderBoardByCatagoryId(id).then(res => {this.LBModels = res; this.FilteredLBModels= res});  
+    this.api.getLeaderBoardByCatagoryId(id).then(
+      res => {
+        this.LBModels = res;
+        this.FilteredLBModels = res;
+      }); 
+      
   }
   public SearchLetters() :void{
     if(this.text){
