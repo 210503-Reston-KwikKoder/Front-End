@@ -45,7 +45,7 @@ export class CompFunctionsService {
   author: string
   result : ResultModel
   timer = {
-    minutes: 1,
+    minutes: 2,
     seconds: 0
   }
   intervalId: any
@@ -56,8 +56,8 @@ export class CompFunctionsService {
   resetTimer(): void {
     this.timerFinished = false;
     this.timer = {
-      minutes: 0,
-      seconds: 30
+      minutes: 2,
+      seconds: 0
     };
   };
 
@@ -374,8 +374,8 @@ export class CompFunctionsService {
 
   calcWinner(){
     console.log("pre math numbers wpm: ", this.winnerWpm, this.challengerWpm)
-    if(this.winnerState.timeTaken === 0) this.winnerState.timeTaken = 30000;
-    if(this.challengerState.timeTaken === 0) this.challengerState.timeTaken = 30000;
+    if(this.winnerState.timeTaken === 0) this.winnerState.timeTaken = 120000;
+    if(this.challengerState.timeTaken === 0) this.challengerState.timeTaken = 120000;
 
     let winnerNetWpm = Math.round(this.winnerWpm - ((this.winnerState.errors/5) / (this.winnerState.timeTaken / 60000)))
     let challengerNetWpm = Math.round(this.challengerWpm - ((this.challengerState.errors/5)/ (this.challengerState.timeTaken/ 60000)))
