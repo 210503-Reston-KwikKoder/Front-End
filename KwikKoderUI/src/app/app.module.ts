@@ -68,6 +68,12 @@ const config: SocketIoConfig = { url: "20.69.69.228",
     path: "/chat-api/socket.io/",
   }
 };
+// const config: SocketIoConfig = { url: "localhost:3000",
+//   options: {
+//     withCredentials: false,
+//     path: "/chat-api/socket.io/",
+//   }
+// };
 
 //syntax highligher
 import { ForumComponent } from './pages/forum/forum.component';
