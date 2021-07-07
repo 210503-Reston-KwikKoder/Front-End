@@ -40,8 +40,8 @@
                     </div>
                     <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test...</div>
                 </div>
-                <div>
-                    <button class="btn kwik-btn" (click)="comp.callReset()">Reset Test</button>
+                <div *ngIf="currentUser.role == 'challenger'">
+                    <button class="btn kwik-btn" (click)="comp.callReset()">Next Round</button>
                 </div>
                 <div *ngIf="comp.testStarted">
                     <div class="row info-row">

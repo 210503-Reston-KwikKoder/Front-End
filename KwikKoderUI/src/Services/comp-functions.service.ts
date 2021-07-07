@@ -376,8 +376,8 @@ export class CompFunctionsService {
     if(this.winnerState.timeTaken === 0) this.winnerState.timeTaken = 30000;
     if(this.challengerState.timeTaken === 0) this.challengerState.timeTaken = 30000;
 
-    let winnerNetWpm = Math.round(this.winnerWpm - (this.winnerState.errors / (this.winnerState.timeTaken / 60000)))
-    let challengerNetWpm = Math.round(this.challengerWpm - (this.challengerState.errors/ (this.challengerState.timeTaken/ 60000)))
+    let winnerNetWpm = Math.round(this.winnerWpm - ((this.winnerState.errors/5) / (this.winnerState.timeTaken / 60000)))
+    let challengerNetWpm = Math.round(this.challengerWpm - ((this.challengerState.errors/5)/ (this.challengerState.timeTaken/ 60000)))
     console.log('states: ', this.winnerState, this.challengerState);
     if(this.winnerWpm <= 0 || winnerNetWpm <= 0){
       winnerNetWpm = 0;
@@ -401,7 +401,12 @@ export class CompFunctionsService {
         winStreak: winStreak
       };
     };
-    if(this.currentUser.role === 'winner')
+    //it's a tie
+    if(winnerNetWpm === challengerNetWpm) {
+      console.log('you tied')
+      this.liveSer.sendRoundWinner(this.compId, "Tied")
+    }
+    else if(this.currentUser.role === 'winner')
     {
       if(winnerNetWpm > challengerNetWpm){
         //I won
@@ -427,7 +432,7 @@ export class CompFunctionsService {
       }
       
     }
-    if(this.currentUser.role === 'challenger'){
+    else if(this.currentUser.role === 'challenger'){
       if(challengerNetWpm > winnerNetWpm){
         //I won
         this.currentWinStreak = 1
@@ -438,7 +443,6 @@ export class CompFunctionsService {
         //also tell the server ==
         this.liveSer.sendRoundResults(this.compId, result)
         this.liveSer.sendRoundWinner(this.compId, this.currentUser.name)
-
       }
       else {
         this.currentWinStreak = 0

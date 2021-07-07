@@ -8,6 +8,6 @@ export class StatModel{
     category: number;
     wins: number;
     losses: number;
-    wlRatio : 0;
-    winStreak: 0;
+    wlRatio : number;
+    winStreak: number;
 }

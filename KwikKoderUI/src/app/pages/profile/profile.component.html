@@ -48,7 +48,7 @@
           </table>
         </mat-tab>
         <mat-tab label="Stats">
-          <table class="table-borderless">
+          <table class="table table-borderless">
             <thead>
               <tr>
                 <th>Category</th>
@@ -70,7 +70,7 @@
           </table>
         </mat-tab>
         <mat-tab label="Competitions">
-          <table class="table-borderless">
+          <table class="table table-borderless">
             <thead>
               <tr>
                 <th>Wins</th>
@@ -81,13 +81,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let statMod of overallStatOb;">
-                <td>{{statMod.wins}}</td>
-                <td>{{statMod.loses}}</td>
-                <td>{{statMod.wlRatio}}</td>
-                <td>{{statMod.winStreak}}</td>
+              <tr>
+                <td>{{overallStatOb.wins}}</td>
+                <td>{{overallStatOb.losses}}</td>
+                <td>{{overallStatOb.wlRatio}}</td>
+                <td>{{overallStatOb.winStreak}}</td>
               </tr>
-            </tbody>
+            </tbody> 
           </table>
         </mat-tab>
         <mat-tab label="Progress">
