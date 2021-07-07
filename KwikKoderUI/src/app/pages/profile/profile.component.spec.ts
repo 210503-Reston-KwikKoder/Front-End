@@ -9,9 +9,11 @@ import { RestService } from 'src/Services/rest.service';
 import { of } from 'rxjs';
 
 import { ProfileComponent } from './profile.component';
+import { FormsModule } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 
 describe('ProfileComponent', () => {
-  
+
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
   class MockAuthService {
@@ -29,6 +31,10 @@ describe('ProfileComponent', () => {
     getUserStats(): Promise<any>{
       return new Promise<void>((resolve,reject)=> {});
     }
+
+    getOverallStats(): Promise<any>{
+      return new Promise<void>((resolve,reject)=> {});
+    }
   }
 
   @Pipe({name: 'displayCategory'})
@@ -41,16 +47,15 @@ describe('ProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProfileComponent ],
-      
+      imports: [
+        RouterTestingModule
+      ],
+      declarations: [ ProfileComponent],
       providers: [
         {provide: AuthService, useClass: MockAuthService},
         {provide: RestService, useClass: MockRestService},
         {provide: ActivatedRoute,useValue: {id: 0}},
-        {provide: DisplayCategoryPipe, useClass: MockPipe},      
-      ],
-      imports: [
-        RouterTestingModule
+        {provide: DisplayCategoryPipe, useClass: MockPipe},
       ]
     })
     .compileComponents();
