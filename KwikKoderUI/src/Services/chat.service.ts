@@ -15,6 +15,7 @@ export class ChatService {
   }
 
   public leaveSocketRoom(id: any) {
+    console.log('leaving...')
     this.socket.emit('leave-comp-room', id)
   }
 

@@ -9,6 +9,7 @@ import { LiveCompService } from 'src/Services/live-comp.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Language } from 'src/Models/LanguageEnum';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
   selector: 'app-active-comp',
@@ -36,10 +37,12 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     private queue: QueService,
     private liveComp: LiveCompService,
     public auth: AuthService,
-    private window: Window
+    private window: Window,
+    private socket: Socket
     ) {
       this.roomId = this.route.snapshot.paramMap.get('compId')
     }
+
 
   // enters the user into the correct room in the socket
   joinSocketRoom(){
@@ -112,6 +115,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentUser.name = profile.name;
       this.comp.currentUser = this.currentUser;
     });
+    this.liveComp.connectToService();
     this.setListenForNewTest()
     this.setListenForCompProgress()
     this.setListenForWinnerFound();
@@ -150,9 +154,13 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.queue.removeUserFromQueue(this.roomId)
     .then(() => {
       this.queue.alertQueueChangeToSocket(this.roomId)
-      this.chatService.leaveSocketRoom(this.roomId);
+      this.liveComp.disconnectFromService();
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+      this.chatService.leaveSocketRoom(this.roomId);
+      this.liveComp.disconnectFromService();
+      console.log(err)
+    })
   }
 
 }

@@ -79,6 +79,7 @@ const config: SocketIoConfig = { url: "20.69.69.228",
 import { ForumComponent } from './pages/forum/forum.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
+import { ChatService } from 'src/Services/chat.service';
 // Backup Chat Server:
 //  const config: SocketIoConfig = { url: "45.79.192.95:3000",
 //  options: {
@@ -337,7 +338,8 @@ import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
           fullLibraryLoader: () => import('highlight.js'),
         }
       },
-      { provide: Window, useValue: window }
+      { provide: Window, useValue: window },
+      ChatService
     ],
   bootstrap: [AppComponent]
 })

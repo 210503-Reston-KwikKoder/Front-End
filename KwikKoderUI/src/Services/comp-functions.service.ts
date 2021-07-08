@@ -78,6 +78,7 @@ export class CompFunctionsService {
   }
 
   resetTest(): void{
+    this.finishTest();
     console.log("resetting")
     clearInterval(this.intervalId)
     this.testComplete = false
@@ -477,7 +478,9 @@ export class CompFunctionsService {
         // this.checkIfFinished(this.challengerState);
         this.winnerState.finished = true
         this.challengerState.finished = true
-        this.calcWinner()
+        if(this.currentUser.role !== 'observer') {
+          this.calcWinner()
+        }
       }
       }, 1000);
   }

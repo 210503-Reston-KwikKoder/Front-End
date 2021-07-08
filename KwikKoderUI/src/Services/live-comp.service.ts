@@ -89,6 +89,16 @@ export class LiveCompService {
     })
   }
 
+  public connectToService = () => {
+    console.log('connecting');
+    return this.socket.connect();
+  }
+
+  public disconnectFromService = () => {
+    console.log('disconnecting');
+    return this.socket.disconnect();
+  }
+
   public listenForCompProgress = () => {
     return new Observable((observer) => {
       this.socket.on('comp-progress', (userState) => {
