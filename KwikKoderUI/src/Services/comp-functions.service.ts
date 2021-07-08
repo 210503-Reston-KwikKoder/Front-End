@@ -244,19 +244,23 @@ export class CompFunctionsService {
   }
 
   updateView(userState: any) {
+
+    // stops the view update if the test is completed before the timer runs out
     if(userState.state.letterPosition >= userState.state.wordarray.length){
       return;
     }
-    let currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
+
     // if(userState.state.finished) return
+
+    let currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
     let e = userState.state.enteredText;
     let expectedLetter = userState.state.wordarray[userState.state.letterPosition];
     
-    if(e == "Enter"){
+    if(e === "Enter"){
       e="\n"
     }
 
-    if(e == expectedLetter){
+    if(e === expectedLetter){
       currElem.style.opacity = "0.3";
       this.HideCaret(currElem);
       userState.state.correctchars +=1;
@@ -264,7 +268,7 @@ export class CompFunctionsService {
       currElem = document.getElementById(`${userState.role}-char-${userState.state.letterPosition}`) as HTMLElement;
       this.ShowCaret(currElem);
     }
-    else if(e == "Backspace"){
+    else if(e === "Backspace"){
       this.HideCaret(currElem);
       if(userState.state.letterPosition > 0){
         userState.state.letterPosition-=1;
@@ -307,14 +311,14 @@ export class CompFunctionsService {
 
   sendStateToViewers(userRole: string){
     console.log('sending it to everybody')
-    //sends stuff to socket
-    //roomId, userRole: string, state: State, wpm: number
+
     let userState = {
       roomId: this.compId,
       role: userRole,
       state: this[userRole + 'State'],
       wpm: this[userRole + 'Wpm']
-    };
+    }
+
     this.liveSer.sendCompetitionProgress(userState)
   }
 
@@ -335,15 +339,18 @@ export class CompFunctionsService {
 
   checkIfFinished(state: any): any {
     let numletters = state.wordarray.length-1
+
     const wpm = Math.floor(this.calcWordsPerMinute(state.correctchars, new Date().getTime() - Date.parse(state.startTime)));
-    //check if words are done
+
+    //checks if the competitor has finished typing all available chars
     if(state.letterPosition >= state.wordarray.length){
       const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
       state.timeTaken = timeMillis;
-      //flip this particular user's flag
       state.finished = true;
     }
+
     //did we run out of time instead?
+    // this code may not be utilized currently
     if(this.timerFinished){
       console.log('is finished timer ranout')
       const timeMillis: number = new Date().getTime() - Date.parse(state.startTime)
@@ -353,6 +360,7 @@ export class CompFunctionsService {
       this.winnerState.finished = true;
       this.challengerState.finished = true;
     }
+
     //did both people finish?
     if(this.winnerState.finished && this.challengerState.finished)
     {
@@ -373,20 +381,21 @@ export class CompFunctionsService {
   }
 
   calcWinner(){
-    console.log("pre math numbers wpm: ", this.winnerWpm, this.challengerWpm)
+
     if(this.winnerState.timeTaken === 0) this.winnerState.timeTaken = 30000;
     if(this.challengerState.timeTaken === 0) this.challengerState.timeTaken = 30000;
 
     let winnerNetWpm = Math.round(this.winnerWpm - ((this.winnerState.errors/5) / (this.winnerState.timeTaken / 60000)))
     let challengerNetWpm = Math.round(this.challengerWpm - ((this.challengerState.errors/5)/ (this.challengerState.timeTaken/ 60000)))
-    console.log('states: ', this.winnerState, this.challengerState);
+
+
     if(this.winnerWpm <= 0 || winnerNetWpm <= 0){
       winnerNetWpm = 0;
     }
-    
     if(this.challengerWpm <= 0 || challengerNetWpm <= 0){
       challengerNetWpm = 0;
     }
+
     console.log("Calculating Winner", winnerNetWpm, challengerNetWpm)
     
     let result;
@@ -402,59 +411,58 @@ export class CompFunctionsService {
         winStreak: winStreak
       };
     };
+
     // it's a tie
     if(this.testComplete && winnerNetWpm === challengerNetWpm) {
-      console.log('you tied')
       this.liveSer.sendRoundWinner(this.compId, "Tied")
     }
+
     if(this.currentUser.role === 'winner')
     {
       if(winnerNetWpm > challengerNetWpm){
-        //I won
-        //rub it in to everybody
         console.log("You Won!")
-        //increase my streak
+
         this.currentWinStreak++
         result = assembleResults(this.winnerState, winnerNetWpm, true, this.currentWinStreak);
-        //also tell the server ==
+
         this.liveSer.sendRoundResults(this.compId, result)
         this.liveSer.sendRoundWinner(this.compId, this.currentUser.name)
       }
       else {
         this.currentWinStreak = 0
-        console.log("You Lost!")
+
+        console.log("Defending Winner Lost")
         result = assembleResults(this.winnerState, winnerNetWpm, false, this.currentWinStreak);
-        //boot this person outta queue
-        //losers go straight to jail
+
         this.queueService.removeUserFromQueue(this.compId).then(
           () => this.queueService.alertQueueChangeToSocket(this.compId)
-        )
+        ).catch(err => {
+          console.log("error ocurred when removing current winner from que: ", err)
+        })
         this.liveSer.sendRoundResults(this.compId, result)
       }
       
     }
     else if(this.currentUser.role === 'challenger'){
       if(challengerNetWpm > winnerNetWpm){
-        //I won
-        this.currentWinStreak = 1
+
+        this.currentWinStreak++
         result = assembleResults(this.challengerState, challengerNetWpm, true, this.currentWinStreak);
-        //rub it in to everybody
+
         console.log("You Won!")
-        //increase my streak
-        //also tell the server ==
+
         this.liveSer.sendRoundResults(this.compId, result)
         this.liveSer.sendRoundWinner(this.compId, this.currentUser.name)
       }
       else {
         this.currentWinStreak = 0
-        console.log("You Lost!")
+        console.log("Challenger Lost")
         result = assembleResults(this.challengerState, challengerNetWpm, false, this.currentWinStreak);
-        //boot this person outta queue
-        //losers go straight to jail
+
         this.queueService.removeUserFromQueue(this.compId).then(
           () => this.queueService.alertQueueChangeToSocket(this.compId)
         ).catch(err => {
-          console.log("failed to remove user: ", err)
+          console.log("failed to remove challenger from queue: ", err)
         })
         
         this.liveSer.sendRoundResults(this.compId, result)
@@ -466,17 +474,27 @@ export class CompFunctionsService {
   startTimer() {
     this.resetTimer();
     this.intervalId = setInterval(() => {
-      if (this.timer.seconds - 1 == -1) {
+      // added and extra = to each of the if statements
+
+      // if seconds would be zero set them to 59 and subtract a minute
+      if (this.timer.seconds - 1 === -1) {
         this.timer.minutes -= 1;
         this.timer.seconds = 59;
       }
+      // if the seconds aren't zero subtract a second
       else this.timer.seconds -= 1;
-      if (this.timer.minutes == 0 && this.timer.seconds == 0) {
+
+      // then if you are out of time
+      if (this.timer.minutes === 0 && this.timer.seconds === 0) {
         this.timerFinished = true;
+
         clearInterval(this.intervalId);
-        // this.checkIfFinished(this.challengerState);
+
         this.winnerState.finished = true
         this.challengerState.finished = true
+        this.testComplete = true
+        
+        
         this.calcWinner()
       }
       }, 1000);
