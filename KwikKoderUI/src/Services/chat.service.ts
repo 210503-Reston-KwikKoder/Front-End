@@ -14,6 +14,10 @@ export class ChatService {
     this.socket.emit('join-comp-room', id)
   }
 
+  public leaveSocketRoom(id: any) {
+    this.socket.emit('leave-comp-room', id)
+  }
+
   public sendMessage(message: any, senderName: any, roomId: any) {
     console.log("service is emiting new message: "+message, "with roomId"+roomId, "with senderName: "+senderName)
     this.socket.emit('new-message', message, senderName, roomId);

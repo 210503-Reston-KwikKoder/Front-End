@@ -150,6 +150,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.queue.removeUserFromQueue(this.roomId)
     .then(() => {
       this.queue.alertQueueChangeToSocket(this.roomId)
+      this.chatService.leaveSocketRoom(this.roomId);
     })
     .catch(err => console.log(err))
   }
