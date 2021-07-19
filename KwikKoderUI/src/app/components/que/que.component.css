@@ -8,7 +8,9 @@
     color: white;
     display: inline-block;
 }
-
+.join-btn{
+    background: #9024b4;
+}
 #queue-name-display{
     background-color: white;
     color: black;
