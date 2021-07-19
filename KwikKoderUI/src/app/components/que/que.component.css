@@ -1,11 +1,7 @@
-.queDiv{
-
-}
-
 .vs-div{
-    background-color: black;
+    background-color: #000;
     display: flex;
-    justify-content: space-around;
+    padding: 10px;
 }
 
 .vs-div-competitor{
@@ -24,5 +20,7 @@
 
 #queue-btn-div{
     display: flex;
-    justify-content: space-around;
+}
+#queue-btn-div button{
+    width: 100%;
 }

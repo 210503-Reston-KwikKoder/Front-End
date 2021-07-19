@@ -1,6 +1,6 @@
 
 <div class="container" id="comp-room">
-    <div class="row">
+    <div class="row comp-wrapper">
         <div class="col-md-9" id="challenger-comp-arena" >
             <div id="prompt-box">
             </div>
@@ -38,7 +38,7 @@
                             <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
                         </div>
                     </div>
-                    <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test...</div>
+                    <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test<img src="../../../assets/images/live-comp-loader.gif" class="img-fluid" /></div>
                 </div>
                 <div *ngIf="currentUser.role == 'challenger'">
                     <button class="btn kwik-btn" (click)="comp.callReset()">Next Round</button>
@@ -74,7 +74,7 @@
                 <div class="input-form" >
                     <h1 *ngIf="winnerName">Winner: {{winnerName}}</h1>
                     <div class="col-xs-6">
-                        <h1>Player 2: <span *ngIf="this.currentChallenger">{{this.currentChallenger.name}}</span><span *ngIf="!this.currentChallenger">Empty</span></h1>
+                        <h1>Player 2: <span *ngIf="this.currentChallenger">{{this.currentChallenger.name}}</span><span *ngIf="!this.currentChallenger">None</span></h1>
                         <div *ngIf="comp.testStarted">
                             <div class="row info-row">
                                 <div class="col-xs-6">
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="col-xs-6">
-                        <h1>Player 1: <span *ngIf="this.currentWinner">{{this.currentWinner.name}}</span><span *ngIf="!this.currentWinner">Empty</span></h1>
+                        <h1>Player 1: <span *ngIf="this.currentWinner">{{this.currentWinner.name}}</span><span *ngIf="!this.currentWinner">None</span></h1>
                         <div *ngIf="comp.testStarted">
                             <div class="row info-row">
                                 <div class="col-xs-6">
@@ -119,10 +119,14 @@
                     </div>
                 </div>
             </div>
+            
         </div>
-        <div class="col-md-3" id="chat">
-            <app-chat [roomId]="roomId" [userName]="currentUser.name"></app-chat>
+        <div class="col-md-3">
             <app-que [roomId]="roomId" (alertNewWinnerAndChallenger)="newWinnerAndChallenger($event)"></app-que>
         </div>
     </div>
+    <div class="col-md-3" id="chat" *ngIf="showChat">
+        <app-chat [roomId]="roomId" [userName]="currentUser.name"></app-chat>
+    </div>
+    <div class="chat-icon" (click)="showChatFunc()"><fa-icon [icon]="faCommentDots"></fa-icon></div>
 </div>
