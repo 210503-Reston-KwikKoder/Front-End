@@ -10,6 +10,8 @@ import { AuthService } from '@auth0/auth0-angular';
 import { Language } from 'src/Models/LanguageEnum';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { Socket } from 'ngx-socket-io';
+//FontAwesome
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-active-comp',
@@ -17,7 +19,11 @@ import { Socket } from 'ngx-socket-io';
   styleUrls: ['./active-comp.component.css']
 })
 export class ActiveCompComponent implements OnInit, OnDestroy{
-  roomId: any
+  //Font Awesome Variables
+  faCommentDots= faCommentDots;
+  
+
+  roomId: any;
   //roles: winner, challenger, observer
   currentUser = {
     id: '',
@@ -28,6 +34,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   currentWinner: any
   currentChallenger: any
   winnerName: string;
+  showChat: boolean;
 
   constructor(
     private chatService: ChatService,
@@ -43,7 +50,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.roomId = this.route.snapshot.paramMap.get('compId')
     }
 
-
+    
   // enters the user into the correct room in the socket
   joinSocketRoom(){
     console.log('joining socket room..')
@@ -148,7 +155,9 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.comp.categoryName = Language[event];
     this.comp.newTest();
   }
-
+  showChatFunc(): void{
+    this.showChat = !this.showChat;
+  }
   // if the user leaves the room they are removed from the que 
   ngOnDestroy(){
     this.queue.removeUserFromQueue(this.roomId)

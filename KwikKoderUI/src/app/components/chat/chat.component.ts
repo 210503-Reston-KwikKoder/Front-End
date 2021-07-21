@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ChatService } from 'src/Services/chat.service';
+//FontAwesome
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-chat',
@@ -8,7 +10,7 @@ import { ChatService } from 'src/Services/chat.service';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-
+  faPaperPlane = faPaperPlane;
   @Input() roomId
   @Input() userName
   newMessage: string;
