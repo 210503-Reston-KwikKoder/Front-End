@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { State } from 'src/Models/state';
-import { TestMaterial } from 'src/Models/TestMaterial';
+import { State } from 'src/Models/StateModel';
+import { TestMaterial } from 'src/Models/TestMaterialModel';
 import { RestService } from 'src/Services/rest.service';
 import { TestModel } from 'src/Models/TestModel';
-import { Language } from 'src/Models/LanguageEnum';
+import { Language } from 'src/Models/LanguageEnumModel';
 import { Router } from "@angular/router";
 import { templateJitUrl } from '@angular/compiler';
 import { ResultModel } from 'src/Models/ResultModel';

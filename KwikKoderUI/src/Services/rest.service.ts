@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { environment as env } from '../environments/environment';
 import { TestModel } from 'src/Models/TestModel';
 import { LBModel } from 'src/Models/LBModel';
-import { TestMaterial } from 'src/Models/TestMaterial';
+import { TestMaterial } from 'src/Models/TestMaterialModel';
 import { CompModel } from 'src/Models/CompModel';
 import { CompetitionContent } from 'src/Models/CompetitionContentModel';
-import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
+import { CompetitionTestResults } from 'src/Models/CompetitionTestResultsModel';
 import { Usermodel } from 'src/Models/UserModel';
 import { UserNameModel } from 'src/Models/UserNameModel';
 import { StatModel } from 'src/Models/StatModel';
 import { CompStatModel } from 'src/Models/CompStatModel';
-import { ProgressGraphData } from 'src/Models/ProgressGraphData';
+import { ProgressGraphData } from 'src/Models/ProgressGraphDataModel';
 
 @Injectable({
   providedIn: 'root'

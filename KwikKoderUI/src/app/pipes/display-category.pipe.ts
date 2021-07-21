@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Language } from 'src/Models/LanguageEnum';
+import { Language } from 'src/Models/LanguageEnumModel';
 @Pipe({
   name: 'displayCategory'
 })

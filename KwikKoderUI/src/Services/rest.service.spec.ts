@@ -1,6 +1,6 @@
 import { flush, getTestBed, TestBed } from '@angular/core/testing';
 import { StatModel } from 'src/Models/StatModel';
-import { TestMaterial } from 'src/Models/TestMaterial';
+import { TestMaterial } from 'src/Models/TestMaterialModel';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { RestService } from './rest.service';
@@ -10,10 +10,10 @@ import { ɵɵsetComponentScope } from '@angular/core';
 import { environment} from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { TestModel } from 'src/Models/TestModel';
-import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
+import { CompetitionTestResults } from 'src/Models/CompetitionTestResultsModel';
 import { CompModel } from 'src/Models/CompModel';
 import { LBModel } from 'src/Models/LBModel';
-import { Language } from 'src/Models/LanguageEnum';
+import { Language } from 'src/Models/LanguageEnumModel';
 
 describe('RestService', () => {
   let httpClient: HttpClient;

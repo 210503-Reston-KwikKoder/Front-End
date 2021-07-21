@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { environment as env } from '../environments/environment';;
 import { observable, Observable } from 'rxjs';
-import { State } from 'src/Models/state';
+import { State } from 'src/Models/StateModel';
 import { ThisReceiver } from '@angular/compiler';
 
 @Injectable({

@@ -9,7 +9,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
+import { CompetitionTestResults } from 'src/Models/CompetitionTestResultsModel';
 
 describe('CompetitionTestComponent', () => {
   let component: CompetitionTestComponent;
