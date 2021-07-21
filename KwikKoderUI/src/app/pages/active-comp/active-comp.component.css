@@ -21,10 +21,10 @@
     width: 100px;
     height: 70px;
 }
-.comp-wrapper, h1{
+.comp-wrapper, .player-text{
     margin-bottom: 50px;
     background: rgba(0,0,0,0.3);
-    padding: 17px 0;
+    padding: 7px 0px;
     color: #fff;
 }
 #comp-room{
@@ -64,7 +64,7 @@
 /*Displays test info*/
 .info-box {
     text-align: center;
-    background-color: var(--dark0_soft);
+    background-color: rgba(0, 0, 0, .3);
     border-color: var(--dark0_hard);
     border-width: 5px;
     border-radius: 5px;
