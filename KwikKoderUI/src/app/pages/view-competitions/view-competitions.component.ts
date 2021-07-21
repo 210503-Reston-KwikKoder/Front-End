@@ -25,8 +25,8 @@ export class ViewCompetitionsComponent implements OnInit {
       //console.log(res)
       this.CurrentCompModels = this.CompModels.filter((CompModel)=>
         {
-          var now  = new Date()
-          var endDate = new Date(CompModel.end)
+          let now  = new Date()
+          let endDate = new Date(CompModel.end)
           endDate.setMinutes(endDate.getMinutes()+10 - endDate.getTimezoneOffset())
           if(endDate < now) { return  false; }
 

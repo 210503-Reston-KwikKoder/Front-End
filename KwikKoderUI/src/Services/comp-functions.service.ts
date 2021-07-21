@@ -27,6 +27,7 @@ export class CompFunctionsService {
     
     
   
+  //Variable Declaration
   live: boolean
   testmat: any = null;
   testStarted: boolean = false;
@@ -52,7 +53,9 @@ export class CompFunctionsService {
   timerFinished: boolean
   currentWinStreak: number = 0;
   userWon: boolean
-  
+
+
+  //Sets Timer Back to its default when a new live comp has started
   resetTimer(): void {
     this.timerFinished = false;
     this.timer = {
@@ -61,6 +64,7 @@ export class CompFunctionsService {
     };
   };
 
+  //Clears relevant User Test Stats for each new live test
   resetState(): State {
     return {
       words: '',
@@ -77,6 +81,7 @@ export class CompFunctionsService {
     };
   }
 
+  //
   resetTest(): void{
     this.finishTest();
     console.log("resetting")
@@ -86,6 +91,8 @@ export class CompFunctionsService {
     this.newTest()
   }
   
+  //Alerts Socket Server that a resetTest has been called and alerts subscribers
+  //Calls Live-Comp
   callReset(): void {
     console.log('calling to reset test')
     //also reset everyone else's
@@ -98,6 +105,7 @@ export class CompFunctionsService {
     alert("Test Finished")
   }
   
+  //sets a new challenger and winner state and generates a new test Snippet
   newTest(): void{
     this.winnerWpm = 0;
     this.challengerWpm = 0;
@@ -156,6 +164,8 @@ export class CompFunctionsService {
       testAuthor: this.testmat.author
     };
     console.log('starting round', test)
+
+
     this.liveSer.alertNewTest(test);
   }
 
@@ -205,6 +215,7 @@ export class CompFunctionsService {
     return returnSnippet;
   }
 
+  //Updated Yellow Cursor with current location in the test
   ShowCaret(elem: HTMLElement){
     if(elem == null) return;
     elem.style.borderLeft = "solid 0.1em gold";
