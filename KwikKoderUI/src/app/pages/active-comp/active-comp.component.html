@@ -37,7 +37,7 @@
                         <button class="btn kwik-btn" (click)="comp.startRound(roomId)">Start Round</button>
                     </div>
                 </div>
-                <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test<img src="../../../assets/images/live-comp-loader.gif" class="img-fluid" /></div>
+                <div class="waiting" *ngIf="currentUser.role !== 'challenger'">Waiting For a New Test<img src="../../../assets/images/live-comp-loader.gif" alt="Competition start loader" class="img-fluid" /></div>
             </div>
             <div *ngIf="currentUser.role == 'challenger'">
                 <button class="btn kwik-btn" (click)="comp.callReset()">Next Round</button>
