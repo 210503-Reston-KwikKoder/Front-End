@@ -13,14 +13,22 @@
 
 
 */
+.waiting{
+    background: #000;
+    text-align: center;
+}
+.waiting img{
+    width: 100px;
+    height: 70px;
+}
+.comp-wrapper, .player-text{
+    margin-bottom: 50px;
+    background: rgba(0,0,0,0.3);
+    padding: 7px 0px;
+    color: #fff;
+}
 #comp-room{
-    background-color:rgb(97, 95, 114, .9);
-    border-radius: 1rem;
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgb(202, 245, 12);
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding: 4rem 0;
 }
 
 .test_info{
@@ -56,7 +64,7 @@
 /*Displays test info*/
 .info-box {
     text-align: center;
-    background-color: var(--dark0_soft);
+    background-color: rgba(0, 0, 0, .3);
     border-color: var(--dark0_hard);
     border-width: 5px;
     border-radius: 5px;
@@ -131,4 +139,20 @@ code {
 
 .result {
     margin-bottom: 1em;
+}
+.chat-icon{
+    position: fixed;
+    bottom: 25px;
+    font-size: 60px;
+    right: 60px;
+    color: #fff;
+    cursor: pointer;
+}
+#chat{
+    position: fixed;
+    right: 40px;
+    bottom: 95px;
+}
+#chat-box{
+    background: rgba(0,0,0,0.8);
 }
