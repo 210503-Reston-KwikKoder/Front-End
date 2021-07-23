@@ -1,6 +1,18 @@
 <div class=home_page>
-    <h1>Welcome to Kwik Koder</h1>
+    <h1>Welcome<br class="title-break" /> to<br class="title-break" /> Kwik&nbsp;Koder</h1>
     <h2>Test your typing skills and track your progress</h2>
-    <button class="main_test_button kwik-btn" [routerLink]="['test']">Test Now</button>
+    <div class="home-flex-container">
+        <div class="testnow-section">
+            <button class="main_test_button kwik-btn" [routerLink]="['test']">Test Now</button>
+        </div>
+        <div class="leaderboard-section">
+            <app-landing-leaderboard></app-landing-leaderboard>
+        </div>
+        <div class="video-section">
+            <video id="demo-vid">
+                <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
 </div>
     

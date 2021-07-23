@@ -1,0 +1,37 @@
+<div class="koder-list-component">
+    <div class="list-top">
+        <h2>Top Koders</h2>
+    </div>
+    <div class="row-headers">
+        <div class="name-section">
+            <div class="koder-list-name">
+                Koder
+            </div>
+        </div>
+        <div class="acc-section">
+            Accuracy
+        </div>
+        <div class="wpm-section">
+            WPM
+        </div>
+    </div>
+    <div class="list">
+        <div class="row" *ngFor="let koder of koders">
+            <div class="name-section">
+                <div class="koder-list-name">
+                    {{koder.userName}}
+                </div>
+            </div>
+            <div class="acc-section">
+                <div>
+                    {{koder.averageAcc}}
+                </div>
+            </div>
+            <div class="wpm-section">
+                <div>
+                    {{koder.averageWPM}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
