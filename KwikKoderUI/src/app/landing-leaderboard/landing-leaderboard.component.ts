@@ -10,7 +10,6 @@ import { RestService } from 'src/Services/rest.service';
 export class LandingLeaderboardComponent implements OnInit {
 
   public koders: LBModel[] = [];
-  public full_res: LBModel[] = [];
 
   constructor(private api: RestService) { }
 

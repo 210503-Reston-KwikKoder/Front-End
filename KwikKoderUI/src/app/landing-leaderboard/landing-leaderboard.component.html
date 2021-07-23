@@ -19,7 +19,9 @@
         <div class="row" *ngFor="let koder of koders">
             <div class="name-section">
                 <div class="koder-list-name">
-                    {{koder.userName}}
+                    <span *ngIf="koder.userName;then thenBlock; else elseBlock"></span>
+                    <ng-template #thenBlock>{{koder.userName}}</ng-template>
+                    <ng-template #elseBlock>{{koder.name}}</ng-template>
                 </div>
             </div>
             <div class="acc-section">
