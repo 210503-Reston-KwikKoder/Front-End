@@ -29,8 +29,8 @@
                         </div>
                         <div>
                             <div tabindex="1" class="p-4">
-                                <pre *ngIf="comp.category != -1"><code [highlight]="comp.testmat?.snippet"></code></pre>
-                                <pre *ngIf="comp.category == -1"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
+                                <pre *ngIf="!isQuote"><code [highlight]="comp.testmat?.snippet"></code></pre>
+                                <pre *ngIf="isQuote"><code class="hljs">{{comp.testmat?.snippet}} </code></pre>
                             </div>
                         </div>
                         <div class="btn-row" >

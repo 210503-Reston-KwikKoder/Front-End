@@ -384,6 +384,7 @@ export class CompFunctionsService {
     };
   }
 
+  // Determines the winner by comparing the final results of the challenger and Winner
   calcWinner(){
     console.log("pre math numbers wpm: ", this.winnerWpm, this.challengerWpm)
     if(this.winnerState.timeTaken === 0) this.winnerState.timeTaken = 120000;
@@ -392,10 +393,12 @@ export class CompFunctionsService {
     let winnerNetWpm = Math.round(this.winnerWpm - ((this.winnerState.errors/5) / (this.winnerState.timeTaken / 60000)))
     let challengerNetWpm = Math.round(this.challengerWpm - ((this.challengerState.errors/5)/ (this.challengerState.timeTaken/ 60000)))
     console.log('states: ', this.winnerState, this.challengerState);
+    //handles negative wpm bug
     if(this.winnerWpm <= 0 || winnerNetWpm <= 0){
       winnerNetWpm = 0;
     }
     
+    //handles negative wpm bug
     if(this.challengerWpm <= 0 || challengerNetWpm <= 0){
       challengerNetWpm = 0;
     }
@@ -474,7 +477,7 @@ export class CompFunctionsService {
     }
     
   }
-
+  
   startTimer() {
     this.resetTimer();
     this.intervalId = setInterval(() => {

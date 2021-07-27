@@ -56,6 +56,7 @@ export class TestComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  //Generates New Tests
   newTest(): void{
     let id : number = this.category
     this.categoryName = Language[id]
@@ -112,10 +113,11 @@ export class TestComponent implements OnInit {
     }
   }
 
+  //Calculated users WPM
   wordsPerMinute (charsTyped: number, ms: number): number {
     return ((charsTyped / 5) / (ms / 60000))
   }
-
+  
   onWordChange(event: KeyboardEvent): void {
     if(this.state.finished){ return }
     let e = event.key

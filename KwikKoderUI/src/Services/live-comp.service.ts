@@ -50,11 +50,12 @@ export class LiveCompService {
     console.log('alerting new test');
     return this.socket.emit('new-test', test.compId, test)
   }
-
+  //sends the test reset message scross the socket
   public alertReset(roomId){
     console.log('alerting reset', roomId)
     return this.socket.emit('reset-test', roomId)
   }
+  //Listens for reset message
   public listenForReset(){
     console.log('live serv listen for reset');
     return new Observable((observer) => {

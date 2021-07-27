@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { FormsModule } from '@angular/forms'
 import { environment as env } from '../environments/environment';
-import { AuthenticationButtonComponent } from './components/nav-buttons/authentication-button/authentication-button.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -49,12 +48,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 // material UI components
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
 import { QueComponent } from './components/que/que.component';
 
@@ -92,7 +91,6 @@ import { ChatService } from 'src/Services/chat.service';
     LiveCompsComponent,
     AppComponent,
     LoadingComponent,
-    AuthenticationButtonComponent,
     NavBarComponent,
     ProfileComponent,
     HomeComponent,

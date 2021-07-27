@@ -28,6 +28,7 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
   currentWinner: any
   currentChallenger: any
   winnerName: string;
+  isQuote: boolean;
 
   constructor(
     private chatService: ChatService,
@@ -72,7 +73,14 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
       this.currentTest = test
       this.comp.winnerState = this.comp.formatTest(test, this.comp.winnerState);
       this.comp.challengerState = this.comp.formatTest(test, this.comp.challengerState);
+      
       this.comp.startTest();
+      if(this.comp.category == -1){
+        this.isQuote = true;
+      }
+      else{
+        this.isQuote = false;
+      }
     })
   }
 
@@ -122,6 +130,13 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.setListenForTestReset();
     this.comp.newTest();
 
+    if(this.comp.category == -1){
+      this.isQuote = true;
+    }
+    else{
+      this.isQuote = false;
+    }
+
     this.window.addEventListener("beforeunload", () => {
       alert('unloading');
       this.queue.removeUserFromQueue(this.roomId)
@@ -147,6 +162,12 @@ export class ActiveCompComponent implements OnInit, OnDestroy{
     this.comp.category = event;
     this.comp.categoryName = Language[event];
     this.comp.newTest();
+    if(this.comp.category == -1){
+      this.isQuote = true;
+    }
+    else{
+      this.isQuote = false;
+    }
   }
 
   // if the user leaves the room they are removed from the que 
