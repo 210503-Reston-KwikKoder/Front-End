@@ -37,8 +37,8 @@
     background: rgba(0,0,0,0.3);
     padding: 7px 0px;
     color: #fff;
+    border: white solid 1px;
 }
-
 
 /*Displays test info*/
 .info-box {
@@ -48,7 +48,7 @@
     border-width: 5px;
     border-radius: 5px;
     min-width: fit-content;
-    width: 8vw;
+    width: 9vw;
     height: 100%;
 }
 
@@ -92,6 +92,9 @@
     text-align: left;
     border-radius: 5px;
     margin-bottom: 1em;
+    margin-right: .5em;
+    margin-left: .5em;
+    background: rgba(0,0,0,0.3);
 }
 
 pre {
