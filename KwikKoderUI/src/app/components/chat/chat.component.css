@@ -1,5 +1,5 @@
 #chat-box{
-    background-color: white;
+    background-color: rgba(0,0,0,0.8);
     padding: 1rem;
     height: 75vh;
     border-radius: 1rem;
@@ -15,7 +15,17 @@
 .chat-message-div p{
     padding-left: 1rem;
 }
-
+.chat-input{
+    display: flex;
+    color: #fff;
+}
+.chat-input fa-icon{
+    background: #9024b4;
+    height: 35px;
+    padding: 7px;
+}
 .msg-box {
     margin-bottom: 0.5em;
+    background-color: rgba(0,0,0,0.8);
+    color: #fff;
 }

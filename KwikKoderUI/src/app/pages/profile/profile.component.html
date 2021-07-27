@@ -1,20 +1,16 @@
 <div *ngIf="auth.user$ | async as user">
-<div class="profile_container">
-  <div class="col-md-3 col-md-offset-1">
-    <div class="profile-picture">
-      <img
-        [src]="user.picture"
-        alt="User's profile picture"
-        class="rounded-circle"
-      />
-    </div>
-    <div class="card_content">
-      <h2 class="prof-info">{{ UserInfo.name }}</h2>
+  <div class="container">
+    <div class="col-md-3 col-md-offset-1">
+      <div class="profile-picture">
+        <img [src]="user.picture" alt="User's profile picture" class="rounded-circle" />
+      </div>
+      <div class="card_content">
+        <h2 class="prof-info">{{ UserInfo.name }}</h2>
         <h3 class="prof-info">{{ user.email }}</h3>
         <h4 class="prof-info">Rank: Mega Coder</h4>
+      </div>
     </div>
-  </div>
-  <div class="col-md-8">
+    <div class="col-md-8">
       <mat-tab-group dynamicHeight class="tab-bar" animationDuration="1500ms">
         <mat-tab class="info" label="Info">
           <table class="table-borderless">
@@ -29,11 +25,11 @@
               </tr>
               <tr>
                 <th>User Name</th>
-                <td>{{user.nickname}}</td>
+                <td>{{user.name}}</td>
               </tr>
               <tr>
                 <th>Email Address</th>
-                <td>{{user.name}}</td>
+                <td>{{user.email}}</td>
               </tr>
               <tr>
                 <th>Nick Name</th>
@@ -87,15 +83,15 @@
                 <td>{{overallStatOb?.wlRatio}}</td>
                 <td>{{overallStatOb?.winStreak}}</td>
               </tr>
-            </tbody> 
+            </tbody>
           </table>
         </mat-tab>
         <mat-tab label="Progress">
           <ng-template matTabContent>
-          <app-progress-graph></app-progress-graph>
+            <app-progress-graph></app-progress-graph>
           </ng-template>
         </mat-tab>
       </mat-tab-group>
     </div>
-</div>
+  </div>
 </div>

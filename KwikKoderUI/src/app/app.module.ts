@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AuthModule } from '@auth0/auth0-angular';
 import { FormsModule } from '@angular/forms'
+import { HttpInterceptorConst } from '../environments/constantsApiModule';
 import { environment as env } from '../environments/environment';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
@@ -27,10 +28,10 @@ import { DisplayDatePipe } from './pipes/display-date.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
-import { DisplayCategoryPipe } from './pipes/display-category.pipe'; 
+import { DisplayCategoryPipe } from './pipes/display-category.pipe';
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
 import { DisplayTimePipe } from './pipes/display-time.pipe';
-import { ProgressGraphComponent } from './components/progress-graph/progress-graph.component'; 
+import { ProgressGraphComponent } from './components/progress-graph/progress-graph.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 
@@ -58,7 +59,8 @@ import { PlayerTestAreaComponent } from './components/player-test-area/player-te
 import { QueComponent } from './components/que/que.component';
 
 //Cluster Chat server
-const config: SocketIoConfig = { url: "20.69.69.228",
+const config: SocketIoConfig = {
+  url: "20.69.69.228",
   options: {
     withCredentials: false,
     path: "/chat-api/socket.io/",
@@ -76,6 +78,7 @@ import { ForumComponent } from './pages/forum/forum.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
 import { ChatService } from 'src/Services/chat.service';
+import { LandingLeaderboardComponent } from './landing-leaderboard/landing-leaderboard.component';
 // Backup Chat Server:
 //  const config: SocketIoConfig = { url: "45.79.192.95:3000",
 //  options: {
@@ -112,6 +115,7 @@ import { ChatService } from 'src/Services/chat.service';
     QueComponent,
     ForumComponent,
     ForumpostsComponent,
+    LandingLeaderboardComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
@@ -134,205 +138,26 @@ import { ChatService } from 'src/Services/chat.service';
       clientId: env.auth.clientId,
       audience: env.auth.audience,
       scope: 'read:current_user',
-      httpInterceptor:{
-        allowedList:[
-          //`${env.dev.serverUrl}api/test/CodeSnippet/Secret`,
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}typetest/api/TypeTest*`,
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}typetest/api/UserStat/tests/all`,
-              httpMethod: "GET",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}typetest/api/User/username`,
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // this works currentlly 7/2/21
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/Competition`,
-              httpMethod: "POST",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.forumApi}comment/*`,
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.forumApi}comment`,
-              httpMethod: "POST",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.forumApi}ForumPost/*`,
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.forumApi}ForumPost`,
-              httpMethod: "POST",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}typetest/api/UserStat/*`,
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}typetest/api/UserStat`,
-              httpMethod: "GET",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/CompetitonTests`,
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
-              httpMethod: "PUT",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/*`,
-              httpMethod: "DELETE",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            },
-            {
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition`,
-              httpMethod: "POST",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            }
-            ,{
-              // Match any request that starts 'https://kwikkoder.us.auth0.com/api/v2/' (note the asterisk)
-              uri: `${env.dev.serverUrl}competition/api/LiveCompetition/LCS/*`,
-              httpMethod: "PUT",
-              tokenOptions: {
-                // The attached token should target this audience
-                audience: env.auth.audience,
-                // The attached token should have these scopes
-                scope: 'read:current_user',
-                //Authorization: `Bearer ${ this.userToken }`
-              }
-            }
-        ]
-      }
+      httpInterceptor: HttpInterceptorConst
     }),
     SocketIoModule.forRoot(config),
   ],
   providers: [
-      DatePipe,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: AuthHttpInterceptor,
-        multi: true,
-      },
-      {
-        provide: HIGHLIGHT_OPTIONS,
-        useValue: {
-          fullLibraryLoader: () => import('highlight.js'),
-        }
-      },
-      { provide: Window, useValue: window },
-      ChatService
-    ],
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+      }
+    },
+    { provide: Window, useValue: window },
+    ChatService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

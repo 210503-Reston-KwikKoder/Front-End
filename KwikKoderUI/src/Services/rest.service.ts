@@ -35,9 +35,9 @@ export class RestService {
   //production api calls:
   getLeaderBoardByCatagoryId(id: number): Promise<LBModel[]>{
     if(id == 0){
-      return this.http.get<LBModel[]>(`${env.dev.serverUrl}LB/api/LB`).toPromise(); 
+      return this.http.get<LBModel[]>(`${env.dev.serverUrl}LB/api/Leaderboard`).toPromise(); 
     }else{
-      return this.http.get<LBModel[]>(`${env.dev.serverUrl}LB/api/LB/${id}`).toPromise(); 
+      return this.http.get<LBModel[]>(`${env.dev.serverUrl}LB/api/Leaderboard/${id}`).toPromise(); 
     }
   }
 

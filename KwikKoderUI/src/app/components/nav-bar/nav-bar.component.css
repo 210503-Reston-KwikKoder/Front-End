@@ -203,18 +203,30 @@
     cursor: pointer;
 }
 
-.nav-btn{   
+.nav-tab{
+    margin: 2rem;
+    background-color: rgba(0, 0, 255, 0.2);
+    border-width: thin;
+    border-style: solid;
+    border-color: white;
+    color: #fff;
+}
+
+.nav-text{
     margin: .2em;
-    border: transparent;
-    background-color: transparent;
     color: #fff;
     font-size: 14px;
     font-weight: 40px;
     font-family: 'Press Start 2P', cursive;
     transition-duration: 0.4s;
-    
+    cursor: pointer;
 }
 
-.nav-btn:hover{ 
+.nav-btn{   
+    border: transparent;
+    background-color: transparent;
+}
+
+.nav-text:hover{ 
     color: #F9a12d;
 }
