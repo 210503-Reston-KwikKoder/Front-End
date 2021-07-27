@@ -1,18 +1,49 @@
-<div class="container">
-    <div class="row" *ngFor="let comp of comps">
-        <div class="col-9">
-            {{comp.name}}
+<div class="room-list-component">
+    <div class="list-top">
+        <h2>Kompetition Browser</h2>
+    </div>
+    <div class="row-headers">
+        <div class="name-section">
+            <div class="room-list-name">
+                Name
+            </div>
         </div>
-        <div class="col-3">
-            <button mat-raised-button color="primary" (click)="enterRoom(comp.id)">Join</button>
+        <!-- <div class="player-count-section">
+            Koders
+        </div> -->
+        <div class="button-section">
+        </div>
+    </div>
+    <div class="list">
+        <div class="row" *ngFor="let comp of comps">
+            <div class="name-section">
+                <div class="room-list-name">
+                    {{comp.name}}
+                </div>
+            </div>
+            <!-- <div class="player-count-section">
+
+            </div> -->
+            <div class="button-section">
+                <div class="room-list-button-container">
+                    <button mat-raised-button color="primary" (click)="enterRoom(comp.id)">Kode</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
-            <input [(ngModel)]="newCompName" (keyup)="messageInputHandler($event)" />
+        <div class="name-section">
+            <div class="room-list-new-room-input-container">
+                <input [(ngModel)]="newCompName" (keyup)="messageInputHandler($event)" />
+            </div>
         </div>
-        <div class="col-6">
-            <button mat-raised-button color="primary" (click)="createNewComp()">Create</button>
+        <!-- <div class="player-count-section">
+
+        </div> -->
+        <div class="button-section">
+            <div class="room-list-button-container">
+                <button mat-raised-button color="primary" (click)="createNewComp()">Kreate</button>
+            </div>
         </div>
     </div>
 </div>
