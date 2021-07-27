@@ -1,12 +1,12 @@
 <div class="container-fluid">
-  <div class="col-md-4 hamburger-container">
-    <svg (click)="displayMenu()" class="menu_icon">
+  <div class="col-xs-4 hamburger-container">
+    <svg (click)="displayMenu()" class="hidden-md hidden-lg menu_icon">
       <rect width="45" height="6" y="20"></rect>
       <rect width="45" height="6" y="30"></rect>
       <rect width="45" height="6" y="40"></rect>
     </svg>
   </div>
-  <div class="col-md-4">
+  <div class="col-xs-4">
     <div class="logo-container">
       <a class="logo_icon" [routerLink]="['']">
         <img
@@ -15,25 +15,31 @@
       </a>
     </div>
   </div>
-  <div class="col-md-4 authentication-wrapper">
-        <ul>
-          <li *ngIf="(auth.isAuthenticated$ | async) === false">
-            <button class="kwik-btn" (click)="loginWithRedirect()">
-              Log in
-            </button>
-          </li>
-          <li *ngIf="(auth.isAuthenticated$ | async) === false">
-            <button class="kwik-btn" (click)="loginWithRedirect()">
-              Sign Up
-            </button>
-          </li>
-          <li *ngIf="auth.isAuthenticated$ | async">
-            <button class="kwik-btn" (click)="logout()">
-              Log out
-            </button>
-          </li>
-        </ul>
-      </div>
+  <div class="col-xs-3 authentication-wrapper">
+    <ul>
+      <li *ngIf="(auth.isAuthenticated$ | async) === false">
+        <button class="kwik-btn" (click)="loginWithRedirect()">
+          Log in
+        </button>
+      </li>
+      <li *ngIf="(auth.isAuthenticated$ | async) === false">
+        <button class="kwik-btn" (click)="signinWithRedirect()">
+          Sign Up
+        </button>
+      </li>
+      <li *ngIf="auth.isAuthenticated$ | async">
+        <button class="kwik-btn" (click)="logout()">
+          Log out
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="hidden-xs hidden-sm row">
+    <section class="col-md-12">
+      <button class="nav-tab nav-text" [routerLink]="[menu.route]"
+        *ngFor="let menu of navigationMenu; index as i;">{{menu.name}}</button>
+    </section>
+  </div>
 </div>
 <aside class="pop-menu_container" [ngClass]="{'pop-menu_container-active': isCollapsed}" (click)="displayMenu()">
   <nav class="pop-menu" [ngClass]="{'pop-menu-active': isCollapsed}" (click)="$event.stopImmediatePropagation();">
@@ -51,27 +57,9 @@
       </section>
     </div>
     <section class="menu-body">
-      <ul class="menu-list">
-        <li class="nav-item">
-          <button class="nav-btn" [routerLink]="['test']">Take a Test</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" [routerLink]="['profile']">Profile</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" [routerLink]="['competitions']">Competitions</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" [routerLink]="['NewCompetition']"> New Competition</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" [routerLink]="['LiveCompetitions']">Live Competitions</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" [routerLink]="['leaderboard']">Leaderboards</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-btn" [routerLink]="['forum']">Discussion Forum</button>
+      <ul class=" menu-list">
+        <li class="nav-item" *ngFor="let menu of navigationMenu;  index as i;">
+          <button class="nav-btn nav-text" [routerLink]="[menu.route]">{{menu.name}}</button>
         </li>
       </ul>
     </section>

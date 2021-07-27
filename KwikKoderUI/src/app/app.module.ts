@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -32,10 +32,10 @@ import { DisplayDatePipe } from './pipes/display-date.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
-import { DisplayCategoryPipe } from './pipes/display-category.pipe'; 
+import { DisplayCategoryPipe } from './pipes/display-category.pipe';
 import { CompetitionResultComponent } from './pages/competition-result/competition-result.component';
 import { DisplayTimePipe } from './pipes/display-time.pipe';
-import { ProgressGraphComponent } from './components/progress-graph/progress-graph.component'; 
+import { ProgressGraphComponent } from './components/progress-graph/progress-graph.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DatePipe } from '@angular/common';
 
@@ -53,17 +53,18 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 // material UI components
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActiveCompComponent } from './pages/active-comp/active-comp.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { PlayerTestAreaComponent } from './components/player-test-area/player-test-area.component';
 import { QueComponent } from './components/que/que.component';
 
 //Cluster Chat server
-const config: SocketIoConfig = { url: "20.69.69.228",
+const config: SocketIoConfig = {
+  url: "20.69.69.228",
   options: {
     withCredentials: false,
     path: "/chat-api/socket.io/",
@@ -148,21 +149,21 @@ import { ChatService } from 'src/Services/chat.service';
     SocketIoModule.forRoot(config),
   ],
   providers: [
-      DatePipe,
-      {
-        provide: HTTP_INTERCEPTORS,
-        useClass: AuthHttpInterceptor,
-        multi: true,
-      },
-      {
-        provide: HIGHLIGHT_OPTIONS,
-        useValue: {
-          fullLibraryLoader: () => import('highlight.js'),
-        }
-      },
-      { provide: Window, useValue: window },
-      ChatService
-    ],
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+      }
+    },
+    { provide: Window, useValue: window },
+    ChatService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
