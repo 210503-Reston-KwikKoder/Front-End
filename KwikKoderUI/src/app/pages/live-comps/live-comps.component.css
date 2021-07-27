@@ -1,0 +1,159 @@
+.room-list-component {
+    width: 66%;
+    margin: auto;
+    color: #fff;
+    background-color: rgba(0, 0, 0, .25);
+    border: 1px solid #fff;
+    overflow: hidden;
+}
+
+.room-list-component h2 {
+    margin: 0;
+    margin-left: 20px;
+    font-size: 26px;
+}
+
+.list-top {
+    border-bottom: 1px solid #fff;
+    display: flex;
+    align-items: center;
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: none;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    height: 45px;
+    transition: background-color .2s;
+}
+.row-headers {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: none;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    height: 45px;
+    border-bottom: 3px solid rgba(255, 255, 255, .5);
+}
+.list .row:hover {
+    background-color: rgba(236, 89, 255, 0.438);
+}
+.room-list-component>.row:last-of-type {
+    border-top: 3px solid rgba(255, 255, 255, .5);
+    height: 60px;
+}
+.room-list-component>.row:last-of-type input {
+    color: #000;
+}
+
+.name-section {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.list .name-section {
+    border-right: 3px solid rgba(255, 255, 255, .5);
+}
+
+.player-count-section {
+    width: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list .player-count-section {
+    border-right: 3px solid rgba(255, 255, 255, .5);
+}
+
+.button-section {
+    width: 14.8%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button-section button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    transition: background-color color .2s;
+}
+.button-section button:hover {
+    background-color: #00ccff;
+}
+.button-section button:active {
+    background-color: #fff;
+    color: #000;
+}
+
+.room-list-name {
+    margin-left: 40px;
+}
+
+.room-list-new-room-input-container {
+    margin-left: 40px;
+}
+
+
+@media screen and (max-width: 1111px) {
+    .name-section {
+        width: unset;
+        flex-basis: 50%;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .button-section {
+        flex-basis: 50%;
+    }
+
+    .room-list-component>.row:last-of-type {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .room-list-name {
+        margin: auto;
+    }
+}
+
+
+@media screen and (max-width: 700px) {
+    .room-list-component {
+        width: 90%;
+    }
+
+    .room-list-name {
+        width: 95%;
+    }
+
+    .row {
+        height: 70px;
+    }
+
+    .room-list-component>.row:last-of-type {
+        height: 100px;
+    }
+
+    .button-section button {
+        width: 100%;
+    }
+
+    .room-list-button-container {
+        width: 90%;
+        margin: auto;
+    }
+    .room-list-new-room-input-container {
+        margin: auto;
+    }
+}

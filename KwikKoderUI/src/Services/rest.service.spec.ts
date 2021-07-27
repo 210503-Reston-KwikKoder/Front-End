@@ -71,13 +71,13 @@ describe('RestService', () => {
       service.getLeaderBoardByCatagoryId(expected).then(res =>{
         expect(res).toEqual(test);
       });
-      const req = httpTestingController.expectOne(`${environment.dev.serverUrl}LB/api/LB`);
+      const req = httpTestingController.expectOne(`${environment.dev.serverUrl}LB/api/Leaderboard`);
       expect(req.request.method).toEqual("GET");
       req.flush(test);
       httpTestingController.verify();
   });
 
-  it('getLeaderBoardByCatagoryId should return specific LB', () =>{
+  it('getLeaderBoardByCatagoryId should return specific Leaderboard', () =>{
     const test = [{
       userName : "A",
       name: "some string",
@@ -89,7 +89,7 @@ describe('RestService', () => {
       service.getLeaderBoardByCatagoryId(expected).then(res =>{
         expect(res).toEqual(test);
       });
-      const req = httpTestingController.expectOne(`${environment.dev.serverUrl}LB/api/LB/${expected}`);
+      const req = httpTestingController.expectOne(`${environment.dev.serverUrl}LB/api/Leaderboard/${expected}`);
       expect(req.request.method).toEqual("GET");
       req.flush(test);
       httpTestingController.verify();

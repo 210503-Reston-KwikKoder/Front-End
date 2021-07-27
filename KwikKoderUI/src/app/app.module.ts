@@ -81,6 +81,7 @@ import { ForumComponent } from './pages/forum/forum.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
 import { ChatService } from 'src/Services/chat.service';
+import { LandingLeaderboardComponent } from './landing-leaderboard/landing-leaderboard.component';
 // Backup Chat Server:
 //  const config: SocketIoConfig = { url: "45.79.192.95:3000",
 //  options: {
@@ -121,6 +122,7 @@ import { ChatService } from 'src/Services/chat.service';
     QueComponent,
     ForumComponent,
     ForumpostsComponent,
+    LandingLeaderboardComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
