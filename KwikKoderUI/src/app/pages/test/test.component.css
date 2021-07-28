@@ -48,8 +48,13 @@
     border-width: 5px;
     border-radius: 5px;
     min-width: fit-content;
-    width: 9vw;
+    width: 9vmax;
     height: 100%;
+    
+}
+
+.info-box-border{
+    border: white solid 1px;
 }
 
 .Entry-Box{
@@ -74,7 +79,7 @@
 /*Info Label*/
 .info-text{
     color: var(--bright_aqua);
-    font-size: 1.35vmax;
+    font-size: 1.25vmax;
 }
 /*Info Display*/
 .info-value{
@@ -84,7 +89,7 @@
 /*Snippet Author Box*/
 .info-value-author{
     color: var(--bright_purple);
-    font-size: 1.35vmax;
+    font-size: 1vmax;
 }
 
 #input-area {

@@ -3,31 +3,31 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-2 col-md-offset-1">
-            <div class="info-box span-align">
+            <div class="info-box info-box-border span-align">
                 <span class="info-text">Current Category</span>
-                <!--<app-lang-select class="info-box span-align" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>-->
+                <app-lang-select class="info-box span-align" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
             </div>
         </div>
         <div *ngIf="testmat.author" class="col-xs-2">
-            <div class="info-box span-align">
+            <div class="info-box info-box-border span-align">
                 <span class="info-text">Author</span>
                 <span class="info-value-author" id="author">{{testmat.author}}</span>
             </div>
         </div>
         <div class="col-xs-2">
-            <div class="info-box span-align">
+            <div class="info-box info-box-border span-align">
                 <span class="info-text">Errors</span>
                 <span class="info-value" id="errors">{{state.errors }}</span>
             </div>
         </div>
         <div class="col-xs-2">
-            <div class="info-box span-align">
+            <div class="info-box info-box-border span-align">
                 <span class="info-text">Wpm</span>
                 <span class="info-value" id="wpm">{{wpm}}</span>
             </div>
         </div>
         <div class="col-xs-2">
-            <div class="info-box span-align">
+            <div class="info-box info-box-border span-align">
                 <span class="info-text">Timer</span>
                 <span class="info-value">{{pad(minutes)}} : {{pad(seconds)}}</span>
             </div>

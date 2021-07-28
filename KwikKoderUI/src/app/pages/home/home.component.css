@@ -40,6 +40,7 @@
 }
 
 .video-section {
+    border: white solid 1px;
     order: 3;
     flex-basis: 60%;
 }
