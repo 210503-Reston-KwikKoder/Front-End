@@ -79,7 +79,6 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { ForumpostsComponent } from './pages/forumposts/forumposts.component';
 import { ChatService } from 'src/Services/chat.service';
 import { LandingLeaderboardComponent } from './landing-leaderboard/landing-leaderboard.component';
-import { UserTestComputeComponent } from './components/user-test-compute/user-test-compute.component';
 // Backup Chat Server:
 //  const config: SocketIoConfig = { url: "45.79.192.95:3000",
 //  options: {
@@ -117,7 +116,6 @@ import { UserTestComputeComponent } from './components/user-test-compute/user-te
     ForumComponent,
     ForumpostsComponent,
     LandingLeaderboardComponent,
-    UserTestComputeComponent,
   ],
   imports: [
     MatProgressSpinnerModule,
