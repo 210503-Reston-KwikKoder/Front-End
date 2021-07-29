@@ -244,6 +244,11 @@ export class TestComponent implements OnInit {
     }
   }
 
+  pad(num: number) {
+    if(num < 10) return `0${num}`;
+    else return num;
+  }
+
   startTimer() {
     this.minutes = 1
     this.seconds = 0 // choose whatever you want
