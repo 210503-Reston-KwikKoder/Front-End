@@ -117,6 +117,7 @@ import { LandingLeaderboardComponent } from './landing-leaderboard/landing-leade
     ForumComponent,
     ForumpostsComponent,
     LandingLeaderboardComponent,
+    UserTestComputeComponent
   ],
   imports: [
     MatProgressSpinnerModule,
