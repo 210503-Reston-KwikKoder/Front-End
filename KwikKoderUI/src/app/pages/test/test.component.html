@@ -7,8 +7,9 @@
                 <span class="info-text">Current Category</span>
                 <app-lang-select class="info-box span-align" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
             </div>
+            
         </div>
-        <div *ngIf="testmat.author" class="col-md-2">
+        <!--<div *ngIf="testmat.author" class="col-md-2">
             <div class="info-box span-align">
                 <span class="info-text">Author</span>
                 <span class="info-value-author" id="author">{{testmat.author}}</span>
@@ -31,7 +32,8 @@
                 <span class="info-text">Timer</span>
                 <span class="info-value">{{pad(minutes)}} : {{pad(seconds)}}</span>
             </div>
-        </div>
+        </div>-->
+        <app-user-test-compute [testmat]="testmat" [state]="state" [wpm]="wpm" [minutes]="minutes" [seconds]="seconds"></app-user-test-compute>
     </div>
 </div>
 

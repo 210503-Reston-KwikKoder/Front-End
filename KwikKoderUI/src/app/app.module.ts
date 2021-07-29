@@ -13,6 +13,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LiveCompsComponent } from './pages/live-comps/live-comps.component';
+import { UserTestComputeComponent } from './components/user-test-compute/user-test-compute.component';
 
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 import { TestComponent } from './pages/test/test.component';
