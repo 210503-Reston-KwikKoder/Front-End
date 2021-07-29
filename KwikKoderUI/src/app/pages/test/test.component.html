@@ -1,9 +1,11 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<div class="test_wrapper">
 <div class="container">
     <div class="row">
-        <div class="col-md-2 col-md-offset-1">
-            <div class="info-box span-align">
+        <div class="col-xs-2 col-md-offset-1">
+            <div class="info-box info-box-border span-align">
                 <span class="info-text">Current Category</span>
-                <app-lang-select class="info-box" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
+                <app-lang-select class="info-box span-align" (newLangSelectedEvent)="langSelected($event)"></app-lang-select>
             </div>
         </div>
         <app-user-test-compute [testmat]="testmat" [state]="state" [wpm]="wpm" [minutes]="minutes" [seconds]="seconds"></app-user-test-compute>
@@ -34,5 +36,6 @@
     </div>
     <button class="btn kwik-btn" *ngIf="testmat" (click)="newTest()" >New Test</button>
     
+</div>
 </div>
 

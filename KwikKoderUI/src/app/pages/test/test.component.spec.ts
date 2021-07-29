@@ -7,7 +7,7 @@ import { ActivatedRoute, Router, ɵangular_packages_router_router_o } from '@ang
 import { Observable } from 'rxjs';
 import { DisplayCategoryPipe } from '../../pipes/display-category.pipe';
 import { Pipe, PipeTransform } from '@angular/core';
-import { Language } from 'src/Models/LanguageEnum';
+import { Language } from 'src/Models/LanguageEnumModel';
 import { state } from '@angular/animations';
 import { By } from '@angular/platform-browser';
 

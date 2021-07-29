@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { ForumPost } from 'src/Models/ForumPost';
+import { ForumPost } from 'src/Models/ForumPostModel';
 import { ForumService } from 'src/Services/forum.service';
 
 //FontAwesome

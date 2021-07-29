@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core'
 import { Component, OnInit } from '@angular/core'
 import { AuthService } from '@auth0/auth0-angular'
 import { ActivatedRoute, Router } from '@angular/router'
-import { State } from '../Models/state'
+import { State } from '../Models/StateModel'
 import { RestService } from '../Services/rest.service'
 import { of, Subscription } from 'rxjs'
 import { CompetitionContent } from '../Models/CompetitionContentModel'
-import { CompetitionTestResults } from '../Models/CompetitionTestResults'
+import { CompetitionTestResults } from '../Models/CompetitionTestResultsModel'
 import { ResultModel } from 'src/Models/ResultModel'
 import { LiveCompService } from './live-comp.service'
 import { QueService } from './que.service'
-import { Language } from 'src/Models/LanguageEnum'
+import { Language } from 'src/Models/LanguageEnumModel'
 import { Statement } from '@angular/compiler'
 import { faThList } from '@fortawesome/free-solid-svg-icons'
 
@@ -27,6 +27,7 @@ export class CompFunctionsService {
     
     
   
+  //Variable Declaration
   live: boolean
   testmat: any = null;
   testStarted: boolean = false;
@@ -52,7 +53,9 @@ export class CompFunctionsService {
   timerFinished: boolean
   currentWinStreak: number = 0;
   userWon: boolean
-  
+
+
+  //Sets Timer Back to its default when a new live comp has started
   resetTimer(): void {
     this.timerFinished = false;
     this.timer = {
@@ -61,6 +64,7 @@ export class CompFunctionsService {
     };
   };
 
+  //Clears relevant User Test Stats for each new live test
   resetState(): State {
     return {
       words: '',
@@ -77,6 +81,7 @@ export class CompFunctionsService {
     };
   }
 
+  //
   resetTest(): void{
     this.finishTest();
     console.log("resetting")
@@ -86,6 +91,8 @@ export class CompFunctionsService {
     this.newTest()
   }
   
+  //Alerts Socket Server that a resetTest has been called and alerts subscribers
+  //Calls Live-Comp
   callReset(): void {
     console.log('calling to reset test')
     //also reset everyone else's
@@ -98,6 +105,7 @@ export class CompFunctionsService {
     alert("Test Finished")
   }
   
+  //sets a new challenger and winner state and generates a new test Snippet
   newTest(): void{
     this.winnerWpm = 0;
     this.challengerWpm = 0;
@@ -156,6 +164,8 @@ export class CompFunctionsService {
       testAuthor: this.testmat.author
     };
     console.log('starting round', test)
+
+
     this.liveSer.alertNewTest(test);
   }
 
@@ -205,6 +215,7 @@ export class CompFunctionsService {
     return returnSnippet;
   }
 
+  //Updated Yellow Cursor with current location in the test
   ShowCaret(elem: HTMLElement){
     if(elem == null) return;
     elem.style.borderLeft = "solid 0.1em gold";
@@ -373,6 +384,7 @@ export class CompFunctionsService {
     };
   }
 
+  // Determines the winner by comparing the final results of the challenger and Winner
   calcWinner(){
     console.log("pre math numbers wpm: ", this.winnerWpm, this.challengerWpm)
     if(this.winnerState.timeTaken === 0) this.winnerState.timeTaken = 120000;
@@ -381,10 +393,12 @@ export class CompFunctionsService {
     let winnerNetWpm = Math.round(this.winnerWpm - ((this.winnerState.errors/5) / (this.winnerState.timeTaken / 60000)))
     let challengerNetWpm = Math.round(this.challengerWpm - ((this.challengerState.errors/5)/ (this.challengerState.timeTaken/ 60000)))
     console.log('states: ', this.winnerState, this.challengerState);
+    //handles negative wpm bug
     if(this.winnerWpm <= 0 || winnerNetWpm <= 0){
       winnerNetWpm = 0;
     }
     
+    //handles negative wpm bug
     if(this.challengerWpm <= 0 || challengerNetWpm <= 0){
       challengerNetWpm = 0;
     }
@@ -463,7 +477,7 @@ export class CompFunctionsService {
     }
     
   }
-
+  
   startTimer() {
     this.resetTimer();
     this.intervalId = setInterval(() => {

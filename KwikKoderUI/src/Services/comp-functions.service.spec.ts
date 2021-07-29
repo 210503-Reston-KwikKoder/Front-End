@@ -2,15 +2,15 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { flush, getTestBed, TestBed } from '@angular/core/testing';
 import { observable, Observable, of, timer } from 'rxjs';
 import { CompetitionContent } from 'src/Models/CompetitionContentModel';
-import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
+import { CompetitionTestResults } from 'src/Models/CompetitionTestResultsModel';
 
 import { CompFunctionsService } from './comp-functions.service';
 import { RestService } from './rest.service';
 import { environment as env } from '../environments/environment';
 import { LiveCompService } from './live-comp.service'
 import { QueService } from './que.service'
-import { Language } from 'src/Models/LanguageEnum';
-import { TestMaterial } from 'src/Models/TestMaterial';
+import { Language } from 'src/Models/LanguageEnumModel';
+import { TestMaterial } from 'src/Models/TestMaterialModel';
 import { keyframes } from '@angular/animations';
 
 describe('CompFunctionsService', () => {

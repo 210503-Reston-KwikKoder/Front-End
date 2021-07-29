@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { State } from 'src/Models/state';
+import { State } from 'src/Models/StateModel';
 import { RestService } from 'src/Services/rest.service';
 import { Subscription } from 'rxjs';
 import { CompetitionContent } from 'src/Models/CompetitionContentModel';
-import { CompetitionTestResults } from 'src/Models/CompetitionTestResults';
+import { CompetitionTestResults } from 'src/Models/CompetitionTestResultsModel';
 
 @Component({
   selector: 'app-competition-test',

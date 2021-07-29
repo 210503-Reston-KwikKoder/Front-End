@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Language } from 'src/Models/LanguageEnum';
+import { Language } from 'src/Models/LanguageEnumModel';
 import { Output, EventEmitter } from '@angular/core';
 
 @Component({

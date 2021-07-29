@@ -6,13 +6,16 @@
     font-size: 8px;
     font-family: 'Press Start 2P', cursive;
 }
-.container{
+.profile_container{
     color: #fff !important;
 }
 .mat-tab-label {
     color: #fff;
     opacity: 1 !important;
     font-weight: 700;
+}
+.info_text{
+    color: #fff;
 }
 .profile-picture{
     text-align: center;
@@ -27,7 +30,9 @@
 }
 .profile-head{
     font-family: 'Press Start 2P', cursive;
+    color: #fff;
 }
 .profile-head h2 h3 h4{
     font-family: 'Press Start 2P', cursive;
+    color: #fff;
 }

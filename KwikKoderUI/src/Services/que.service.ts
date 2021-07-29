@@ -34,10 +34,11 @@ export class QueService {
     return this.http.delete(`${env.dev.serverUrl}competition/api/LiveCompetition/LCQ/${roomId}/LCQ/NextUser` ).toPromise()
   }
 
+  //alerts when someone joins of leaves socket
   alertQueueChangeToSocket(roomId){
     return this.socket.emit('updated-que', roomId);
   }
-
+  //receives message of entering or leaving socket.
   public listenForQueueUpdates = () => {
     return new Observable((observer) => {
             this.socket.on('updated-que', (() => {

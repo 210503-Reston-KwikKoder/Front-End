@@ -8,10 +8,6 @@ import { AuthModule } from '@auth0/auth0-angular';
 import { FormsModule } from '@angular/forms'
 import { HttpInterceptorConst } from '../environments/constantsApiModule';
 import { environment as env } from '../environments/environment';
-import { LoginButtonComponent } from './components/nav-buttons/login-button/login-button.component';
-import { SignupButtonComponent } from './components/nav-buttons/signup-button/signup-button.component';
-import { LogoutButtonComponent } from './components/nav-buttons/logout-button/logout-button.component';
-import { AuthenticationButtonComponent } from './components/nav-buttons/authentication-button/authentication-button.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -99,10 +95,6 @@ import { UserTestComputeComponent } from './components/user-test-compute/user-te
     LiveCompsComponent,
     AppComponent,
     LoadingComponent,
-    LoginButtonComponent,
-    SignupButtonComponent,
-    LogoutButtonComponent,
-    AuthenticationButtonComponent,
     NavBarComponent,
     ProfileComponent,
     HomeComponent,

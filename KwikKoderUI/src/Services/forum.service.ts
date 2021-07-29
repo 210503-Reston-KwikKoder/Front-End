@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Forum } from 'src/Models/Forum';
+import { Forum } from 'src/Models/ForumModel';
 import { ForumComment } from 'src/Models/ForumComment';
-import { ForumPost } from 'src/Models/ForumPost';
+import { ForumPost } from 'src/Models/ForumPostModel';
 import {environment as env} from "../environments/environment";
 
 @Injectable({

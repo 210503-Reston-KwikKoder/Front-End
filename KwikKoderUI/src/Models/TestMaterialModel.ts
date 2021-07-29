@@ -1,4 +1,4 @@
-import { Language } from "./LanguageEnum";
+import { Language } from "./LanguageEnumModel";
 export class TestMaterial{
     catagoryId: Language;
     content: string;

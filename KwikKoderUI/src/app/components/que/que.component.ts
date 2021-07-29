@@ -82,5 +82,9 @@ export class QueComponent implements OnInit {
     this.setListenForQueueUpdates()
     this.getQueParticipants()
   }
+  ngOnDestroy(): void {
+    
+  }
+
 
 }
