@@ -4,25 +4,35 @@
     color: rgba(0,0,0,.55);
     border-color: rgba(0,0,0,.1);
 }
+.hidden-xs{
+    flex-basis: 100%;
+}
 
 /*
 //Icons
 */
+.container-fluid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    }
 
 .logo-container{
     text-align: center;
 }
 .hamburger-container{
     text-align: center;
+    flex-basis: 25%;
 }
 .hamburger-container svg{
-    width: 13%;
+    width: 100%;
 }
 .hamburger-container svg{
     margin-top: 40px;
 }
 .authentication-wrapper{
     text-align: -webkit-center;
+    flex-basis: 25%;
 }
 .authentication-wrapper ul{
     margin-top: 50px;
@@ -36,6 +46,15 @@
 
 .menu_icon:hover{
     cursor: pointer;
+}
+
+@media screen and(max-width: 450px) {
+    .hamburger-container{
+        flex-basis: 25%;
+    }
+    .hamburger-container svg{
+        width: 100%;
+    }
 }
 
 /*

@@ -4,13 +4,17 @@
 }
 .info-box {
     text-align: center;
-    background-color: var(--dark0_soft);
+    background: rgba(0,0,0,0.3);
     border-color: var(--dark0_hard);
     border-width: 5px;
     border-radius: 5px;
     min-width: fit-content;
-    width: 100%;
+    width: 9vmax;
     height: 100%;
+}
+
+.info-box-border{
+    border: white solid 1px;
 }
 .span-align > span{
     padding: 3px 0;
@@ -24,14 +28,15 @@
 /*Info Label*/
 .info-text{
     color: var(--bright_aqua);
+    font-size: 1.25vmax;
 }
 /*Info Display*/
 .info-value{
     color: var(--bright_purple);
-    font-size: 25pt;
+    font-size: 1.35vmax;
 }
 /*Snippet Author Box*/
 .info-value-author{
     color: var(--bright_purple);
-    font-size: 15pt;
+    font-size: 1vmax;
 }
