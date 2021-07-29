@@ -251,21 +251,21 @@ describe('TestComponent', () => {
   //   expect(component.state.finished).toBe(true);
   // });
 
-  it('pad should return digit more than 10', () => {
+ /* it('pad should return digit more than 10', () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     let expected = 11;
     let test = component.pad(expected);
     expect(test).toBe(expected);
-  });
+  });*/
 
-  it('pad should return digit less than 10', () => {
+  /*it('pad should return digit less than 10', () => {
     fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     let expected = 9;
     let test = component.pad(expected);
     expect(test).toBe(`0${expected}`);
-  });
+  });*/
 
   it('submitResults should return SlowResult', () => {
     fixture = TestBed.createComponent(TestComponent);
