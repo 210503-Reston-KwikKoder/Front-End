@@ -5,9 +5,9 @@
         <img [src]="user.picture" alt="User's profile picture" class="rounded-circle" />
       </div>
       <div class="card_content">
-        <h2 class="prof-info info_text">{{ UserInfo.name }}</h2>
-        <h3 class="prof-info info_text">{{ user.email }}</h3>
-        <h4 class="prof-info info_text">Rank: Mega Coder</h4>
+        <h2 class="prof-info">{{ UserInfo.name }}</h2>
+        <h3 class="prof-info">{{ user.email }}</h3>
+        <h4 class="prof-info">Rank: Mega Coder</h4>
       </div>
     </div>
     <div class="col-md-8">
@@ -15,23 +15,27 @@
         <mat-tab class="info" label="Info">
           <table class="table-borderless">
             <tbody>
-              <tr class="info_text">
+              <tr>
+                <th>User ID</th>
+                <td>{{UserInfo.userId}}</td>
+              </tr>
+              <tr>
                 <th>Reva Points</th>
                 <td>{{UserInfo.revapoints}}</td>
               </tr>
-              <tr class="info_text">
+              <tr>
                 <th>User Name</th>
                 <td>{{user.name}}</td>
               </tr>
-              <tr class="info_text">
+              <tr>
                 <th>Email Address</th>
                 <td>{{user.email}}</td>
               </tr>
-              <tr class="info_text">
+              <tr>
                 <th>Nick Name</th>
                 <td>{{user.nickname}}</td>
               </tr>
-              <tr class="info_text">
+              <tr>
                 <th>About Me</th>
                 <td>I love coding and video games.
                   I will destory everyone with my ultra typing skills</td>
@@ -43,15 +47,15 @@
           <table class="table table-borderless">
             <thead>
               <tr>
-                <th class="info_text">Category</th>
-                <th class="info_text">Words Per Minute</th>
-                <th class="info_text">Average Accuracy</th>
-                <th class="info_text">Tests Taken</th>
-                <th class="info_text">Test Time</th>
+                <th>Category</th>
+                <th>Words Per Minute</th>
+                <th>Average Accuracy</th>
+                <th>Tests Taken</th>
+                <th>Test Time</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="info_text" *ngFor="let statMod of statOb;">
+              <tr *ngFor="let statMod of statOb;">
                 <td>{{statMod.category | displayCategory}}</td>
                 <td>{{statMod.averagewpm}}</td>
                 <td>{{statMod.averageaccuracy | displayPercent}}%</td>
@@ -64,7 +68,7 @@
         <mat-tab label="Competitions">
           <table class="table table-borderless">
             <thead>
-              <tr class="info_text">
+              <tr>
                 <th>Wins</th>
                 <th>Losses</th>
                 <th>W/L Ratio</th>
@@ -73,7 +77,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="info_text">
+              <tr>
                 <td>{{overallStatOb?.wins}}</td>
                 <td>{{overallStatOb?.losses}}</td>
                 <td>{{overallStatOb?.wlRatio}}</td>

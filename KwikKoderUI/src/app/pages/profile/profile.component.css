@@ -14,9 +14,6 @@
     opacity: 1 !important;
     font-weight: 700;
 }
-.info_text{
-    color: #fff;
-}
 .profile-picture{
     text-align: center;
     background-image: linear-gradient(#9024b4,#f360a2);
@@ -30,9 +27,7 @@
 }
 .profile-head{
     font-family: 'Press Start 2P', cursive;
-    color: #fff;
 }
 .profile-head h2 h3 h4{
     font-family: 'Press Start 2P', cursive;
-    color: #fff;
 }
