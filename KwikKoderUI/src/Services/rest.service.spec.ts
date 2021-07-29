@@ -166,7 +166,7 @@ describe('RestService', () => {
 
   it('getUserName should get', () =>{
     const test = {
-      username: "some string",
+      userName: "some string",
       name: "some string",
       revapoints: 100,
       userId: 1
