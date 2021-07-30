@@ -352,26 +352,26 @@ describe('TestComponent', () => {
     expect(component.result.text).toBe("You're a programming genius!");
   });
 
-  it("interpolation for errors should display", () => {
-    fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
-    let expected = 0;
-    component.state = {
-      words: '',
-      wordarray: new Array(),
-      typedarray: new Array(),
-      enteredText: '',
-      errors: expected,
-      started: false,
-      startTime: null,
-      timeTaken: 0,
-      letterPosition: 0,
-      finished: false,
-      correctchars: 0
-    }
-    const test = fixture.debugElement.query(By.css('#errors'));
-    test.nativeElement.value = component.state.errors;
-    expect(test.nativeElement.value).toEqual(expected);
+  // it("interpolation for errors should display", () => {
+  //   fixture = TestBed.createComponent(TestComponent);
+  //   component = fixture.componentInstance;
+  //   let expected = 0;
+  //   component.state = {
+  //     words: '',
+  //     wordarray: new Array(),
+  //     typedarray: new Array(),
+  //     enteredText: '',
+  //     errors: expected,
+  //     started: false,
+  //     startTime: null,
+  //     timeTaken: 0,
+  //     letterPosition: 0,
+  //     finished: false,
+  //     correctchars: 0
+  //   }
+  //   const test = fixture.debugElement.query(By.css('#errors'));
+  //   test.nativeElement.value = component.state.errors;
+  //   expect(test.nativeElement.value).toEqual(expected);
   });
 
 });
