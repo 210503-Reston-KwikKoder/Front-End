@@ -1,7 +1,7 @@
 .lang-select{
     background-color: var(--dark2);
     border-color: var(--dark0_hard);
-    margin: 2%;
+    margin: auto;
     color: var(--bright_purple);
     font-size: 15pt;
     border-radius: 5px;
@@ -9,3 +9,9 @@
     width: 8.5vw;
 }
 
+
+@media screen and (max-width: 450px) {
+    .lang-select {
+        width: 95%;
+    }
+}

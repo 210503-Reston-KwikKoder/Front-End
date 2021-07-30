@@ -40,3 +40,18 @@
     color: var(--bright_purple);
     font-size: 1vmax;
 }
+
+
+@media screen and (max-width: 450px) {
+    .info-text, .info-value, .info-value-author{
+        font-size: 18px;
+    }
+
+    .stat-col {
+        flex-basis: 50%;
+    }
+    
+    .span-align {
+        width: 100%;
+    }
+}

@@ -43,6 +43,10 @@
 }
 html, body { height: 100%; }
 
+body {
+    overflow-x: hidden;
+}
+
 
 /*Body*/
 .main-container_bg {

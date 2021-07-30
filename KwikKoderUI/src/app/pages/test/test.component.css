@@ -40,6 +40,20 @@
     border: white solid 1px;
 }
 
+.info-container {
+    display: flex;
+    justify-content: center;
+}
+
+.info-container app-user-test-compute {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.info-container app-user-test-compute .col-xs-2 {
+    width: 100%;
+}
+
 /*Displays test info*/
 .info-box {
     text-align: center;
@@ -128,4 +142,26 @@ code {
 
 .result {
     margin-bottom: 1em;
+}
+
+
+@media screen and (max-width: 450px) {
+    .info-text, .info-value, .info-value-author{
+        font-size: 18px;
+    }
+
+    .info-container {
+        flex-wrap: wrap;
+    }
+    .info-container>div {
+        flex-basis: 50%;
+    }
+
+    app-user-test-compute{
+        flex-wrap: wrap;
+    }
+
+    .info-box {
+        width: 100%;
+    }
 }
