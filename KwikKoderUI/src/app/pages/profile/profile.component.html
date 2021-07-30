@@ -5,9 +5,9 @@
         <img [src]="user.picture" alt="User's profile picture" class="rounded-circle" />
       </div>
       <div class="card_content">
-        <h2 class="prof-info">{{ UserInfo.name }}</h2>
-        <h3 class="prof-info">{{ user.email }}</h3>
-        <h4 class="prof-info">Rank: Mega Coder</h4>
+        <h2 class="prof-info info_color">{{ UserInfo.name }}</h2>
+        <h3 class="prof-info info_color">{{ user.email }}</h3>
+        <h4 class="prof-info info_color">Rank: Mega Coder</h4>
       </div>
     </div>
     <div class="col-md-8">
@@ -15,27 +15,23 @@
         <mat-tab class="info" label="Info">
           <table class="table-borderless">
             <tbody>
-              <tr>
-                <th>User ID</th>
-                <td>{{UserInfo.userId}}</td>
-              </tr>
-              <tr>
+              <tr class="info_color">
                 <th>Reva Points</th>
                 <td>{{UserInfo.revapoints}}</td>
               </tr>
-              <tr>
+              <tr class="info_color">
                 <th>User Name</th>
                 <td>{{user.name}}</td>
               </tr>
-              <tr>
+              <tr class="info_color">
                 <th>Email Address</th>
                 <td>{{user.email}}</td>
               </tr>
-              <tr>
+              <tr class="info_color">
                 <th>Nick Name</th>
                 <td>{{user.nickname}}</td>
               </tr>
-              <tr>
+              <tr class="info_color">
                 <th>About Me</th>
                 <td>I love coding and video games.
                   I will destory everyone with my ultra typing skills</td>
@@ -46,7 +42,7 @@
         <mat-tab label="Stats">
           <table class="table table-borderless">
             <thead>
-              <tr>
+              <tr class="info_color">
                 <th>Category</th>
                 <th>Words Per Minute</th>
                 <th>Average Accuracy</th>
@@ -55,7 +51,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let statMod of statOb;">
+              <tr class="info_color" *ngFor="let statMod of statOb;">
                 <td>{{statMod.category | displayCategory}}</td>
                 <td>{{statMod.averagewpm}}</td>
                 <td>{{statMod.averageaccuracy | displayPercent}}%</td>
@@ -68,7 +64,7 @@
         <mat-tab label="Competitions">
           <table class="table table-borderless">
             <thead>
-              <tr>
+              <tr class="info_color">
                 <th>Wins</th>
                 <th>Losses</th>
                 <th>W/L Ratio</th>
@@ -77,7 +73,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr class="info_color">
                 <td>{{overallStatOb?.wins}}</td>
                 <td>{{overallStatOb?.losses}}</td>
                 <td>{{overallStatOb?.wlRatio}}</td>

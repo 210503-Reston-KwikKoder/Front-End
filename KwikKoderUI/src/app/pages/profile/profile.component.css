@@ -1,6 +1,9 @@
 .card_content {
     padding: 1rem;
 }
+.info_color{
+    color: #fff;
+}
 .tab-bar{
     overflow-x: hidden; /* Hide scrollbars */
     font-size: 8px;
