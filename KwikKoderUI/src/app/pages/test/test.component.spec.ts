@@ -372,6 +372,6 @@ describe('TestComponent', () => {
   //   const test = fixture.debugElement.query(By.css('#errors'));
   //   test.nativeElement.value = component.state.errors;
   //   expect(test.nativeElement.value).toEqual(expected);
-  });
+  //});
 
 });
